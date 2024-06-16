@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Tags on Kuludu的博客</title>
-    <link>https://blog.kuludu.net/tags/</link>
-    <description>Recent content in Tags on Kuludu的博客</description>
-    <generator>Hugo</generator>
-    <language>zh-cn</language>
-    <atom:link href="https://blog.kuludu.net/tags/index.xml" rel="self" type="application/rss+xml" />
-  </channel>
+    <channel>
+        <title>Tags on Kuludu的博客</title>
+        <link>https://blog.kuludu.net/tags/</link>
+        <description>Recent content in Tags on Kuludu的博客</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>Kuludu</copyright>
+        <lastBuildDate>Sat, 15 Jun 2024 19:45:00 +0800</lastBuildDate><atom:link href="https://blog.kuludu.net/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Hugo</title>
+        <link>https://blog.kuludu.net/tags/hugo/</link>
+        <pubDate>Sat, 15 Jun 2024 19:45:00 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/tags/hugo/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>博客</title>
+        <link>https://blog.kuludu.net/tags/%E5%8D%9A%E5%AE%A2/</link>
+        <pubDate>Sat, 15 Jun 2024 19:45:00 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/tags/%E5%8D%9A%E5%AE%A2/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>杂谈</title>
+        <link>https://blog.kuludu.net/tags/%E6%9D%82%E8%B0%88/</link>
+        <pubDate>Sat, 15 Jun 2024 19:45:00 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/tags/%E6%9D%82%E8%B0%88/</guid>
+        <description></description>
+        </item>
+        
+    </channel>
 </rss>
