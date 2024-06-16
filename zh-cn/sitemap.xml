@@ -2,6 +2,25 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://blog.kuludu.net/</loc>
+    <lastmod>2024-06-16T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://blog.kuludu.net/en/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://blog.kuludu.net/"
+                />
+  </url><url>
+    <loc>https://blog.kuludu.net/page/</loc>
+    <lastmod>2024-06-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://blog.kuludu.net/page/archives/</loc>
+    <lastmod>2024-06-16T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://blog.kuludu.net/article/</loc>
     <lastmod>2024-06-15T19:45:00+08:00</lastmod>
   </url><url>
@@ -20,19 +39,6 @@
   </url><url>
     <loc>https://blog.kuludu.net/tags/hugo/</loc>
     <lastmod>2024-06-15T19:45:00+08:00</lastmod>
-  </url><url>
-    <loc>https://blog.kuludu.net/</loc>
-    <lastmod>2024-06-15T19:45:00+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://blog.kuludu.net/en/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://blog.kuludu.net/"
-                />
   </url><url>
     <loc>https://blog.kuludu.net/tags/</loc>
     <lastmod>2024-06-15T19:45:00+08:00</lastmod>
@@ -58,5 +64,7 @@
   </url><url>
     <loc>https://blog.kuludu.net/categories/%E6%9D%82%E8%B0%88/</loc>
     <lastmod>2024-06-15T19:45:00+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.kuludu.net/page/search/</loc>
   </url>
 </urlset>
