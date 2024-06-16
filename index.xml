@@ -8,6 +8,82 @@
         <language>zh-cn</language>
         <copyright>Kuludu</copyright>
         <lastBuildDate>Sun, 16 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.kuludu.net/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>博客日志</title>
+        <link>https://blog.kuludu.net/page/log/</link>
+        <pubDate>Sun, 16 Jun 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://blog.kuludu.net/page/log/</guid>
+        <description>&lt;p&gt;博客建立
+-2014.8.19&lt;/p&gt;
+&lt;p&gt;迁移到日本机房
+-2015.3.21&lt;/p&gt;
+&lt;p&gt;老主页删除，由博客替代主页功能
+-2015.4.18&lt;/p&gt;
+&lt;p&gt;全站迁移到AWS美国机房
+-2015.8.16&lt;/p&gt;
+&lt;p&gt;更新主题，优化加载
+-2015.8.17&lt;/p&gt;
+&lt;p&gt;启用七牛云加速，大大提高了加载速度
+-2015.8.20&lt;/p&gt;
+&lt;p&gt;服务器故障
+-2015.9.2&lt;/p&gt;
+&lt;p&gt;已经恢复，全站迁移到日本AWS机房
+-2015.9.4&lt;/p&gt;
+&lt;p&gt;删除了Jetpack插件，提高了访问速度。
+-2015.9.20&lt;/p&gt;
+&lt;p&gt;升级至PHP7
+-2016.6.11&lt;/p&gt;
+&lt;p&gt;服务器迁移到新加坡DigitalOcean机房
+-2016.6.24&lt;/p&gt;
+&lt;p&gt;网站线路出现问题，恢复时间不明
+-2016.7.5&lt;/p&gt;
+&lt;p&gt;网站线路恢复
+-2016.7.6&lt;/p&gt;
+&lt;p&gt;迁移到广州腾讯云机房，同时进行网站备案，临时闭站
+-2016.7.13&lt;/p&gt;
+&lt;p&gt;网站备案完成，更换了模板，优化了访问体验
+-2016.7.19&lt;/p&gt;
+&lt;p&gt;更换SSL证书为Let&amp;rsquo;s encrypt
+-2016.9.4&lt;/p&gt;
+&lt;p&gt;移除了七牛云静态资源加速
+-2016.11.22&lt;/p&gt;
+&lt;p&gt;更新博客域名到blog.kuludu.net，删除了多说评论
+-2017.2.7&lt;/p&gt;
+&lt;p&gt;更新了头像
+-2017.2.12&lt;/p&gt;
+&lt;p&gt;启用七牛云空间进行备份
+-2017.4.3&lt;/p&gt;
+&lt;p&gt;切换DNS为DNSPod
+-2017.10.1&lt;/p&gt;
+&lt;p&gt;启用了腾讯云CDN
+-2017.10.3&lt;/p&gt;
+&lt;p&gt;启用HTTP/2.0
+-2017.10.12&lt;/p&gt;
+&lt;p&gt;更换主题为Kratos-pjax
+-2018.6.13&lt;/p&gt;
+&lt;p&gt;升级了服务器主机
+-2018.8.23&lt;/p&gt;
+&lt;p&gt;更换博客程序为Typecho,更换主题为handsome
+-2018.11.1&lt;/p&gt;
+&lt;p&gt;启用Google Analytics分析，添加阿里云广告
+-2018.11.30&lt;/p&gt;
+&lt;p&gt;为节省服务器开销，迁移了服务器，同时进行了系统优化
+-2019.7.26&lt;/p&gt;
+&lt;p&gt;启用OCSP装订
+-2020.5.20&lt;/p&gt;
+&lt;p&gt;迁移源站，启用HSTS
+-2020.11.16&lt;/p&gt;
+&lt;p&gt;开启IPv6支持
+-2021.3.20&lt;/p&gt;
+&lt;p&gt;升级博客程序到Typecho 1.2正式版
+-2022.4.2&lt;/p&gt;
+&lt;p&gt;源站迁移
+-2023.12.20&lt;/p&gt;
+&lt;p&gt;更换为hugo生成的静态博客
+-2024.6.17&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>关于我</title>
         <link>https://blog.kuludu.net/page/about/</link>
         <pubDate>Sun, 16 Jun 2024 00:00:00 +0000</pubDate>
