@@ -8,6 +8,133 @@
         <language>zh-cn</language>
         <copyright>Kuludu</copyright>
         <lastBuildDate>Sun, 16 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.kuludu.net/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>关于我</title>
+        <link>https://blog.kuludu.net/page/about/</link>
+        <pubDate>Sun, 16 Jun 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://blog.kuludu.net/page/about/</guid>
+        <description>&lt;h2 id=&#34;个人简介&#34;&gt;个人简介
+&lt;/h2&gt;&lt;p&gt;我是范雨祥(Yuxiang Fan)，一个混子，惯用Kuludu这一ID上网冲浪，目前在某三流高校攻读软件工程硕士学位（没想到我能混到研究生读），一个非常佛系的ENTP🙏。&lt;/p&gt;
+&lt;p&gt;我喜欢：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;摄影（一顿乱拍，全靠后期修）&lt;/li&gt;
+&lt;li&gt;旅行（一顿乱逛，不打卡主义）&lt;/li&gt;
+&lt;li&gt;音乐（一顿乱听，完全依赖日推）&lt;/li&gt;
+&lt;li&gt;coding（这个是真的菜）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;可以通过邮箱(&lt;a class=&#34;link&#34; href=&#34;mailto:opensource@kuludu.net&#34; &gt;opensource@kuludu.net&lt;/a&gt;)联系我，但是我可能很久才看一下Orz（真的会有人想要联系我吗？）。&lt;/p&gt;
+&lt;h2 id=&#34;pgp-public-key&#34;&gt;PGP Public Key
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;25
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;26
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;27
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;28
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;29
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;30
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;31
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;32
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;33
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;34
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;35
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;36
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;37
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;38
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;39
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;40
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;41
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;42
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;43
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;44
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;45
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;46
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;47
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;48
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;49
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;50
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;51
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;-----BEGIN PGP PUBLIC KEY BLOCK-----
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;mQINBGP8U+kBEAC4MuH1hr/qwP/BMx3LauvnmyKEikoN2ptEaXxlfNlGbrSKbLpZ
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Hk5O3HA2+yroh3myoerBH71JwqJj1n+gjUCEI5KCFbDZcQ9NsAdplb2wAKTazOfb
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;9EtfgtS8QXAcwgtkbflyaAakUXWQMO13eQ5jQcnTIcGNTy8GqFNg4Ug4KFwdVpeb
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;6P84AWLKeAn/tGzGOOLdwRw4kzP3BwIJ+33dACnPqrSSaELiB3gen0gVC38kY5NN
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;SMEugpRZa+lDykH7bRtQXJw1U3Ha9mg3A/m9hhmEWnoABPruOs4XqBnoQ6bLZS5G
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;n+6oh2DWd5+oeO4aFSZnXt7DHvURSdjF7G7RZetbz0lNLTfomR8PGZw1DUxH0Nc3
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;r/cSMTKBPE2Chu6FyzmkLqdxRri3o+5qvBSaHCAay8Q0IaYhfCKgYaB2EC+HgR6q
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uS/g4BIvwaVJe3X6cGCe918t6qwa0+f5Gh9XaJk7uvJpWwfdPAx7j+461Ah/q+dK
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;fvZfdrslK9sWnBXo5M2CN9naxaaKXSZvtPNURP9u9vi4isv1mmyhyYewrZybHY+E
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uIzP4WkIlMSODqlTnYGrTiIXnJ4k8kphudt7d2LcAxY9Oy5MGqTYqkHn1xR+ym3F
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;jArZt2GUzNUeb9QNV9DOLsT7DTMrcuztt+zv0Sfolzsy318UzQ3IOVR6iQARAQAB
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;tB5LdWx1ZHUgPG9wZW5zb3VyY2VAa3VsdWR1Lm5ldD6JAlEEEwEIADsWIQQAotmv
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;H7vwZr2kfGoztEyRMx6wlAUCY/xT6QIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIe
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;BwIXgAAKCRAztEyRMx6wlAh2D/4rHWI3XHbTWgyPqMK6xu8ij/SRdCjOhLIoJUFj
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;h+8bSqcbrqJP+oo3/Dt1ojpwj+vamY3tNCwZPITsn6aa5z2fhSFs8uIym+M3Jb5E
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;RCSZ5IlJF5CEXANPbDKMJOTxupqzP05PrR2UbJzqwoSwThSg9ovxcpY4lNnGtZCa
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;rH48UrckiOmu4ir1S6aSInLKmPIqycvFmG4w3c03ND1SNy2JZura6a5fE+Gyq9Ms
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;7kRg7mSfO0vVt35Th34kldLXDaHLosE72P46h8UttD1K2c2WS84h3IIzz3K2gLQe
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;266oaKs1pnDj644VCyjB+Hh6i+PbQpHZW3mB43TP3SwZu+PvZrfYJffdxYVJIcEs
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;0/8KF1uFOD3QLqA+ummvjuZp5dNCz2FpzdLsYJk9H1h6g26yVc8uB7rV0WKhreq0
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;KMJaaioZbgFG6rXlv7EZwOX5uiHOwRlVbXPmRF3GGF3FZRObZoT/oLV7i5i0m9G3
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;qt6RZyAZ5CJaG3AtKavRhr+RXhJ92rTV3Am8n+hna6Y1jqu3lOkMQewQTCnkAdBT
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;4wwZ3oz/ds49IEb7dURXzMpzH2tulYSxacjUsMJJqR6Y7dr6VoLs9Y4NEenkIAcy
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/8PGg+XUoEImQ3sOkXK/GDFu34GFiShwqgCpoq/3IscDjBSCoyQL4khURzkMoHqy
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;NnPKu7kCDQRj/FPpARAAuq++kaLWqCrL8569QtWdzymPPI+OWFt6WSolnxMxpAat
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;BKBR14Y0krKE1WMZxhTnp7PEl6kDyS+xbc8q8OGBPKtBQdRi29RUFDp4MGekkEib
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;5y2jidRYi3rS5dxk4fPwoNvklJ4sHwegr3RvNwra9XYZG4AKi3xZ5LipbelaqNDB
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;plgo+2AWqLxFBmHt/EMhOxSrsYHL1FBNgTjWWN8kua4HPXAJTFAwqxdHQljLTeUY
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;BkJtMPrkHy9s36ofxyhdhGnd0ELy74hVo3M4AHY2AjnIxnriTw1IiR/mhacC0eGZ
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;fI/yGgtdI8oLhk4MTWM395c0K88pVSKlGzBABVIer4VokWiseLzvnCQ3eZoctFHj
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/JCrNA5/RjP1XM20JBm9RTkmAWOtRE8fBrwoevMlwkTiZ6Au8AAUsiEncbeytsEq
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;evq95XhFeXQNQGYydG2V5nalqPR0NKDb7pYJGWBAnDVuN5KuNJGWEjJ/MdL2VLh7
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;C8fPSo0aXbmxfGOQvl/hfnrceJvvpOYtzLXacQ6R+vQi4+zs3o/Ue9XXo/r18BO5
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;VO66zUwhroPF16JiT0bUaSatLMzS4WM8Wt7b3DVdJy7yqveyUAslYVK8UeAcnhW0
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;nNIJzacc6Cn7jp/VYipFZomeZQe1Qp0C1DY+3rot7WBAv3byoPaBLSVJ+zN2utUA
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;EQEAAYkCNgQYAQgAIBYhBACi2a8fu/BmvaR8ajO0TJEzHrCUBQJj/FPpAhsMAAoJ
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;EDO0TJEzHrCU88QQAKoB7X08gfsYJYV49VcISi/o8YgNdi9yb7zaa75kdtJ/fuvq
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;KPR7WGskaLFknpOdVr/rKmc73LVXYgC39cJe0cZbyXeSUNxi+mrPnGEhqedooyPG
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;/U9rasPWu8GXcjVAJ78T1hxVcBa1JyMs0knVF6+BrM7xjisL0+Lly9txE/J1oH1Y
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;r4E61/SXRODOFRNj85UgjNt9tdhUalW42gqL9Tv7k2Lftaq6jyyLouWqyn3bjmZH
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;V4lPPRpIZcp9pQ+AEhRA0VYsfua411rp7oT1VKipCaYpOMSJX5p4KOoqn1GxosiZ
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;BTfiRZJCd8Z3k0A6COOJDdkF0qurmsD3k611QhTtiEoQErJZonOdxMVL68cRe3yL
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;M2yAQl30MJ9ADp+7iB/B2ZpiaJblhcxxoj4n9i60bwmyxgrNCunAWcXwOPLsdSOd
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;x+5tLgiZnZbsXYpUOc3w23c59fjEDvpGN88A5kKkWhYWBtQB5mXaxA+3NKDaIKn4
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Cgq28M/6oii0QI5c+I7WUM7ZdTKPCFwfqZ3nbQH9ZYoKoVFxe9CWF3MolYlQ39ab
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;JpoL//OqtUA8JKgq3Z6csKHkITEBEO8HHWYqTVW9E0QpW3TN6lqRnL1mEOhM23hf
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;dqF4D1Do1Cy1YNuF8GGMqQlVXUGbWLGndX1PmzVNwe70fX/9cOqMfkKLTW5A
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;=qfeH
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;-----END PGP PUBLIC KEY BLOCK-----
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description>
+        </item>
+        <item>
         <title>文章归档</title>
         <link>https://blog.kuludu.net/page/archives/</link>
         <pubDate>Sun, 16 Jun 2024 00:00:00 +0000</pubDate>
