@@ -7,7 +7,7 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Kuludu</copyright>
-        <lastBuildDate>Sat, 15 Jun 2024 19:45:00 +0800</lastBuildDate><atom:link href="https://blog.kuludu.net/article/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Thu, 20 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.kuludu.net/article/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>你好！新博客</title>
         <link>https://blog.kuludu.net/article/hello-new-blog/</link>
         <pubDate>Sat, 15 Jun 2024 19:45:00 +0800</pubDate>
@@ -21,6 +21,122 @@
 &lt;p&gt;当然，原来的博客上仍然有不少有价值的文章，我会在后续的review过程中迁移过来，同时也希望能够改进文章质量，老博客已经迁移到了&lt;a class=&#34;link&#34; href=&#34;https://old-blog.kuludu.net/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;https://old-blog.kuludu.net/&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;Anyway, that is a new start.&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>多网口环境下配置Ubuntu网络路由</title>
+        <link>https://blog.kuludu.net/article/%E5%A4%9A%E7%BD%91%E5%8F%A3%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AEubuntu%E7%BD%91%E7%BB%9C%E8%B7%AF%E7%94%B1/</link>
+        <pubDate>Mon, 20 May 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://blog.kuludu.net/article/%E5%A4%9A%E7%BD%91%E5%8F%A3%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AEubuntu%E7%BD%91%E7%BB%9C%E8%B7%AF%E7%94%B1/</guid>
+        <description>&lt;p&gt;目前我们的实验室有两条线路：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;172.C.D.0/24: 校园网（不可连接互联网，但可以接入VPN）&lt;/li&gt;
+&lt;li&gt;192.168.B.0/24: 实验室宽带网（可以连接互联网，但是没有公网IP）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我们的主要需求是通过校园网实现远程SSH接入，通过实验室宽带网访问互联网。但是由于Ubuntu生成的默认网关会自动将所有流量转到metric小的接口上，这将导致原本应该从校园网出口流出的SSH流量也走了实验室宽带网，从而无法建立SSH连接。这就需要对路由进行修改，可以通过netplan工具进行。&lt;/p&gt;
+&lt;p&gt;由于校园网的路由已经建立且正确，所以在默认网络配置下的主要问题其实是&lt;strong&gt;主机内路由表能否正确找到到客户端的路由路径&lt;/strong&gt;，而且由于VPN的存在，&lt;strong&gt;还需要考虑其产生的虚拟IP到主机的路由&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;编辑&lt;code&gt;/etc/netplan/50-cloud-init.yaml&lt;/code&gt;（这是Ubuntu 24.04默认的网络配置文件，也有可能会变动），将路由项写入：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;network:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ethernets:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        eno1:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            addresses:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            - 172.C.D.E/24        # 主机校园网IP
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            routes:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            - to: 172.A.0.0/12    # 整个校园网的子网
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;              via: 172.C.D.1      # 当前网关（下同）
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            - to: 211.64.0.0/13   # VPN的虚拟IP子网
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;              via: 172.C.D.1
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        eno2:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            dhcp4: true           # 实验室宽带网（直接使用DHCP配置）
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;接下来使用netplan apply进行应用，就可以实现两条线路分工工作了。&lt;/p&gt;
+&lt;p&gt;当然，实现上述目标还有其它方法（例如通过设置路由表使流量强制走来时的接口），但是这些做法稍显复杂，就不在此赘述了。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>关于文献导入EndNote20字段默认不支持的问题</title>
+        <link>https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+        <pubDate>Mon, 21 Aug 2023 14:41:30 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+        <description>&lt;p&gt;在Google Scholar或者其它数据库向EndNote20中导入引文的时候，有时候会发现其字段不受支持。如在默认设置中，&lt;code&gt;Journal Article&lt;/code&gt;就没有&lt;code&gt;Publisher&lt;/code&gt;这一个字段，虽然大多数论文引用格式并不要求写出出版商，但是对于某一些缺失的字段无法被添加还是会造成一些麻烦的。本文就文献导入到引用导出全流程介绍EndNote20自定义字段设置问题。&lt;/p&gt;
+&lt;h2 id=&#34;在设置中修改reference-types引用类型&#34;&gt;在设置中修改Reference Types（引用类型）
+&lt;/h2&gt;&lt;p&gt;首先，我们需要在&lt;code&gt;Settings &amp;gt; Reference Types&lt;/code&gt;中修改默认的引用类型。在这里的修改是针对某一文章类型来的，这里根据需要可以修改两个常用类型&lt;code&gt;Journal Article（期刊文章）&lt;/code&gt;和&lt;code&gt;Conference Proceedings（会议出版物）&lt;/code&gt;（下同）。&lt;/p&gt;
+&lt;p&gt;以&lt;code&gt;Journal Article（期刊文章）&lt;/code&gt;为例，可以看到，&lt;code&gt;Publisher&lt;/code&gt;字段其实是受支持的，不过在EndNote20中被默认隐藏了。将留空的&lt;code&gt;Publisher&lt;/code&gt;字段重新填充上去即可启用该字段。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832.png&#34;
+	width=&#34;1086&#34;
+	height=&#34;1294&#34;
+	srcset=&#34;https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832_hu7aa13da0b7443b8d8c7d724c27dbeaa2_504525_480x0_resize_box_3.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832_hu7aa13da0b7443b8d8c7d724c27dbeaa2_504525_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Modify ref&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;83&#34;
+		data-flex-basis=&#34;201px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;如果有其它自定义字段，可以使用&lt;code&gt;Custom 1 ~ 8&lt;/code&gt;八个栏位，将需要的字段名称填入即可。&lt;/p&gt;
+&lt;p&gt;至此，我们可以在文献选项卡中看到新的字段了。&lt;/p&gt;
+&lt;h2 id=&#34;修改默认的import-filters导入过滤器&#34;&gt;修改默认的Import Filters（导入过滤器）
+&lt;/h2&gt;&lt;p&gt;既然EndNote20默认关闭了&lt;code&gt;Publisher&lt;/code&gt;字段，那么导入过滤器自然也是默认忽略该字段的了，在这一步我们需要重新启用它。&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;Tools &amp;gt; Import Filters&lt;/code&gt;中选择&lt;code&gt;Open Filter Manager&lt;/code&gt;，可以看到一个名为&lt;code&gt;EndNote Import&lt;/code&gt;过滤器，这便是需要修改的对象了。&lt;/p&gt;
+&lt;p&gt;在这里可以直接点击&lt;code&gt;Edit&lt;/code&gt;进行修改，不过还是更推荐将默认设置复制一份后再进行操作。在macOS下Filters的路径为EndNote20安装路径下的&lt;code&gt;Filters&lt;/code&gt;文件夹，Windows的路径逻辑应该也相同。&lt;/p&gt;
+&lt;p&gt;将&lt;code&gt;%I&lt;/code&gt;标签对应的{IGNORE}的标记修改为&lt;code&gt;Publisher&lt;/code&gt;即可，其它标签的含义可以搜索参考RIS文件的格式说明，自定义字段亦是如此。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325.png&#34;
+	width=&#34;1624&#34;
+	height=&#34;1310&#34;
+	srcset=&#34;https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325_hudc59c28408fd669336d9dfb36b83611a_555915_480x0_resize_box_3.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325_hudc59c28408fd669336d9dfb36b83611a_555915_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Endnote Import&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;123&#34;
+		data-flex-basis=&#34;297px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在导入文献的时候记得要选择新修改的过滤器。对于非RIS格式的引用，则需要修改对应的Import Filter。&lt;/p&gt;
+&lt;h2 id=&#34;修改默认的output-styles导出格式&#34;&gt;修改默认的Output Styles（导出格式）
+&lt;/h2&gt;&lt;p&gt;由于在我的论文写作中几乎只使用LaTeX作为排版工具，在这里我着重介绍一下Bibliography的导出。&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;Tools &amp;gt; Output Styles&lt;/code&gt;中选择&lt;code&gt;Open Style Manager&lt;/code&gt;，修改&lt;code&gt;BibTex Export&lt;/code&gt;即可，同样地也推荐备份一遍默认设置。&lt;/p&gt;
+&lt;p&gt;选择&lt;code&gt;Bibliography&lt;/code&gt;选项卡，将需要的字段以同样的格式添加进去即可，注意修改对应的文章类型。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272.png&#34;
+	width=&#34;1824&#34;
+	height=&#34;1300&#34;
+	srcset=&#34;https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272_hu06f4a7e72a4906e7803216eab1ebb213_769362_480x0_resize_box_3.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272_hu06f4a7e72a4906e7803216eab1ebb213_769362_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Bibliography Export&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;140&#34;
+		data-flex-basis=&#34;336px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;同样地，若是需要修改纯文本的导出格式，可以修改&lt;code&gt;Citations&lt;/code&gt;选项卡下的内容，读者可以搜索相关资料。&lt;/p&gt;
+&lt;p&gt;至此，EndNote20已经可以完美地收录和导出所需的字段了。&lt;/p&gt;
 </description>
         </item>
         

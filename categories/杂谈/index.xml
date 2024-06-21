@@ -23,6 +23,74 @@
 &lt;p&gt;Anyway, that is a new start.&lt;/p&gt;
 </description>
         </item>
+        <item>
+        <title>关于文献导入EndNote20字段默认不支持的问题</title>
+        <link>https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+        <pubDate>Mon, 21 Aug 2023 14:41:30 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+        <description>&lt;p&gt;在Google Scholar或者其它数据库向EndNote20中导入引文的时候，有时候会发现其字段不受支持。如在默认设置中，&lt;code&gt;Journal Article&lt;/code&gt;就没有&lt;code&gt;Publisher&lt;/code&gt;这一个字段，虽然大多数论文引用格式并不要求写出出版商，但是对于某一些缺失的字段无法被添加还是会造成一些麻烦的。本文就文献导入到引用导出全流程介绍EndNote20自定义字段设置问题。&lt;/p&gt;
+&lt;h2 id=&#34;在设置中修改reference-types引用类型&#34;&gt;在设置中修改Reference Types（引用类型）
+&lt;/h2&gt;&lt;p&gt;首先，我们需要在&lt;code&gt;Settings &amp;gt; Reference Types&lt;/code&gt;中修改默认的引用类型。在这里的修改是针对某一文章类型来的，这里根据需要可以修改两个常用类型&lt;code&gt;Journal Article（期刊文章）&lt;/code&gt;和&lt;code&gt;Conference Proceedings（会议出版物）&lt;/code&gt;（下同）。&lt;/p&gt;
+&lt;p&gt;以&lt;code&gt;Journal Article（期刊文章）&lt;/code&gt;为例，可以看到，&lt;code&gt;Publisher&lt;/code&gt;字段其实是受支持的，不过在EndNote20中被默认隐藏了。将留空的&lt;code&gt;Publisher&lt;/code&gt;字段重新填充上去即可启用该字段。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832.png&#34;
+	width=&#34;1086&#34;
+	height=&#34;1294&#34;
+	srcset=&#34;https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832_hu7aa13da0b7443b8d8c7d724c27dbeaa2_504525_480x0_resize_box_3.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832_hu7aa13da0b7443b8d8c7d724c27dbeaa2_504525_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Modify ref&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;83&#34;
+		data-flex-basis=&#34;201px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;如果有其它自定义字段，可以使用&lt;code&gt;Custom 1 ~ 8&lt;/code&gt;八个栏位，将需要的字段名称填入即可。&lt;/p&gt;
+&lt;p&gt;至此，我们可以在文献选项卡中看到新的字段了。&lt;/p&gt;
+&lt;h2 id=&#34;修改默认的import-filters导入过滤器&#34;&gt;修改默认的Import Filters（导入过滤器）
+&lt;/h2&gt;&lt;p&gt;既然EndNote20默认关闭了&lt;code&gt;Publisher&lt;/code&gt;字段，那么导入过滤器自然也是默认忽略该字段的了，在这一步我们需要重新启用它。&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;Tools &amp;gt; Import Filters&lt;/code&gt;中选择&lt;code&gt;Open Filter Manager&lt;/code&gt;，可以看到一个名为&lt;code&gt;EndNote Import&lt;/code&gt;过滤器，这便是需要修改的对象了。&lt;/p&gt;
+&lt;p&gt;在这里可以直接点击&lt;code&gt;Edit&lt;/code&gt;进行修改，不过还是更推荐将默认设置复制一份后再进行操作。在macOS下Filters的路径为EndNote20安装路径下的&lt;code&gt;Filters&lt;/code&gt;文件夹，Windows的路径逻辑应该也相同。&lt;/p&gt;
+&lt;p&gt;将&lt;code&gt;%I&lt;/code&gt;标签对应的{IGNORE}的标记修改为&lt;code&gt;Publisher&lt;/code&gt;即可，其它标签的含义可以搜索参考RIS文件的格式说明，自定义字段亦是如此。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325.png&#34;
+	width=&#34;1624&#34;
+	height=&#34;1310&#34;
+	srcset=&#34;https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325_hudc59c28408fd669336d9dfb36b83611a_555915_480x0_resize_box_3.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325_hudc59c28408fd669336d9dfb36b83611a_555915_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Endnote Import&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;123&#34;
+		data-flex-basis=&#34;297px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;在导入文献的时候记得要选择新修改的过滤器。对于非RIS格式的引用，则需要修改对应的Import Filter。&lt;/p&gt;
+&lt;h2 id=&#34;修改默认的output-styles导出格式&#34;&gt;修改默认的Output Styles（导出格式）
+&lt;/h2&gt;&lt;p&gt;由于在我的论文写作中几乎只使用LaTeX作为排版工具，在这里我着重介绍一下Bibliography的导出。&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;Tools &amp;gt; Output Styles&lt;/code&gt;中选择&lt;code&gt;Open Style Manager&lt;/code&gt;，修改&lt;code&gt;BibTex Export&lt;/code&gt;即可，同样地也推荐备份一遍默认设置。&lt;/p&gt;
+&lt;p&gt;选择&lt;code&gt;Bibliography&lt;/code&gt;选项卡，将需要的字段以同样的格式添加进去即可，注意修改对应的文章类型。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272.png&#34;
+	width=&#34;1824&#34;
+	height=&#34;1300&#34;
+	srcset=&#34;https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272_hu06f4a7e72a4906e7803216eab1ebb213_769362_480x0_resize_box_3.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272_hu06f4a7e72a4906e7803216eab1ebb213_769362_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;Bibliography Export&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;140&#34;
+		data-flex-basis=&#34;336px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;同样地，若是需要修改纯文本的导出格式，可以修改&lt;code&gt;Citations&lt;/code&gt;选项卡下的内容，读者可以搜索相关资料。&lt;/p&gt;
+&lt;p&gt;至此，EndNote20已经可以完美地收录和导出所需的字段了。&lt;/p&gt;
+</description>
+        </item>
         
     </channel>
 </rss>
