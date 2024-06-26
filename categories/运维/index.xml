@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>运维 on Kuludu的博客</title>
+        <link>https://blog.kuludu.net/categories/%E8%BF%90%E7%BB%B4/</link>
+        <description>Recent content in 运维 on Kuludu的博客</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>Kuludu</copyright>
+        <lastBuildDate>Mon, 20 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.kuludu.net/categories/%E8%BF%90%E7%BB%B4/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>多网口环境下配置Ubuntu网络路由</title>
+        <link>https://blog.kuludu.net/article/%E5%A4%9A%E7%BD%91%E5%8F%A3%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AEubuntu%E7%BD%91%E7%BB%9C%E8%B7%AF%E7%94%B1/</link>
+        <pubDate>Mon, 20 May 2024 00:00:00 +0000</pubDate>
+        
+        <guid>https://blog.kuludu.net/article/%E5%A4%9A%E7%BD%91%E5%8F%A3%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AEubuntu%E7%BD%91%E7%BB%9C%E8%B7%AF%E7%94%B1/</guid>
+        <description>&lt;p&gt;目前我们的实验室有两条线路：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;172.C.D.0/24: 校园网（不可连接互联网，但可以接入VPN）&lt;/li&gt;
+&lt;li&gt;192.168.B.0/24: 实验室宽带网（可以连接互联网，但是没有公网IP）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我们的主要需求是通过校园网实现远程SSH接入，通过实验室宽带网访问互联网。但是由于Ubuntu生成的默认网关会自动将所有流量转到metric小的接口上，这将导致原本应该从校园网出口流出的SSH流量也走了实验室宽带网，从而无法建立SSH连接。这就需要对路由进行修改，可以通过netplan工具进行。&lt;/p&gt;
+&lt;p&gt;由于校园网的路由已经建立且正确，所以在默认网络配置下的主要问题其实是&lt;strong&gt;主机内路由表能否正确找到到客户端的路由路径&lt;/strong&gt;，而且由于VPN的存在，&lt;strong&gt;还需要考虑其产生的虚拟IP到主机的路由&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;编辑&lt;code&gt;/etc/netplan/50-cloud-init.yaml&lt;/code&gt;（这是Ubuntu 24.04默认的网络配置文件，也有可能会变动），将路由项写入：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;network:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ethernets:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        eno1:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            addresses:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            - 172.C.D.E/24        # 主机校园网IP
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            routes:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            - to: 172.A.0.0/12    # 整个校园网的子网
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;              via: 172.C.D.1      # 当前网关（下同）
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            - to: 211.64.0.0/13   # VPN的虚拟IP子网
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;              via: 172.C.D.1
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;        eno2:
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;            dhcp4: true           # 实验室宽带网（直接使用DHCP配置）
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;接下来使用netplan apply进行应用，就可以实现两条线路分工工作了。&lt;/p&gt;
+&lt;p&gt;当然，实现上述目标还有其它方法（例如通过设置路由表使流量强制走来时的接口），但是这些做法稍显复杂，就不在此赘述了。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>从LightHouse到CVM</title>
+        <link>https://blog.kuludu.net/article/%E4%BB%8Elighthouse%E5%88%B0cvm/</link>
+        <pubDate>Wed, 20 Dec 2023 13:13:52 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/article/%E4%BB%8Elighthouse%E5%88%B0cvm/</guid>
+        <description>&lt;p&gt;好久没有更新博客了，趁着迁移服务器的劲头顺便记录一下。&lt;/p&gt;
+&lt;h2 id=&#34;为什么要迁移&#34;&gt;为什么要迁移？
+&lt;/h2&gt;&lt;p&gt;其实目前这台博客服务器上同时运行着多个服务：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Typecho（也就是本博客）&lt;/li&gt;
+&lt;li&gt;kodbox网盘&lt;/li&gt;
+&lt;li&gt;HackJNDoor&lt;a class=&#34;link&#34; href=&#34;https://github.com/Kuludu/HackJNDoor&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;（https://github.com/Kuludu/HackJNDoor）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;frp（几乎不使用）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;然而，源站是我三年前在腾讯云的某个活动购买的LightHouse主机（三年期），只有6M的出口带宽实在是满足不了平时网盘的日常使用（这个情况随着数据的增加愈发显著🤷），再加之主机即将过期，所以就有了迁移的念头。&lt;/p&gt;
+&lt;h2 id=&#34;往哪儿迁移&#34;&gt;往哪儿迁移？
+&lt;/h2&gt;&lt;p&gt;因为有备案的原因，所以我优先考虑腾讯云（这也算是被绑定了吧）。那么基本上就只剩下了继续购买LightHouse或者转CVM两个选择。&lt;/p&gt;
+&lt;p&gt;腾讯云的LightHouse采取的是捆绑销售的模式，2U2G的典型带宽基本围绕在4M左右，这甚至还不如我这个活动机&amp;hellip;再者我运行的服务主要是流量突发，大多数时候只需要瞬时高带宽，按照带宽计费实在是浪费。&lt;/p&gt;
+&lt;p&gt;于是我把目光转向了CVM。&lt;/p&gt;
+&lt;p&gt;说句老实话，我对CVM的印象还停留在好几年前，对通货膨胀后CVM的价格更是已经完全没了概念（对于穷苦研究生来说好贵呀😓）。&lt;/p&gt;
+&lt;p&gt;但是吧，对于我这种业务量其实用星星海服务器（SA2系列）中最低配置的话，总体成本还是要低于LightHouse的，加上我对硬盘读写也完全没有要求，不用SSD又可以省一大笔。同时切换流量计费，用100M的带宽只要¥0.8/G，这对我月均用不到3个G的个人开发者就非常友好了（当然我实际上没有设置这么高，因为用不到🤷）。&lt;/p&gt;
+&lt;p&gt;嗯，南京区最近又在搞活动，我的物理位置离南京也挺近的，就它了。&lt;/p&gt;
+&lt;h2 id=&#34;怎样迁移&#34;&gt;怎样迁移？
+&lt;/h2&gt;&lt;p&gt;首先，由于CentOS即将停止维护，老主机的系统得换掉了&amp;hellip;因为科研工作的缘故我近年来用Ubuntu用的相对较多，所以这次决定加入Debian系列发行版的阵营。缺点就是无法按文件迁移，而且好多软件需要重新部署。&lt;/p&gt;
+&lt;p&gt;不过好在我的业务并不复杂，直接打包整个网页程序就好了，就是从广州LightHouse到南京CVM没有内网（云联网要收费），用6M的小水管通过SFTP传文件很漫长。&lt;/p&gt;
+&lt;p&gt;借着这个机会，我也对Apache的VirtualHost逻辑进行了重写，我才发现几年前写的转发策略有很大的问题🤦&amp;hellip;&amp;hellip;&lt;/p&gt;
+&lt;p&gt;在部署网盘的时候我有留意一下后台负载，发现有时候在长时间不访问后突然使用CPU负载会飙到非常高的程度，猜测这与某些缓存策略有关。不过大部分时间整体负载都不高。从我目前的工作流来说，也不太可能出现大规模文件读写的场景，所以目前的迁移算是okay的。&lt;/p&gt;
+&lt;p&gt;配置好一切，切换DNS平滑过渡👏。&lt;/p&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结
+&lt;/h2&gt;&lt;p&gt;总的来说，目前迁移的体验还是很好的，也希望未来一个多月的过渡期没有什么岔子吧。&lt;/p&gt;
+&lt;p&gt;本文写的比较意识流，但是还是希望对和我一样近期有服务器迁移打算的个人开发者有帮助。（我这博客估计也没人看🤷）&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>记在Ubuntu 22.04 LTS上部署PyTorch深度学习环境</title>
+        <link>https://blog.kuludu.net/article/%E8%AE%B0%E5%9C%A8ubuntu-22-04-lts%E4%B8%8A%E9%83%A8%E7%BD%B2pytorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83/</link>
+        <pubDate>Mon, 20 Feb 2023 12:48:10 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/article/%E8%AE%B0%E5%9C%A8ubuntu-22-04-lts%E4%B8%8A%E9%83%A8%E7%BD%B2pytorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83/</guid>
+        <description>&lt;p&gt;最近的工作需要使用深度学习技术，也就免不了使用GPU，然而目前我实验室的机器上使用的是Windows 11的操作系统，用来进行实验确不符合我一个常年不用Windows系统的人的习惯😓，于是我买来一块移动硬盘并在这之上部署了基于Ubuntu 22.04 LTS的PyTorch的深度学习环境。起初我以为会一切顺利，可万万没想到重装一时爽，配环境火葬场&amp;hellip;本文谨记录在这中踩的坑。&lt;/p&gt;
+&lt;h2 id=&#34;关于移动硬盘外挂操作系统&#34;&gt;关于移动硬盘外挂操作系统
+&lt;/h2&gt;&lt;p&gt;就目前来说，我的建议是：&lt;strong&gt;不要这么做，至少不要使用机械硬盘。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我手上这块是WD Element的机械移动硬盘，简单测试了一下顺序读写速度，分别为：5.7GB/S和128MB/S。看着还不错，可一旦到了随机读写任务上速度与延迟就一言难尽了。直观的感受就是一个字——&lt;strong&gt;卡&lt;/strong&gt;，但是主要体现在读盘冷启动的时候（毕竟实验室机器的配置还是不错的）。&lt;/p&gt;
+&lt;h2 id=&#34;关于nvidia驱动问题&#34;&gt;关于NVIDIA驱动问题
+&lt;/h2&gt;&lt;p&gt;说句实话，我之前从未在Linux上配置过深度学习环境，用的往往是配置好了的现成品，这一次我多多少少理解为什么大家都在说Linux上的NVIDIA驱动很难用了&amp;hellip;事实上为了处理驱动问题，我从下午13时一直干到了下午17时（其实主要受磁盘IO速度与实验室网络环境影响）。&lt;/p&gt;
+&lt;p&gt;在安装Ubuntu系统的时候，安装程序有询问是否要安装附加驱动（Additional Drivers），我自然是勾选了确定。进入系统，在miniconda虚环境下安装PyTorch，始终无法安装对应GPU版本（CUDA）。检查发现自动安装的驱动并不是最新的（应该是510版本），本能地以为升级驱动就可以了，没想到这只是噩梦的开始。&lt;/p&gt;
+&lt;p&gt;事实上，安装驱动的方法并不只有一种，至少我找到的方法就有三种：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;从NVIDIA官网下载。&lt;/li&gt;
+&lt;li&gt;使用&lt;code&gt;ubuntu-drivers autoinstall&lt;/code&gt;安装。&lt;/li&gt;
+&lt;li&gt;使用系统应用&lt;code&gt;Additional Drivers&lt;/code&gt;安装。（事实证明，这是最好的方法）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;试试安装从nvidia官网下载的驱动&#34;&gt;试试安装从NVIDIA官网下载的驱动
+&lt;/h3&gt;&lt;p&gt;其实早在安装系统前，我已经提前在NVIDIA官网下好了对应的驱动程序，但是执行后发现至少有两个问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;安装驱动程序需要停止一切占用GPU的进程，其中就包含Ubuntu自带的桌面环境GNOME。这一点可以通过使用Nouveau驱动解决。&lt;/li&gt;
+&lt;li&gt;驱动安装程序提示建议使用Ubuntu发行版渠道下载驱动，因官网驱动并不是最兼容最优化版本。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;那就用ubuntu-drivers-autoinstall安装驱动吧&#34;&gt;那就用&lt;code&gt;ubuntu-drivers autoinstall&lt;/code&gt;安装驱动吧
+&lt;/h3&gt;&lt;p&gt;按理来说，从这里安装应该是稳妥的，但是不知道是否是因为bug的原因，安装的驱动一直报错。最后无奈只能使用&lt;code&gt;apt purge&lt;/code&gt;清除掉所有的相关软件包了。&lt;/p&gt;
+&lt;h3 id=&#34;最后还是使用系统应用additional-drivers安装驱动吧&#34;&gt;最后还是使用系统应用&lt;code&gt;Additional Drivers&lt;/code&gt;安装驱动吧
+&lt;/h3&gt;&lt;p&gt;最开始其实我也是从这里安装的驱动，然而受到了一篇教程的&lt;del&gt;蛊惑&lt;/del&gt;，最后放弃了这一步。回过头来才发觉，当初就应该使用这一方法。当然这之中也遇到了一个问题，那就是开源驱动(open kernel)驱动的问题——一开始我使用的是525版本的开源驱动，事实上这也是上一步中&lt;code&gt;ubuntu-drivers&lt;/code&gt;推荐我安装的。然而在两次清洁安装后，显示的错误是一致的，均是无法找到设备。随后我开始怀疑是不是开源驱动的问题，遂安装525版本的非开源版本，问题解决。&lt;/p&gt;
+&lt;p&gt;驱动问题解决了，使用&lt;code&gt;conda install&lt;/code&gt;，成功一键部署PyTorch的GPU版本。&lt;/p&gt;
+&lt;h2 id=&#34;关于xrdp远程桌面&#34;&gt;关于XRDP远程桌面
+&lt;/h2&gt;&lt;p&gt;由于实验室网络登录方式是Web Portal，所以有一个图形化界面还是更加方便一些。在按照教程配置好后，连接的结果却是黑屏和闪退。按照我搜索到的资料，大多数的资料指向向&lt;code&gt;/etc/xrdp/startwm.sh&lt;/code&gt;中添加以下字段:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;unset&lt;/span&gt; DBUS_SESSION_BUS_ADDRESS
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;unset&lt;/span&gt; XDG_RUNTIME_DIR
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;实际上，完全配置XRDP还需要向&lt;code&gt;xsessionrc&lt;/code&gt;中添加桌面程序（比如Ubuntu自带的GNOME）。而我最后的解决方案还是通过查看XRDP的错误日志，安装&lt;code&gt;dbus-lauch&lt;/code&gt;这一缺失的软件包解决的。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;总结：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;不要使用移动硬盘安装操作系统，至少不要使用机械硬盘。&lt;/li&gt;
+&lt;li&gt;尽量参考外文官网资料，因其往往更新更详尽。&lt;/li&gt;
+&lt;li&gt;检查程序日志而不是搜索症状。&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        <item>
+        <title>MacOS下卸载System Extensions</title>
+        <link>https://blog.kuludu.net/article/macos%E4%B8%8B%E5%8D%B8%E8%BD%BDsystem-extensions/</link>
+        <pubDate>Sat, 29 May 2021 15:29:00 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/article/macos%E4%B8%8B%E5%8D%B8%E8%BD%BDsystem-extensions/</guid>
+        <description>&lt;p&gt;System Extensions是macOS的一套系统拓展机制，从macOS Catalina开始出现，具体可以参考Apple Developer的&lt;a class=&#34;link&#34; href=&#34;https://developer.apple.com/system-extensions/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;这篇介绍&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;一般情况下，用户并不需要手动维护系统拓展。在拓展安装与应用卸载的过程中系统会自动检查并执行相关操作。&lt;/p&gt;
+&lt;p&gt;然而，既然有了本文就说明有那么一个问题。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;What if an application fail to uninstall its own system extension?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;这个问题发生在我正想卸载我的安全软件Avast Security上。&lt;/p&gt;
+&lt;p&gt;在执行卸载操作的时候，程序提示&lt;code&gt;fail  to uninstall&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;首先列出我的软件信息：macOS Big Sur 11.3.1、Avast Security（发文前最新版本）。&lt;/p&gt;
+&lt;p&gt;系统洁癖症如我，自然不指望厂商修复了，还是手动卸载吧。&lt;/p&gt;
+&lt;p&gt;搜索相关资料，得知macOS可以通过&lt;code&gt;systemextensionsctl&lt;/code&gt;这个命令管理系统拓展。&lt;/p&gt;
+&lt;p&gt;于是系统提示如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;At this time, this tool cannot be used if System Integrity Protection is enabled.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;This limitation will be removed in the near future.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Please remember to re-enable System Integrity Protection!
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;没错，就是不能卸载！&lt;/p&gt;
+&lt;p&gt;原因就是系统集成保护（SIP）的锅。有了这个机制甚至root用户也不能修改与系统及系统拓展相关的文件（也就是说root用户也没法手动关闭系统拓展）。&lt;/p&gt;
+&lt;p&gt;坑啊！&lt;/p&gt;
+&lt;p&gt;解决方案其实也很明了，使用&lt;code&gt;command + R&lt;/code&gt;进入System Recovery模式，通过&lt;code&gt;csrutil&lt;/code&gt;命令关闭这令人又爱又恨的SIP，再正常启动卸载系统拓展就行（执行过程中有种裸奔的感觉😓）。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;卸载完成后别忘了用同样的方法开启SIP！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;卸载完成后别忘了用同样的方法开启SIP！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;卸载完成后别忘了用同样的方法开启SIP！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;重要的事情说三遍，毕竟SIP还是一个非常优秀的系统保护机制的。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;（希望Apple有关解除限制的承诺能尽快兑现。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>“解决”CUDNN_STATUS_ALLOC_FAILED</title>
+        <link>https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/</link>
+        <pubDate>Mon, 22 Mar 2021 21:42:00 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/</guid>
+        <description>&lt;p&gt;最近正在做一个&lt;del&gt;炼丹&lt;/del&gt;深度学习的项目，不可避免地使用到了GPU加速。其中，在使用cuDNN的时候遇到了CUDNN_STATUS_ALLOC_FAILED的问题，记录一下。&lt;/p&gt;
+&lt;p&gt;首先给出我的系统硬件以及软件环境：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;OS: Windows Server 2019 Standard&lt;/li&gt;
+&lt;li&gt;CPU: Intel Xeon W-2123 3.6GHz&lt;/li&gt;
+&lt;li&gt;Memory: 64G ECC&lt;/li&gt;
+&lt;li&gt;GPU: NVIDIA Quadro P4000(8G)&lt;/li&gt;
+&lt;li&gt;Tensorflow: 1.13.2&lt;/li&gt;
+&lt;li&gt;Keras: 2.1.5&lt;/li&gt;
+&lt;li&gt;CUDA: 10.0&lt;/li&gt;
+&lt;li&gt;cuDNN: 7.3&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;具体报错信息如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;2021-03-22 20:39:27.884555: E tensorflow/stream_executor/cuda/cuda_dnn.cc:334] Could not create cudnn handle: CUDNN_STATUS_ALLOC_FAILED
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;2021-03-22 20:39:27.888005: E tensorflow/stream_executor/cuda/cuda_dnn.cc:334] Could not create cudnn handle: CUDNN_STATUS_ALLOC_FAILED
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Traceback (most recent call last):
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  File &amp;#34;C:\ProgramData\Anaconda3\envs\ly\lib\site-packages\tensorflow\python\client\session.py&amp;#34;, line 1334, in _do_call
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    return fn(*args)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  File &amp;#34;C:\ProgramData\Anaconda3\envs\ly\lib\site-packages\tensorflow\python\client\session.py&amp;#34;, line 1319, in _run_fn
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    options, feed_dict, fetch_list, target_list, run_metadata)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;  File &amp;#34;C:\ProgramData\Anaconda3\envs\ly\lib\site-packages\tensorflow\python\client\session.py&amp;#34;, line 1407, in _call_tf_sessionrun
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    run_metadata)
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;tensorflow.python.framework.errors_impl.UnknownError: Failed to get convolution algorithm. This is probably because cuDNN failed to initialize, so try looking to see if a warning log message was printed above.
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;         [[{{node conv2d_1/convolution}}]]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;         [[{{node concat_9}}]]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;quick-fix&#34;&gt;Quick Fix
+&lt;/h2&gt;&lt;p&gt;此处参考stackoverflow上的&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/59116872/could-not-create-cudnn-handle-cudnn-status-alloc-failed-on-a-project-that-sho&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;一个方案&lt;/a&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;os&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;os&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;environ&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;CUDA_VISIBLE_DEVICES&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;-1&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;直接禁用GPU，自然也就不会牵扯到cuDNN。&lt;/p&gt;
+&lt;p&gt;Problem solved, amazing!&lt;/p&gt;
+&lt;p&gt;个鬼。&lt;/p&gt;
+&lt;p&gt;禁用GPU也就意味着禁用了GPU加速，&lt;del&gt;意味着可怜的CPU要burn itself&lt;/del&gt;，这在对于效率有要求的生产环境是不行的🙅‍♂️。&lt;/p&gt;
+&lt;h2 id=&#34;观察&#34;&gt;观察
+&lt;/h2&gt;&lt;p&gt;在建立模型后显存直接爆炸，如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825.png&#34;
+	width=&#34;389&#34;
+	height=&#34;90&#34;
+	srcset=&#34;https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825_huc951c505509e7ad07818f190c5e68c85_12239_480x0_resize_box_3.png 480w, https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825_huc951c505509e7ad07818f190c5e68c85_12239_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;AF436168-5387-4556-979B-721BE57A7A39.png&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;432&#34;
+		data-flex-basis=&#34;1037px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;查阅资料，初步猜测是显存不足导致的，所以想到了限制一下显存的消耗：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;tensorflow&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;as&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;tf&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kn&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;nn&#34;&gt;keras.backend.tensorflow_backend&lt;/span&gt; &lt;span class=&#34;kn&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;set_session&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;config&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;tf&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ConfigProto&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;gpu_options&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;allow_growth&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;n&#34;&gt;set_session&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;tf&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;Session&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;config&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;限制后显存明显降低了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544.png&#34;
+	width=&#34;407&#34;
+	height=&#34;84&#34;
+	srcset=&#34;https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544_hu5bf2df1394971ca98b6aaf13baf2c921_11851_480x0_resize_box_3.png 480w, https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544_hu5bf2df1394971ca98b6aaf13baf2c921_11851_1024x0_resize_box_3.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;AF436168-5387-4556-979B-721BE57A7A39.png&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;484&#34;
+		data-flex-basis=&#34;1162px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;但是崩溃的问题依旧😓。&lt;/p&gt;
+&lt;p&gt;又想到了一个问题，因为服务器是多个项目组共用的，&lt;strong&gt;是不是有可能为其它组正在使用导致cuDNN无法创建句柄呢？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;有可能，但是我也不能去关别人的程序呀&lt;del&gt;boss不得打死我&lt;/del&gt;😅。&lt;/p&gt;
+&lt;p&gt;疑问留在这里，等服务器空了就来补充。（&lt;del&gt;当然可能我也压根不会填坑&lt;/del&gt;，不如留给读者当一个思路）&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/tensorflow/tensorflow/issues/39989&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/tensorflow/tensorflow/issues/39989&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://blog.csdn.net/qq_40635998/article/details/87297634&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://blog.csdn.net/qq_40635998/article/details/87297634&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        <item>
+        <title>在macOS下使用GPG对Git commit签名</title>
+        <link>https://blog.kuludu.net/article/%E5%9C%A8macos%E4%B8%8B%E4%BD%BF%E7%94%A8gpg%E5%AF%B9git-commit%E7%AD%BE%E5%90%8D/</link>
+        <pubDate>Sun, 27 Dec 2020 23:41:00 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/article/%E5%9C%A8macos%E4%B8%8B%E4%BD%BF%E7%94%A8gpg%E5%AF%B9git-commit%E7%AD%BE%E5%90%8D/</guid>
+        <description>&lt;p&gt;[scode type=&amp;ldquo;yellow&amp;rdquo;]&lt;/p&gt;
+&lt;p&gt;在macOS 11.1下测试通过。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;gpg (GnuPG) 2.2.25&lt;/li&gt;
+&lt;li&gt;libgcrypt 1.8.7&lt;/li&gt;
+&lt;li&gt;pinentry-mac (pinentry) 0.9.4&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;[/scode]&lt;/p&gt;
+&lt;h2 id=&#34;安装所需软件&#34;&gt;安装所需软件
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;brew install gpg2 gnupg pinentry-mac
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;创建钥匙对&#34;&gt;创建钥匙对
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;gpg --full-generate-key
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这里建议使用&lt;code&gt;--full-generate-key&lt;/code&gt;选项自定义全部选项，按照提示输入即可，加密方法选&lt;code&gt;(1) RSA and RSA (default)&lt;/code&gt;，密钥长度可选择最长&lt;code&gt;4096&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;其中邮箱地址需要与Github中验证通过的邮箱保持一致。&lt;/p&gt;
+&lt;h2 id=&#34;设置终端环境变量&#34;&gt;设置终端环境变量
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;GPG_TTY&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;tty&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在这一步，设置GPG终端类型环境变量，目的是让GPG程序知道使用什么作为终端，并使其生效：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;source&lt;/span&gt; ~/.zshrc &lt;span class=&#34;c1&#34;&gt;# 如果使用的是bash，更改为.bashrc&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;配置gpg代理&#34;&gt;配置GPG代理
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;vim ~/.gnupg/gpg-agent.conf
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;将以下内容追加进入配置文件&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;pinentry-program /usr/local/bin/pinentry-mac
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这样，就可以使用pinentry管理GPG密钥了。&lt;/p&gt;
+&lt;h2 id=&#34;载入gpg代理配置&#34;&gt;载入GPG代理配置
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;gpgconf --kill gpg-agent
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;通过杀死&lt;code&gt;gpg-agent&lt;/code&gt;，确保配置文件被加载。&lt;/p&gt;
+&lt;h2 id=&#34;测试一下&#34;&gt;测试一下
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;test&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; gpg --clearsign
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;运行以上命令，对字符串&lt;code&gt;test&lt;/code&gt;进行签名以测试gpg是否配置成功。&lt;/p&gt;
+&lt;p&gt;如果配置成功，应该会出现pinentry的窗口，选择&lt;code&gt;Save in keychain&lt;/code&gt;可以将密码保存至钥匙链。&lt;/p&gt;
+&lt;p&gt;正确输入密码后，可以看到信息和签名。&lt;/p&gt;
+&lt;h2 id=&#34;获取密钥id&#34;&gt;获取密钥ID
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;gpg -K --keyid-format SHORT
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;执行成功应该会出现这样的内容：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;-------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sec   rsa4096/&amp;lt;Key ID Short&amp;gt; 2020-12-27 [SC] [expires: 2024-12-26]
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;      &amp;lt;Key ID&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;uid         [ultimate] example &amp;lt;example@example.com&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;使用&lt;code&gt;Key ID Short&lt;/code&gt;或&lt;code&gt;Key ID&lt;/code&gt;均可。&lt;/p&gt;
+&lt;h2 id=&#34;在git中设置密钥&#34;&gt;在Git中设置密钥
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git config --global user.signingkey &amp;lt;Key ID&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;通过以上命令可以在全局设置中配置密钥ID。&lt;/p&gt;
+&lt;h2 id=&#34;开启强制签名&#34;&gt;开启强制签名
+&lt;/h2&gt;&lt;p&gt;通过以上步骤就可以实现GPG签名commit了，只需要添加&lt;code&gt;-S&lt;/code&gt;选项即可，如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git commit -S -m &lt;span class=&#34;s2&#34;&gt;&amp;#34;这是一条签名过的commit&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;但是为了方便，我们可以通过全局设置来强制开启GPG&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git config --global commit.gpgsign &lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git config --global tag.forceSignAnnotated &lt;span class=&#34;nb&#34;&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;其中第一个参数是默认开启签名，第二个参数是强制开启签名。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;后记&#34;&gt;后记
+&lt;/h2&gt;&lt;p&gt;在最初的配置过程完成后，我对我的一个仓库进行commit操作出现错误，如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;error: gpg failed to sign the data 
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;fatal: failed to write commit object
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;通过加入&lt;code&gt;GIT_TRACE=1&lt;/code&gt; 参数观察Git的执行过程，我发现其卡死在了这个命令的执行上：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;gpg --status-fd&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; -bsau &amp;lt;Key ID&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;具体是什么原因我并未做深究。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://help.github.com/articles/signing-commits-using-gpg/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://help.github.com/articles/signing-commits-using-gpg/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://gist.github.com/troyfontaine/18c9146295168ee9ca2b30c00bd1b41e&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://gist.github.com/troyfontaine/18c9146295168ee9ca2b30c00bd1b41e&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/signing-commits&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/signing-commits&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class=&#34;link&#34; href=&#34;https://merikan.com/2019/05/how-to-sign-git-commits/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://merikan.com/2019/05/how-to-sign-git-commits/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

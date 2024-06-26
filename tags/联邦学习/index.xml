@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>联邦学习 on Kuludu的博客</title>
+        <link>https://blog.kuludu.net/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/</link>
+        <description>Recent content in 联邦学习 on Kuludu的博客</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>Kuludu</copyright>
+        <lastBuildDate>Fri, 23 Sep 2022 14:07:00 +0800</lastBuildDate><atom:link href="https://blog.kuludu.net/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>联邦学习中的non-IID数据</title>
+        <link>https://blog.kuludu.net/article/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84non-iid%E6%95%B0%E6%8D%AE/</link>
+        <pubDate>Fri, 23 Sep 2022 14:07:00 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/article/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84non-iid%E6%95%B0%E6%8D%AE/</guid>
+        <description>&lt;h2 id=&#34;关于non-iid数据&#34;&gt;关于non-IID数据
+&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;independent and identically distributed(IID)&lt;strong&gt;即&lt;/strong&gt;独立同分布&lt;/strong&gt;，指的是全体样本服从某一分布，而每次获得的样本都是独立地从这个分布上采样获得的。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;独立&lt;/code&gt;：指的是每次采样之间不会有关系。例如多次投骰子，第一次投和第十次投之间没有什么关系；相较之下，出现乌云与下雨就非独立。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;同分布&lt;/code&gt;：指的是随机变量服从统一分布。仍以骰子举例，若骰子质量分布不会变动，则每次投的结果将会呈现一定的规律；相较之下若采用作弊骰子（可以人为改变某一端的质量），则会破坏这一性质。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;non-IID&lt;/strong&gt;自然是以上概念的否命题（独立和同分布任意不满足即可）。&lt;/p&gt;
+&lt;h2 id=&#34;联邦学习中的non-iid数据分类&#34;&gt;联邦学习中的non-IID数据分类
+&lt;/h2&gt;&lt;p&gt;在真实世界中数据往往会因为各种各样的原因而呈现non-IID的特性（例如某地雨水天气多，生锈故障的样本会更多）。在机器学习领域，我们不妨从输入空间$X$与输出空间$Y$来考虑。&lt;/p&gt;
+&lt;h3 id=&#34;假设样本独立但不同分布&#34;&gt;假设样本独立但不同分布
+&lt;/h3&gt;&lt;p&gt;样本满足贝叶斯公式：$P(X,Y)=P(X)P(Y|X)$。对于客户端$i$与$j$，考虑$P_i(X)$（$i$输入分布）、$P_i(Y|X)$（$i$标签分布）与$P_j(X)$（$j$输入分布）、$P_j(Y|X)$（$j$输入分布）。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;若$P_i(X)\ne P_j(X)$，且$P_i(Y|X)=P_j(Y|X)$：客户端输入不相同，但输出相同。例如不同国家对于汽车行驶方向的规定不同，但都需要遵守相同的交通规则（跟随信号灯）。&lt;/li&gt;
+&lt;li&gt;若$P_i(X)= P_j(X)$，且$P_i(Y|X)\ne P_j(Y|X)$：客户端输入相同，但输出不相同。例如不同地区对于交通法规的定义不同，有些地区红灯必须停止，而有些地区可以在确认安全的情况下通行。&lt;/li&gt;
+&lt;li&gt;若$P_i(X)\ne P_j(X)$，且$P_i(Y|X)\ne P_j(Y|X)$：客户端输入输出均不相同。此为以上两种情况的组合，例如行驶方向与交通法规均不相同。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;若$P_i(X)=P_j(X)$，且$P_i(Y|X)=P_j(Y|X)$：与假设不符（这是IID）。&lt;/p&gt;
+&lt;h3 id=&#34;假设样本不独立但同分布&#34;&gt;假设样本不独立但同分布
+&lt;/h3&gt;&lt;p&gt;对于全体样本而言考虑$X\sim B(n,p)$，那么若有$Y=(n-X)\sim B(n,p)$则输入与输出不独立但同分布。例如抛$n$次硬币$x$次正面朝上的概率与$n-x$次反面朝上的概率。&lt;/p&gt;
+&lt;p&gt;放在联邦学习的角度，可以理解为$P_i(X)$与$P_j(X)$不独立，而$P_i(Y|X)=P_j(Y|X)$服从同一分布。例如银行中用户数据异构但用户大多一样。&lt;/p&gt;
+&lt;h3 id=&#34;假设样本不独立且不同分布&#34;&gt;假设样本不独立且不同分布
+&lt;/h3&gt;&lt;p&gt;比如读paper与掉头发的关系（？&lt;/p&gt;
+&lt;h2 id=&#34;再从样本特性上分类&#34;&gt;再从样本特性上分类
+&lt;/h2&gt;&lt;h3 id=&#34;属性倾斜&#34;&gt;属性倾斜
+&lt;/h3&gt;&lt;p&gt;属性倾斜从客户端样本属性重叠程度出发考虑，分为：非重叠属性倾斜（Non-overlapping Attribute Skew）、部分重叠属性倾斜（Partial Overlapping Attribute Skew）与完全重叠属性倾斜（Full Overlapping Attribute Skew）。&lt;/p&gt;
+&lt;h4 id=&#34;非重叠属性倾斜&#34;&gt;非重叠属性倾斜
+&lt;/h4&gt;&lt;p&gt;客户端的属性完全没有重叠（例如$k_1$拥有属性$A,B$，$k_2$拥有属性$C,D$），但展现强相关性，此时可以视为纵向联邦学习（Vertical FL）。&lt;/p&gt;
+&lt;h4 id=&#34;部分重叠属性倾斜&#34;&gt;部分重叠属性倾斜
+&lt;/h4&gt;&lt;p&gt;客户端的属性部分重叠（例如$k_1$拥有属性$A,B$，$k_2$拥有属性$B,D$）。&lt;/p&gt;
+&lt;h4 id=&#34;完全重叠属性倾斜&#34;&gt;完全重叠属性倾斜
+&lt;/h4&gt;&lt;p&gt;客户端的属性部分重叠（例如$k_1$拥有属性$A,B$，$k_2$也拥有属性$A,B$）。&lt;/p&gt;
+&lt;h3 id=&#34;标签倾斜&#34;&gt;标签倾斜
+&lt;/h3&gt;&lt;h4 id=&#34;标签分布倾斜&#34;&gt;标签分布倾斜
+&lt;/h4&gt;&lt;h4 id=&#34;标签偏好倾斜&#34;&gt;标签偏好倾斜
+&lt;/h4&gt;&lt;p&gt;客户端对样本的偏好不同（对于同一样本，客户端$A$喜欢，$B$不喜欢）。&lt;/p&gt;
+&lt;h3 id=&#34;时间倾斜&#34;&gt;时间倾斜
+&lt;/h3&gt;&lt;p&gt;随着时间的推移，客户端的数据会有所倾斜（可参考联邦增量学习）。&lt;/p&gt;
+&lt;h3 id=&#34;其它&#34;&gt;其它
+&lt;/h3&gt;&lt;h4 id=&#34;属性标签倾斜&#34;&gt;属性&amp;amp;标签倾斜
+&lt;/h4&gt;&lt;h4 id=&#34;质量倾斜&#34;&gt;质量倾斜
+&lt;/h4&gt;&lt;hr&gt;
+&lt;h2 id=&#34;ref&#34;&gt;Ref
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;Non-IID data and Continual Learning processes in Federated Learning: A long road ahead&lt;/li&gt;
+&lt;li&gt;Federated Learning on Non-IID Data: A Survey&lt;/li&gt;
+&lt;li&gt;Federated Visual Classification with Real-World Data Distribution&lt;/li&gt;
+&lt;li&gt;《机器学习》 - 周志华著&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

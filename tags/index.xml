@@ -48,6 +48,14 @@
         <description></description>
         </item>
         <item>
+        <title>腾讯云</title>
+        <link>https://blog.kuludu.net/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/</link>
+        <pubDate>Wed, 20 Dec 2023 13:13:52 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/tags/%E8%85%BE%E8%AE%AF%E4%BA%91/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>EndNote20</title>
         <link>https://blog.kuludu.net/tags/endnote20/</link>
         <pubDate>Mon, 21 Aug 2023 14:41:30 +0800</pubDate>
@@ -61,6 +69,46 @@
         <pubDate>Mon, 21 Aug 2023 14:41:30 +0800</pubDate>
         
         <guid>https://blog.kuludu.net/tags/%E8%AE%BA%E6%96%87%E5%86%99%E4%BD%9C/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>NVIDIA</title>
+        <link>https://blog.kuludu.net/tags/nvidia/</link>
+        <pubDate>Mon, 20 Feb 2023 12:48:10 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/tags/nvidia/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>PyTorch</title>
+        <link>https://blog.kuludu.net/tags/pytorch/</link>
+        <pubDate>Mon, 20 Feb 2023 12:48:10 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/tags/pytorch/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Ubuntu 22.04</title>
+        <link>https://blog.kuludu.net/tags/ubuntu-22.04/</link>
+        <pubDate>Mon, 20 Feb 2023 12:48:10 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/tags/ubuntu-22.04/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Non-Iid</title>
+        <link>https://blog.kuludu.net/tags/non-iid/</link>
+        <pubDate>Fri, 23 Sep 2022 14:07:00 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/tags/non-iid/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>联邦学习</title>
+        <link>https://blog.kuludu.net/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/</link>
+        <pubDate>Fri, 23 Sep 2022 14:07:00 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/</guid>
         <description></description>
         </item>
         <item>
@@ -80,6 +128,14 @@
         <description></description>
         </item>
         <item>
+        <title>Macos</title>
+        <link>https://blog.kuludu.net/tags/macos/</link>
+        <pubDate>Sat, 29 May 2021 15:29:00 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/tags/macos/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>HOG</title>
         <link>https://blog.kuludu.net/tags/hog/</link>
         <pubDate>Tue, 20 Apr 2021 17:57:00 +0800</pubDate>
@@ -93,6 +149,54 @@
         <pubDate>Tue, 20 Apr 2021 17:57:00 +0800</pubDate>
         
         <guid>https://blog.kuludu.net/tags/%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Cuda</title>
+        <link>https://blog.kuludu.net/tags/cuda/</link>
+        <pubDate>Mon, 22 Mar 2021 21:42:00 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/tags/cuda/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Cudnn</title>
+        <link>https://blog.kuludu.net/tags/cudnn/</link>
+        <pubDate>Mon, 22 Mar 2021 21:42:00 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/tags/cudnn/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>TensorFlow</title>
+        <link>https://blog.kuludu.net/tags/tensorflow/</link>
+        <pubDate>Mon, 22 Mar 2021 21:42:00 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/tags/tensorflow/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>深度学习</title>
+        <link>https://blog.kuludu.net/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</link>
+        <pubDate>Mon, 22 Mar 2021 21:42:00 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Git</title>
+        <link>https://blog.kuludu.net/tags/git/</link>
+        <pubDate>Sun, 27 Dec 2020 23:41:00 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/tags/git/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Gpg</title>
+        <link>https://blog.kuludu.net/tags/gpg/</link>
+        <pubDate>Sun, 27 Dec 2020 23:41:00 +0800</pubDate>
+        
+        <guid>https://blog.kuludu.net/tags/gpg/</guid>
         <description></description>
         </item>
         
