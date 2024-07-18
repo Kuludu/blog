@@ -54,14 +54,12 @@
         <pubDate>Sun, 27 Dec 2020 23:41:00 +0800</pubDate>
         
         <guid>https://blog.kuludu.net/article/%E5%9C%A8macos%E4%B8%8B%E4%BD%BF%E7%94%A8gpg%E5%AF%B9git-commit%E7%AD%BE%E5%90%8D/</guid>
-        <description>&lt;p&gt;[scode type=&amp;ldquo;yellow&amp;rdquo;]&lt;/p&gt;
-&lt;p&gt;在macOS 11.1下测试通过。&lt;/p&gt;
+        <description>&lt;p&gt;在macOS 11.1下测试通过。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;gpg (GnuPG) 2.2.25&lt;/li&gt;
 &lt;li&gt;libgcrypt 1.8.7&lt;/li&gt;
 &lt;li&gt;pinentry-mac (pinentry) 0.9.4&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;[/scode]&lt;/p&gt;
 &lt;h2 id=&#34;安装所需软件&#34;&gt;安装所需软件
 &lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
