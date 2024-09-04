@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="最近的工作需要使用深度学习技术，也就免不了使用GPU，然而目前我实验室的机器上使用的是Windows 11的操作系统，用来进行实验确不符合我一">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="最近的工作需要使用深度学习技术，也就免不了使用GPU，然而目前我实验室的机器上使用的是Windows 11的操作系统，用来进行实验确不符合我一个常年不用Windows系统的人的习惯😓，于是我买来一块移动硬盘并在这之上部署了基于Ubuntu 22.04 LTS的PyTorch的深度学习环境。起初我以为会一切顺利，可万万没想到重装一时爽，配环境火葬场&hellip;本文谨记录在这中踩的坑。\n">
 <title>记在Ubuntu 22.04 LTS上部署PyTorch深度学习环境</title>
 
 <link rel='canonical' href='https://blog.kuludu.net/article/%E8%AE%B0%E5%9C%A8ubuntu-22-04-lts%E4%B8%8A%E9%83%A8%E7%BD%B2pytorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83/'>
 
 <link rel="stylesheet" href="/scss/style.min.0304c6baf04e01a8fe70693791cb744d56a3578a3120a8796cefc66825aa39c7.css"><meta property='og:title' content="记在Ubuntu 22.04 LTS上部署PyTorch深度学习环境">
-<meta property='og:description' content="最近的工作需要使用深度学习技术，也就免不了使用GPU，然而目前我实验室的机器上使用的是Windows 11的操作系统，用来进行实验确不符合我一">
+<meta property='og:description' content="最近的工作需要使用深度学习技术，也就免不了使用GPU，然而目前我实验室的机器上使用的是Windows 11的操作系统，用来进行实验确不符合我一个常年不用Windows系统的人的习惯😓，于是我买来一块移动硬盘并在这之上部署了基于Ubuntu 22.04 LTS的PyTorch的深度学习环境。起初我以为会一切顺利，可万万没想到重装一时爽，配环境火葬场&hellip;本文谨记录在这中踩的坑。\n">
 <meta property='og:url' content='https://blog.kuludu.net/article/%E8%AE%B0%E5%9C%A8ubuntu-22-04-lts%E4%B8%8A%E9%83%A8%E7%BD%B2pytorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83/'>
 <meta property='og:site_name' content='Kuludu的博客'>
 <meta property='og:type' content='article'><meta property='article:section' content='Article' /><meta property='article:tag' content='Ubuntu 22.04' /><meta property='article:tag' content='PyTorch' /><meta property='article:tag' content='NVIDIA' /><meta property='article:published_time' content='2023-02-20T12:48:10&#43;08:00'/><meta property='article:modified_time' content='2023-02-20T12:48:10&#43;08:00'/>
 <meta name="twitter:title" content="记在Ubuntu 22.04 LTS上部署PyTorch深度学习环境">
-<meta name="twitter:description" content="最近的工作需要使用深度学习技术，也就免不了使用GPU，然而目前我实验室的机器上使用的是Windows 11的操作系统，用来进行实验确不符合我一">
+<meta name="twitter:description" content="最近的工作需要使用深度学习技术，也就免不了使用GPU，然而目前我实验室的机器上使用的是Windows 11的操作系统，用来进行实验确不符合我一个常年不用Windows系统的人的习惯😓，于是我买来一块移动硬盘并在这之上部署了基于Ubuntu 22.04 LTS的PyTorch的深度学习环境。起初我以为会一切顺利，可万万没想到重装一时爽，配环境火葬场&hellip;本文谨记录在这中踩的坑。\n">
     <link rel="shortcut icon" href="/favicon.ico" />
-
-  
-
 
     </head>
     <body class="

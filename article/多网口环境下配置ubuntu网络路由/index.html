@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="目前我们的实验室有两条线路： 172.C.D.0/24: 校园网（不可连接互联网，但可以接入VPN） 192.168.B.0/24: 实验室宽带网（可以连接互联网，但是没有公网IP） 我们的主要需求是通">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="目前我们的实验室有两条线路：\n172.C.D.0/24: 校园网（不可连接互联网，但可以接入VPN） 192.168.B.0/24: 实验室宽带网（可以连接互联网，但是没有公网IP） 我们的主要需求是通过校园网实现远程SSH接入，通过实验室宽带网访问互联网。但是由于Ubuntu生成的默认网关会自动将所有流量转到metric小的接口上，这将导致原本应该从校园网出口流出的SSH流量也走了实验室宽带网，从而无法建立SSH连接。这就需要对路由进行修改，可以通过netplan工具进行。\n">
 <title>多网口环境下配置Ubuntu网络路由</title>
 
 <link rel='canonical' href='https://blog.kuludu.net/article/%E5%A4%9A%E7%BD%91%E5%8F%A3%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AEubuntu%E7%BD%91%E7%BB%9C%E8%B7%AF%E7%94%B1/'>
 
 <link rel="stylesheet" href="/scss/style.min.0304c6baf04e01a8fe70693791cb744d56a3578a3120a8796cefc66825aa39c7.css"><meta property='og:title' content="多网口环境下配置Ubuntu网络路由">
-<meta property='og:description' content="目前我们的实验室有两条线路： 172.C.D.0/24: 校园网（不可连接互联网，但可以接入VPN） 192.168.B.0/24: 实验室宽带网（可以连接互联网，但是没有公网IP） 我们的主要需求是通">
+<meta property='og:description' content="目前我们的实验室有两条线路：\n172.C.D.0/24: 校园网（不可连接互联网，但可以接入VPN） 192.168.B.0/24: 实验室宽带网（可以连接互联网，但是没有公网IP） 我们的主要需求是通过校园网实现远程SSH接入，通过实验室宽带网访问互联网。但是由于Ubuntu生成的默认网关会自动将所有流量转到metric小的接口上，这将导致原本应该从校园网出口流出的SSH流量也走了实验室宽带网，从而无法建立SSH连接。这就需要对路由进行修改，可以通过netplan工具进行。\n">
 <meta property='og:url' content='https://blog.kuludu.net/article/%E5%A4%9A%E7%BD%91%E5%8F%A3%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AEubuntu%E7%BD%91%E7%BB%9C%E8%B7%AF%E7%94%B1/'>
 <meta property='og:site_name' content='Kuludu的博客'>
 <meta property='og:type' content='article'><meta property='article:section' content='Article' /><meta property='article:tag' content='Ubuntu' /><meta property='article:tag' content='netplan' /><meta property='article:published_time' content='2024-05-20T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2024-05-20T00:00:00&#43;00:00'/>
 <meta name="twitter:title" content="多网口环境下配置Ubuntu网络路由">
-<meta name="twitter:description" content="目前我们的实验室有两条线路： 172.C.D.0/24: 校园网（不可连接互联网，但可以接入VPN） 192.168.B.0/24: 实验室宽带网（可以连接互联网，但是没有公网IP） 我们的主要需求是通">
+<meta name="twitter:description" content="目前我们的实验室有两条线路：\n172.C.D.0/24: 校园网（不可连接互联网，但可以接入VPN） 192.168.B.0/24: 实验室宽带网（可以连接互联网，但是没有公网IP） 我们的主要需求是通过校园网实现远程SSH接入，通过实验室宽带网访问互联网。但是由于Ubuntu生成的默认网关会自动将所有流量转到metric小的接口上，这将导致原本应该从校园网出口流出的SSH流量也走了实验室宽带网，从而无法建立SSH连接。这就需要对路由进行修改，可以通过netplan工具进行。\n">
     <link rel="shortcut icon" href="/favicon.ico" />
-
-  
-
 
     </head>
     <body class="
