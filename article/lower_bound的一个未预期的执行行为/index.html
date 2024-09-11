@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="前一阵，后辈问了我一个问题：\n1 2 3 4 5 6 7 8 9 10 11 12 #include &lt;bits/stdc++.h&gt; using namespace std; int main() { vector&lt;int&gt; a = {1, 2, 3, 4, 5, 6}; auto p = lower_bound(a.begin(), a.end(), 3, greater&lt;int&gt;()); cout &lt;&lt; *p &lt;&lt; endl; return 0; } ">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="前一阵，后辈问了我一个问题：\n1 2 3 4 5 6 7 8 9 10 11 12 #include &lt;bits/stdc++.h&gt; using namespace std; int main() { vector&lt;int&gt; a = {1, 2, 3, 4, 5, 6}; auto p = lower_bound(a.begin(), a.end(), 3, greater&lt;int&gt;()); cout &lt;&lt; *p &lt;&lt; endl; return 0; } 为什么这段代码为什么执行结果为0？\n确实，从直观思考上来说，返回结果确实有些诡异。一时间我也不太理解。\n">
 <title>lower_bound()的一个未预期的执行行为</title>
 
 <link rel='canonical' href='https://blog.kuludu.net/article/lower_bound%E7%9A%84%E4%B8%80%E4%B8%AA%E6%9C%AA%E9%A2%84%E6%9C%9F%E7%9A%84%E6%89%A7%E8%A1%8C%E8%A1%8C%E4%B8%BA/'>
 
 <link rel="stylesheet" href="/scss/style.min.0304c6baf04e01a8fe70693791cb744d56a3578a3120a8796cefc66825aa39c7.css"><meta property='og:title' content="lower_bound()的一个未预期的执行行为">
-<meta property='og:description' content="前一阵，后辈问了我一个问题：\n1 2 3 4 5 6 7 8 9 10 11 12 #include &lt;bits/stdc++.h&gt; using namespace std; int main() { vector&lt;int&gt; a = {1, 2, 3, 4, 5, 6}; auto p = lower_bound(a.begin(), a.end(), 3, greater&lt;int&gt;()); cout &lt;&lt; *p &lt;&lt; endl; return 0; } ">
+<meta property='og:description' content="前一阵，后辈问了我一个问题：\n1 2 3 4 5 6 7 8 9 10 11 12 #include &lt;bits/stdc++.h&gt; using namespace std; int main() { vector&lt;int&gt; a = {1, 2, 3, 4, 5, 6}; auto p = lower_bound(a.begin(), a.end(), 3, greater&lt;int&gt;()); cout &lt;&lt; *p &lt;&lt; endl; return 0; } 为什么这段代码为什么执行结果为0？\n确实，从直观思考上来说，返回结果确实有些诡异。一时间我也不太理解。\n">
 <meta property='og:url' content='https://blog.kuludu.net/article/lower_bound%E7%9A%84%E4%B8%80%E4%B8%AA%E6%9C%AA%E9%A2%84%E6%9C%9F%E7%9A%84%E6%89%A7%E8%A1%8C%E8%A1%8C%E4%B8%BA/'>
 <meta property='og:site_name' content='Kuludu的博客'>
 <meta property='og:type' content='article'><meta property='article:section' content='Article' /><meta property='article:tag' content='lower_bound' /><meta property='article:tag' content='C&#43;&#43;' /><meta property='article:published_time' content='2021-06-15T15:36:00&#43;08:00'/><meta property='article:modified_time' content='2021-06-15T15:36:00&#43;08:00'/>
 <meta name="twitter:title" content="lower_bound()的一个未预期的执行行为">
-<meta name="twitter:description" content="前一阵，后辈问了我一个问题：\n1 2 3 4 5 6 7 8 9 10 11 12 #include &lt;bits/stdc++.h&gt; using namespace std; int main() { vector&lt;int&gt; a = {1, 2, 3, 4, 5, 6}; auto p = lower_bound(a.begin(), a.end(), 3, greater&lt;int&gt;()); cout &lt;&lt; *p &lt;&lt; endl; return 0; } ">
+<meta name="twitter:description" content="前一阵，后辈问了我一个问题：\n1 2 3 4 5 6 7 8 9 10 11 12 #include &lt;bits/stdc++.h&gt; using namespace std; int main() { vector&lt;int&gt; a = {1, 2, 3, 4, 5, 6}; auto p = lower_bound(a.begin(), a.end(), 3, greater&lt;int&gt;()); cout &lt;&lt; *p &lt;&lt; endl; return 0; } 为什么这段代码为什么执行结果为0？\n确实，从直观思考上来说，返回结果确实有些诡异。一时间我也不太理解。\n">
     <link rel="shortcut icon" href="/favicon.ico" />
 
     </head>
