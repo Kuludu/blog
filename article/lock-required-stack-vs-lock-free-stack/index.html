@@ -1,0 +1,202 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="多线程同步是现代程序设计中一个重要问题，想要深入理解这一问题，就不得不深入到处理器与操作系统的具体实现中。但是我水平有限┑(￣Д ￣)┍，本文不过于详细地去探讨这一问题，而是以有锁栈与无锁栈作为切入点，主要对代码实现与实验性能上对两者进行一个比较。\n"><title>有锁栈与无锁栈，实现与性能对比</title>
+<link rel=canonical href=https://blog.kuludu.net/article/lock-required-stack-vs-lock-free-stack/><link rel=stylesheet href=/scss/style.min.0304c6baf04e01a8fe70693791cb744d56a3578a3120a8796cefc66825aa39c7.css><meta property='og:title' content="有锁栈与无锁栈，实现与性能对比"><meta property='og:description' content="多线程同步是现代程序设计中一个重要问题，想要深入理解这一问题，就不得不深入到处理器与操作系统的具体实现中。但是我水平有限┑(￣Д ￣)┍，本文不过于详细地去探讨这一问题，而是以有锁栈与无锁栈作为切入点，主要对代码实现与实验性能上对两者进行一个比较。\n"><meta property='og:url' content='https://blog.kuludu.net/article/lock-required-stack-vs-lock-free-stack/'><meta property='og:site_name' content='Kuludu的博客'><meta property='og:type' content='article'><meta property='article:section' content='Article'><meta property='article:tag' content='stack'><meta property='article:tag' content='C++'><meta property='article:tag' content='paralle programming'><meta property='article:published_time' content='2024-10-25T09:35:00+08:00'><meta property='article:modified_time' content='2024-10-25T09:35:00+08:00'><meta name=twitter:title content="有锁栈与无锁栈，实现与性能对比"><meta name=twitter:description content="多线程同步是现代程序设计中一个重要问题，想要深入理解这一问题，就不得不深入到处理器与操作系统的具体实现中。但是我水平有限┑(￣Д ￣)┍，本文不过于详细地去探讨这一问题，而是以有锁栈与无锁栈作为切入点，主要对代码实现与实验性能上对两者进行一个比较。\n"><link rel="shortcut icon" href=/favicon.ico></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header><figure class=site-avatar><a href=/><img src=/img/avatar_hu16894095629178013460.jpg width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>😊</span></figure><div class=site-meta><h1 class=site-name><a href=/>Kuludu的博客</a></h1><h2 class=site-description>代码如诗</h2></div></header><ol class=menu-social><li><a href=mailto:opensource@kuludu.net target=_blank title=Email rel=me><svg class="icon icon-tabler icon-tabler-messages" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M21 14l-3-3h-7a1 1 0 01-1-1V4a1 1 0 011-1h9a1 1 0 011 1v10"/><path d="M14 15v2a1 1 0 01-1 1H6l-3 3V11a1 1 0 011-1h2"/></svg></a></li><li><a href=https://github.com/Kuludu/ target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol><ol class=menu id=main-menu><li><a href=/page/about/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>关于我</span></a></li><li><a href=/page/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>文章归档</span></a></li><li><a href=/page/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>搜索</span></a></li><li><a href=/page/link/><svg class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M10 14a3.5 3.5.0 005 0l4-4a3.5 3.5.0 00-5-5l-.5.5"/><path d="M14 10a3.5 3.5.0 00-5 0l-4 4a3.5 3.5.0 005 5l.5-.5"/></svg>
+<span>友情链接</span></a></li><li class=menu-bottom-section><ol class=menu><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></li></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#有锁栈与无锁栈>有锁栈与无锁栈</a></li><li><a href=#实现与实验>实现与实验</a><ol><li><a href=#c实现>C++实现</a></li><li><a href=#实验结果>实验结果</a></li></ol></li><li><a href=#reference>Reference</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/%E7%A8%8B%E5%BA%8F%E7%AE%97%E6%B3%95/>程序算法</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/article/lock-required-stack-vs-lock-free-stack/>有锁栈与无锁栈，实现与性能对比</a></h2></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Oct 25, 2024</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-time--reading>阅读时长: 5 分钟</time></div></footer></div></header><section class=article-content><p>多线程同步是现代程序设计中一个重要问题，想要深入理解这一问题，就不得不深入到处理器与操作系统的具体实现中。但是我水平有限┑(￣Д ￣)┍，本文不过于详细地去探讨这一问题，而是以有锁栈与无锁栈作为切入点，主要对代码实现与实验性能上对两者进行一个比较。</p><h2 id=有锁栈与无锁栈>有锁栈与无锁栈</h2><p>有锁栈的实现方式其实比较简单，在线程进入临界区的时候加锁即可，在完成对栈的操作解除对锁的占有。但是加锁解锁的过程对资源的消耗比较大，当线程没有Acquire到锁的时候会发生状态的切换，这在需要高性能计算的场景下或许并不合适。</p><p>Compare And Swap(CAS)是一种常见的原子操作，是实现无锁同步的一个方式，其主要思想就是Compare和Swap两个过程。Compare的目的主要是探测内存中的值是否为期待值，如果是则Swap为设定的值。这主要依赖于处理器的实现，比如x86处理器的<code>CMPXCHG</code>与ARM处理器的<code>LDREX/STREX</code>。</p><h2 id=实现与实验>实现与实验</h2><h3 id=c实现>C++实现</h3><p>本文主要对比C++标准库实现的栈，会用到一些比较新的C++标准，实验环境为：</p><ul><li>腾讯云Cloud Studio 1C2G（致谢！）</li><li>gcc version 9.4.0 (Ubuntu 9.4.0-1ubuntu1~20.04.2)</li><li>g++ experiment.cpp -o experiment -pthread</li></ul><p>为了减少代码冗余，两个栈实现的内部数据结构均为以下代码段。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>template</span><span class=o>&lt;</span><span class=k>typename</span> <span class=n>T</span><span class=o>&gt;</span>
+</span></span><span class=line><span class=cl><span class=k>struct</span> <span class=nc>Node</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>T</span> <span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Node</span><span class=o>*</span> <span class=n>next</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>Node</span><span class=p>(</span><span class=k>const</span> <span class=n>T</span><span class=o>&amp;</span> <span class=n>data</span><span class=p>)</span> <span class=o>:</span> <span class=n>data</span><span class=p>(</span><span class=n>data</span><span class=p>),</span> <span class=n>next</span><span class=p>(</span><span class=k>nullptr</span><span class=p>)</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span></code></pre></td></tr></table></div></div><p>以下为有锁栈的实现代码的核心部分。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=kt>void</span> <span class=nf>push</span><span class=p>(</span><span class=k>const</span> <span class=n>T</span><span class=o>&amp;</span> <span class=n>data</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>unique_lock</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>mutex</span><span class=o>&gt;</span> <span class=n>lock</span><span class=p>(</span><span class=n>mtx</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>Node</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;*</span> <span class=n>new_node</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Node</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span><span class=p>(</span><span class=n>data</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>new_node</span><span class=o>-&gt;</span><span class=n>next</span> <span class=o>=</span> <span class=n>head</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>head</span> <span class=o>=</span> <span class=n>new_node</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>T</span> <span class=nf>top</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>unique_lock</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>mutex</span><span class=o>&gt;</span> <span class=n>lock</span><span class=p>(</span><span class=n>mtx</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>Node</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;*</span> <span class=n>top_node</span> <span class=o>=</span> <span class=n>head</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>top_node</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>top_node</span><span class=o>-&gt;</span><span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>    <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=p>(</span><span class=s>&#34;Stack is empty.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>pop</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>unique_lock</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>mutex</span><span class=o>&gt;</span> <span class=n>lock</span><span class=p>(</span><span class=n>mtx</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>Node</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;*</span> <span class=n>top_node</span> <span class=o>=</span> <span class=n>head</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>top_node</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>Node</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;*</span> <span class=n>next_node</span> <span class=o>=</span> <span class=n>top_node</span><span class=o>-&gt;</span><span class=n>next</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>head</span> <span class=o>=</span> <span class=n>next_node</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>delete</span> <span class=n>top_node</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=p>(</span><span class=s>&#34;Stack is empty.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>bool</span> <span class=nf>is_empty</span><span class=p>()</span> <span class=k>const</span> <span class=k>noexcept</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>unique_lock</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>mutex</span><span class=o>&gt;</span> <span class=n>lock</span><span class=p>(</span><span class=n>mtx</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>head</span> <span class=o>==</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>有锁栈的实现主要依赖互斥锁（mutex & unique_lock）实现，线程在进行每项操作时需要先Acquire锁的所有权，在执行完操作后需要Release锁的所有权。在这里我们不对修改操作的合法性进行检查，而是选择直接对不合法的越界操作抛出异常。有锁栈的实现简单，符合一般的多线程编程逻辑比较直观。在这里使用标准库自带的RAII锁，编程实现非常简单。</p><p>以下为无锁栈实现的核心部分。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>std</span><span class=o>::</span><span class=n>atomic</span><span class=o>&lt;</span><span class=n>Node</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;*&gt;</span> <span class=n>head</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>push</span><span class=p>(</span><span class=k>const</span> <span class=n>T</span><span class=o>&amp;</span> <span class=n>data</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Node</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;*</span> <span class=n>new_node</span> <span class=o>=</span> <span class=k>new</span> <span class=n>Node</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;</span><span class=p>(</span><span class=n>data</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>new_node</span><span class=o>-&gt;</span><span class=n>next</span> <span class=o>=</span> <span class=n>head</span><span class=p>.</span><span class=n>load</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>memory_order_relaxed</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span> <span class=p>(</span><span class=o>!</span><span class=n>head</span><span class=p>.</span><span class=n>compare_exchange_weak</span><span class=p>(</span><span class=n>new_node</span><span class=o>-&gt;</span><span class=n>next</span><span class=p>,</span> <span class=n>new_node</span><span class=p>,</span> <span class=n>std</span><span class=o>::</span><span class=n>memory_order_release</span><span class=p>,</span> <span class=n>std</span><span class=o>::</span><span class=n>memory_order_relaxed</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>T</span> <span class=nf>top</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Node</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;*</span> <span class=n>top_node</span> <span class=o>=</span> <span class=n>head</span><span class=p>.</span><span class=n>load</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>memory_order_acquire</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>top_node</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>top_node</span><span class=o>-&gt;</span><span class=n>data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>    <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=p>(</span><span class=s>&#34;Stack is empty.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>void</span> <span class=nf>pop</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>Node</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;*</span> <span class=n>top_node</span> <span class=o>=</span> <span class=n>head</span><span class=p>.</span><span class=n>load</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>memory_order_relaxed</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>while</span> <span class=p>(</span><span class=n>top_node</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>Node</span><span class=o>&lt;</span><span class=n>T</span><span class=o>&gt;*</span> <span class=n>next_node</span> <span class=o>=</span> <span class=n>top_node</span><span class=o>-&gt;</span><span class=n>next</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>head</span><span class=p>.</span><span class=n>compare_exchange_weak</span><span class=p>(</span><span class=n>top_node</span><span class=p>,</span> <span class=n>next_node</span><span class=p>,</span> <span class=n>std</span><span class=o>::</span><span class=n>memory_order_release</span><span class=p>,</span> <span class=n>std</span><span class=o>::</span><span class=n>memory_order_relaxed</span><span class=p>))</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>delete</span> <span class=n>top_node</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>throw</span> <span class=n>std</span><span class=o>::</span><span class=n>runtime_error</span><span class=p>(</span><span class=s>&#34;Stack is empty.&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>bool</span> <span class=nf>is_empty</span><span class=p>()</span> <span class=k>const</span> <span class=k>noexcept</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>head</span><span class=p>.</span><span class=n>load</span><span class=p>(</span><span class=n>std</span><span class=o>::</span><span class=n>memory_order_acquire</span><span class=p>)</span> <span class=o>==</span> <span class=k>nullptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>对比有锁栈，无锁栈在实现上困难了不少，这主要牵涉到对CAS的理解上。这一部分的理论部分在前文与参考资料中有比较详细的描述，这里再简单对C++代码实现方面做一个解释：</p><ul><li>head作为栈顶元素的指针，在这里使用的是原子变量类型，这主要是为了能够在一个CPU Instruction中完成对变量的操作，从而避免中间状态的产生，也就保证了操作的原子性。原子操作存在内存序的概念，在这里用到了三种内存序，分别解释如下<ul><li>memory_order_relaxed: 松散内存顺序。这个模式保证了读操作不会被重排，但对于写操作没有任何保证。</li><li>memory_order_release：释放内存顺序。保障了读写顺序，通常不适用于load()。</li><li>memory_order_acquire：获取内存顺序。保障了读写顺序。</li></ul></li><li><code>atomic.load()</code>的作用是安全地读取一个原子变量，其中参数为内存序（Memory Order）。在Push和Pop操作中选择的load的内存序为memory_order_relaxed，这是因为这里考虑CAS方式乱序地插入与删除元素，即元素本身的顺序并不重要；而在IsEmpty操作中的内存序为memory_order_acquire，这主要是考虑在当前时间点执行IsEmpty的结果的正确性。</li><li><code>atomic.compare_exchange_weak()</code>用于执行原子比较和交换操作，也就是CAS机制的主要实现。其中一个参数为Expected，是Compare过程比较的值；第二个变量为Desire，是Swap过程想要交换为的值。其工作过程为，比较atomic变量与Expected是否相等，如果相等则交换为Desire，否则退化为一个load的过程，将最新的atomic的值加载进Desire。后两个参数则为比较success或failure后的内存序。值得一提的是<code>atomic.compare_exchange_strong()</code>也值得了解，其主要适用于不需要循环重试的场景，关注可靠性的场景。</li></ul><p><em>这一部分的内容有一些难理解，如果读到这里你有所困惑，建议去查找更多关于CAS机制及C++内存序的相关资料，本文不再详细展开<del>（没错我也讲不明白😔）</del>。</em></p><p>为了进行公平对比，在这里定义实验任务为：在每个线程中执行<code>1,000,000</code>次入栈操作，如下。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>auto</span> <span class=n>ok</span> <span class=o>=</span> <span class=n>pool</span><span class=p>.</span><span class=n>enqueue</span><span class=p>([</span><span class=o>&amp;</span><span class=p>]</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=mi>1000000</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=n>stack</span><span class=p>.</span><span class=n>push</span><span class=p>(</span><span class=n>i</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nb>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>});</span>
+</span></span></code></pre></td></tr></table></div></div><p>在这里我使用线程池创建了两个线程，从任务创建开始计时，以两个线程的入栈任务结束截止计时，核心代码如下所示。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=k>auto</span> <span class=n>start</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>chrono</span><span class=o>::</span><span class=n>high_resolution_clock</span><span class=o>::</span><span class=n>now</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// Assign tasks to thread pool.
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=n>ok_1</span><span class=p>.</span><span class=n>get</span><span class=p>()</span> <span class=o>&amp;&amp;</span> <span class=n>ok_2</span><span class=p>.</span><span class=n>get</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>auto</span> <span class=n>stop</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>chrono</span><span class=o>::</span><span class=n>high_resolution_clock</span><span class=o>::</span><span class=n>now</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=k>auto</span> <span class=n>duration</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>chrono</span><span class=o>::</span><span class=n>duration_cast</span><span class=o>&lt;</span><span class=n>std</span><span class=o>::</span><span class=n>chrono</span><span class=o>::</span><span class=n>microseconds</span><span class=o>&gt;</span><span class=p>(</span><span class=n>stop</span> <span class=o>-</span> <span class=n>start</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>std</span><span class=o>::</span><span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>duration</span><span class=p>.</span><span class=n>count</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>endl</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>本文所提到的线程池、有锁栈和无锁栈的完整代码实现均可在本人的开源项目<a class=link href=https://github.com/Kuludu/MyDSA/ target=_blank rel=noopener>MyDSA</a>中找到（如果对你有用，也麻烦点一个小星星呀！）。</p><h3 id=实验结果>实验结果</h3><p>实验结果如下表（单位为microsecond）。</p><div class=table-wrapper><table><thead><tr><th>方法</th><th>有锁栈</th><th>无锁栈</th></tr></thead><tbody><tr><td>#1</td><td>1,003,863</td><td>399,217</td></tr><tr><td>#2</td><td>884,579</td><td>186,314</td></tr><tr><td>#3</td><td>1,013,956</td><td>427,235</td></tr><tr><td>Avg</td><td>967,466</td><td>337,588</td></tr></tbody></table></div><p>从实验结果的平均值来看，有锁栈相较于无锁栈快了2.86倍。当然这只是从入栈效率上来进行比较的，如果加上随机出栈与取值操作可能会有差异。</p><hr><h2 id=reference>Reference</h2><ul><li><a class=link href=https://tech.meituan.com/2024/07/19/multi-threading-and-multi-thread-synchronization.html target=_blank rel=noopener>基本功 | 一文讲清多线程和多线程同步</a></li><li><a class=link href=https://blog.csdn.net/davidhopper/article/details/131430830 target=_blank rel=noopener>C++无锁编程——无锁栈(lock-free stack)</a></li><li><a class=link href=https://www.cnblogs.com/ljmiao/p/18145946 target=_blank rel=noopener>C++六种内存序详解</a></li></ul></section><footer class=article-footer><section class=article-tags><a href=/tags/stack/>Stack</a>
+<a href=/tags/c++/>C++</a>
+<a href=/tags/paralle-programming/>Paralle Programming</a></section><section class=article-copyright><svg class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/article/lower_bound%E7%9A%84%E4%B8%80%E4%B8%AA%E6%9C%AA%E9%A2%84%E6%9C%9F%E7%9A%84%E6%89%A7%E8%A1%8C%E8%A1%8C%E4%B8%BA/><div class=article-details><h2 class=article-title>lower_bound()的一个未预期的执行行为</h2></div></a></article><article><a href=/article/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84non-iid%E6%95%B0%E6%8D%AE/><div class=article-details><h2 class=article-title>联邦学习中的non-IID数据</h2></div></a></article></div></div></aside><div id=gitalk-container></div><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.css><script src=https://cdn.jsdelivr.net/npm/gitalk@1.7.2/dist/gitalk.min.js></script><script src=https://cdn.jsdelivr.net/npm/blueimp-md5@2.18.0/js/md5.min.js></script><script>const gitalk=new Gitalk({clientID:"Ov23li5mbsJfHlkEqODN",clientSecret:"e38d167ca3b86ccbc3b30c3a293e6082b2aa3847",repo:"blog",owner:"Kuludu",admin:["Kuludu"],distractionFreeMode:!1,id:md5(location.pathname)});(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("gitalk-container").innerHTML="Gitalk comments not available by default when the website is previewed locally.";return}gitalk.render("gitalk-container")})()</script><footer class=site-footer><section class=copyright>&copy;
+2014 -
+2024 Kuludu</section><section class=powerby><a href=https://beian.miit.gov.cn/>湘ICP备16011651号-1</a><br>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://github.com/CaiJimmy/hugo-theme-stack target=_blank rel=noopener data-version=3.26.0>Stack</a></b> 由 <a href=https://jimmycai.com target=_blank rel=noopener>Jimmy</a> 设计</section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
