@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>MS Office on Kuludu的博客</title><link>https://blog.kuludu.net/tags/ms-office/</link><description>Recent content in MS Office on Kuludu的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Kuludu</copyright><lastBuildDate>Mon, 16 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.kuludu.net/tags/ms-office/index.xml" rel="self" type="application/rss+xml"/><item><title>macOS版MS Office实现自动正规形式图标编号</title><link>https://blog.kuludu.net/article/macos-ms-office-auto-number/</link><pubDate>Mon, 16 Dec 2024 00:00:00 +0000</pubDate><guid>https://blog.kuludu.net/article/macos-ms-office-auto-number/</guid><description>&lt;p>最近在进行学位论文的撰写工作的过程中遇到了这样一系列的问题：&lt;/p>
+&lt;p>按照学校论文格式要求，章节标题应当使用中文汉字，而小节标题应当使用阿拉伯数字。即如以下形式：&lt;/p>
+&lt;blockquote>
+&lt;p>第一章 绪论&lt;br>
+1.1 研究背景及意义&lt;br>
+1.2 国内外研究进展&lt;/p>
+&lt;/blockquote>
+&lt;p>但是这样的编号要求会导致章节与小节编码符号不统一，最后显示为&lt;code>一.1研究背景及意义&lt;/code>。不过解决这个问题的方法很简单，只需要在多级列表里选择&lt;strong>正规形式编号&lt;/strong>即可。&lt;/p>
+&lt;p>但是这样操作还会引起另一个问题，那就是图表标题的按章自动编号也变成了&lt;code>图 一.1&lt;/code>或&lt;code>表 一.1&lt;/code>。&lt;/p>
+&lt;p>参考资料[1]的做法，我们可以将章节编号的域代码修改为&lt;code>{ QUOTE &amp;quot;一九一一年一月{ STYLEREF 1 \s }日&amp;quot; \@&amp;quot;D&amp;quot; }&lt;/code>实现阿拉伯数字的自动编号。但是，这一点在macOS下的MS Office里不能直接实现，原因是域代码中的&lt;code>{}&lt;/code>符号是不能直接打出来的，必须使用快捷键生成。这就很尴尬了，因为macOS的快捷键和Windows的压根对不上。&lt;/p>
+&lt;p>当然这里是存在快捷键的，具体可以参考资料[2]。不过本文想提供一种不用快捷键的实现方法，包括Windows其实也可以这么做。&lt;/p>
+&lt;h2 id="解决步骤">解决步骤
+&lt;/h2>&lt;ol>
+&lt;li>和[1]中标准步骤一样，先对图表进行插入题注的操作，然后切换章节部分的域代码。&lt;/li>
+&lt;li>在&lt;strong>插入&amp;gt;域&lt;/strong>选项里随便添加一个域代码，比如&lt;code>AUTONUM&lt;/code>（位置参考图1，Windows版在文档部件里面）。&lt;/li>
+&lt;li>对插入的域代码再次进行切换域代码的操作，这样就生成了一个&lt;code>{}&lt;/code>。&lt;/li>
+&lt;li>然后按照 [1]中的步骤对应修改域代码即可。&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://blog.kuludu.net/article/macos-ms-office-auto-number/1.png"
+width="306"
+height="158"
+srcset="https://blog.kuludu.net/article/macos-ms-office-auto-number/1_hu16189793390500396901.png 480w, https://blog.kuludu.net/article/macos-ms-office-auto-number/1_hu6946196087265634886.png 1024w"
+loading="lazy"
+alt="图1"
+class="gallery-image"
+data-flex-grow="193"
+data-flex-basis="464px"
+>&lt;/p>
+&lt;p>当然我们不可能每次插入图表都这样操作一次，同样我们不使用快捷键也可以添加文档基块。&lt;/p>
+&lt;ol>
+&lt;li>光标选择图或表的编号。&lt;/li>
+&lt;li>在&lt;strong>自动图文集&amp;gt;新建&lt;/strong>添加（位置参考图2，Windows版同样在文档部件里）。&lt;/li>
+&lt;li>随便取一个名字，比如&lt;code>图&lt;/code>，然后在想插入的位置输入对应图文集的名字就可以快捷插入编号了。&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://blog.kuludu.net/article/macos-ms-office-auto-number/2.png"
+width="652"
+height="162"
+srcset="https://blog.kuludu.net/article/macos-ms-office-auto-number/2_hu1083132370794228407.png 480w, https://blog.kuludu.net/article/macos-ms-office-auto-number/2_hu5205626034408880692.png 1024w"
+loading="lazy"
+alt="图2"
+class="gallery-image"
+data-flex-grow="402"
+data-flex-basis="965px"
+>&lt;/p>
+&lt;p>macOS的MS Office真的是个半成品&amp;hellip;&lt;/p>
+&lt;hr>
+&lt;p>Reference&lt;/p>
+&lt;ol>
+&lt;li>&lt;a class="link" href="https://yxchangingself.xyz/posts/2028856356/" target="_blank" rel="noopener"
+>https://yxchangingself.xyz/posts/2028856356/&lt;/a>&lt;/li>
+&lt;li>&lt;a class="link" href="https://support.microsoft.com/zh-cn/office/word-%E4%B8%AD%E7%9A%84%E9%94%AE%E7%9B%98%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F-95ef89dd-7142-4b50-afb2-f762f663ceb2#PickTab=macOS" target="_blank" rel="noopener"
+>https://support.microsoft.com/zh-cn/office/word-%E4%B8%AD%E7%9A%84%E9%94%AE%E7%9B%98%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F-95ef89dd-7142-4b50-afb2-f762f663ceb2#PickTab=macOS&lt;/a>&lt;/li>
+&lt;/ol></description></item></channel></rss>
