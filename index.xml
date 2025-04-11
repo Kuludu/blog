@@ -3,8 +3,7 @@
 &lt;blockquote>
 &lt;p>第一章 绪论&lt;br>
 1.1 研究背景及意义&lt;br>
-1.2 国内外研究进展&lt;/p>
-&lt;/blockquote>
+1.2 国内外研究进展&lt;/p>&lt;/blockquote>
 &lt;p>但是这样的编号要求会导致章节与小节编码符号不统一，最后显示为&lt;code>一.1研究背景及意义&lt;/code>。不过解决这个问题的方法很简单，只需要在多级列表里选择&lt;strong>正规形式编号&lt;/strong>即可。&lt;/p>
 &lt;p>但是这样操作还会引起另一个问题，那就是图表标题的按章自动编号也变成了&lt;code>图 一.1&lt;/code>或&lt;code>表 一.1&lt;/code>。&lt;/p>
 &lt;p>参考资料[1]的做法，我们可以将章节编号的域代码修改为&lt;code>{ QUOTE &amp;quot;一九一一年一月{ STYLEREF 1 \s }日&amp;quot; \@&amp;quot;D&amp;quot; }&lt;/code>实现阿拉伯数字的自动编号。但是，这一点在macOS下的MS Office里不能直接实现，原因是域代码中的&lt;code>{}&lt;/code>符号是不能直接打出来的，必须使用快捷键生成。这就很尴尬了，因为macOS的快捷键和Windows的压根对不上。&lt;/p>
@@ -19,7 +18,7 @@
 &lt;p>&lt;img src="https://blog.kuludu.net/article/macos-ms-office-auto-number/1.png"
 width="306"
 height="158"
-srcset="https://blog.kuludu.net/article/macos-ms-office-auto-number/1_hu16189793390500396901.png 480w, https://blog.kuludu.net/article/macos-ms-office-auto-number/1_hu6946196087265634886.png 1024w"
+srcset="https://blog.kuludu.net/article/macos-ms-office-auto-number/1_hu_8a91dfe79d8d894c.png 480w, https://blog.kuludu.net/article/macos-ms-office-auto-number/1_hu_a8ee05be19dbe936.png 1024w"
 loading="lazy"
 alt="图1"
 class="gallery-image"
@@ -35,7 +34,7 @@ data-flex-basis="464px"
 &lt;p>&lt;img src="https://blog.kuludu.net/article/macos-ms-office-auto-number/2.png"
 width="652"
 height="162"
-srcset="https://blog.kuludu.net/article/macos-ms-office-auto-number/2_hu1083132370794228407.png 480w, https://blog.kuludu.net/article/macos-ms-office-auto-number/2_hu5205626034408880692.png 1024w"
+srcset="https://blog.kuludu.net/article/macos-ms-office-auto-number/2_hu_f4ac51fbef2ebd9e.png 480w, https://blog.kuludu.net/article/macos-ms-office-auto-number/2_hu_d5f416d35e956d04.png 1024w"
 loading="lazy"
 alt="图2"
 class="gallery-image"
@@ -614,7 +613,7 @@ data-flex-basis="965px"
 &lt;p>&lt;img src="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832.png"
 width="1086"
 height="1294"
-srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832_hu5176588975560029082.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832_hu10245224542208643844.png 1024w"
+srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832_hu_392649173bacb366.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832_hu_f56f8c5335d930a7.png 1024w"
 loading="lazy"
 alt="Modify ref"
 class="gallery-image"
@@ -631,7 +630,7 @@ data-flex-basis="201px"
 &lt;p>&lt;img src="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325.png"
 width="1624"
 height="1310"
-srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325_hu2214310145403100460.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325_hu15915704713357883738.png 1024w"
+srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325_hu_9562685998dbcbed.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325_hu_a3c9973172794ccd.png 1024w"
 loading="lazy"
 alt="Endnote Import"
 class="gallery-image"
@@ -646,7 +645,7 @@ data-flex-basis="297px"
 &lt;p>&lt;img src="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272.png"
 width="1824"
 height="1300"
-srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272_hu2124567770498153387.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272_hu15262457538363931504.png 1024w"
+srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272_hu_58f8ff5445f394ed.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272_hu_3e4d702eb1829e88.png 1024w"
 loading="lazy"
 alt="Bibliography Export"
 class="gallery-image"
@@ -779,8 +778,7 @@ data-flex-basis="336px"
 &lt;p>遇事不决翻文档，于是我找到了&lt;a class="link" href="https://zh.cppreference.com/w/cpp/algorithm/upper_bound" target="_blank" rel="noopener"
 >这篇文章&lt;/a>。其中详细介绍了 &lt;code>upper_bound&lt;/code>函数的原型与定义，其中介绍中的这句话解决了这个问题：&lt;/p>
 &lt;blockquote>
-&lt;p>范围 &lt;code>[first, last)&lt;/code> 必须已相对于表达式 !(value &amp;lt; element) 或 !comp(value, element) 划分，即所有令此表达式为 true 的元素必须前趋所有令此表达式为 false 的元素。完全排序的范围满足此判别标准。&lt;/p>
-&lt;/blockquote>
+&lt;p>范围 &lt;code>[first, last)&lt;/code> 必须已相对于表达式 !(value &amp;lt; element) 或 !comp(value, element) 划分，即所有令此表达式为 true 的元素必须前趋所有令此表达式为 false 的元素。完全排序的范围满足此判别标准。&lt;/p>&lt;/blockquote>
 &lt;p>除了常提到的序列有序前提以外，&lt;code>lower_bound&lt;/code>对重载的比较关系也有一定的要求，这也就导致了上例中 &lt;code>lower_bound&lt;/code>函数不符合预期的执行。&lt;/p>
 &lt;p>参考其给出了函数可能的实现：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -1167,7 +1165,7 @@ $$&lt;/p>
 &lt;p>&lt;img src="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825.png"
 width="389"
 height="90"
-srcset="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825_hu16331395219893014759.png 480w, https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825_hu6519032271201020379.png 1024w"
+srcset="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825_hu_71ea199cc7b62134.png 480w, https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825_hu_525853d91d2e5337.png 1024w"
 loading="lazy"
 alt="AF436168-5387-4556-979B-721BE57A7A39.png"
 class="gallery-image"
@@ -1195,7 +1193,7 @@ data-flex-basis="1037px"
 &lt;p>&lt;img src="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544.png"
 width="407"
 height="84"
-srcset="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544_hu9599471945169345453.png 480w, https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544_hu18417173890746340733.png 1024w"
+srcset="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544_hu_dbef2b96cb1145d8.png 480w, https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544_hu_5985e633df9bf574.png 1024w"
 loading="lazy"
 alt="AF436168-5387-4556-979B-721BE57A7A39.png"
 class="gallery-image"
@@ -1462,6 +1460,10 @@ data-flex-basis="1162px"
 &lt;h3 id="陕西">陕西
 &lt;/h3>&lt;ul>
 &lt;li>西安&lt;/li>
+&lt;/ul>
+&lt;h3 id="安徽">安徽
+&lt;/h3>&lt;ul>
+&lt;li>芜湖&lt;/li>
 &lt;/ul>
 &lt;h3 id="上海">上海
 &lt;/h3>&lt;h3 id="天津">天津

@@ -366,8 +366,7 @@
 &lt;p>遇事不决翻文档，于是我找到了&lt;a class="link" href="https://zh.cppreference.com/w/cpp/algorithm/upper_bound" target="_blank" rel="noopener"
 >这篇文章&lt;/a>。其中详细介绍了 &lt;code>upper_bound&lt;/code>函数的原型与定义，其中介绍中的这句话解决了这个问题：&lt;/p>
 &lt;blockquote>
-&lt;p>范围 &lt;code>[first, last)&lt;/code> 必须已相对于表达式 !(value &amp;lt; element) 或 !comp(value, element) 划分，即所有令此表达式为 true 的元素必须前趋所有令此表达式为 false 的元素。完全排序的范围满足此判别标准。&lt;/p>
-&lt;/blockquote>
+&lt;p>范围 &lt;code>[first, last)&lt;/code> 必须已相对于表达式 !(value &amp;lt; element) 或 !comp(value, element) 划分，即所有令此表达式为 true 的元素必须前趋所有令此表达式为 false 的元素。完全排序的范围满足此判别标准。&lt;/p>&lt;/blockquote>
 &lt;p>除了常提到的序列有序前提以外，&lt;code>lower_bound&lt;/code>对重载的比较关系也有一定的要求，这也就导致了上例中 &lt;code>lower_bound&lt;/code>函数不符合预期的执行。&lt;/p>
 &lt;p>参考其给出了函数可能的实现：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
