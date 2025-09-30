@@ -1,66 +1,66 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cuda on Kuludu的博客</title><link>https://blog.kuludu.net/tags/cuda/</link><description>Recent content in Cuda on Kuludu的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Kuludu</copyright><lastBuildDate>Mon, 22 Mar 2021 21:42:00 +0800</lastBuildDate><atom:link href="https://blog.kuludu.net/tags/cuda/index.xml" rel="self" type="application/rss+xml"/><item><title>“解决”CUDNN_STATUS_ALLOC_FAILED</title><link>https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/</link><pubDate>Mon, 22 Mar 2021 21:42:00 +0800</pubDate><guid>https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/</guid><description>&lt;p>最近正在做一个&lt;del>炼丹&lt;/del>深度学习的项目，不可避免地使用到了GPU加速。其中，在使用cuDNN的时候遇到了CUDNN_STATUS_ALLOC_FAILED的问题，记录一下。&lt;/p>
-&lt;p>首先给出我的系统硬件以及软件环境：&lt;/p>
-&lt;ul>
-&lt;li>OS: Windows Server 2019 Standard&lt;/li>
-&lt;li>CPU: Intel Xeon W-2123 3.6GHz&lt;/li>
-&lt;li>Memory: 64G ECC&lt;/li>
-&lt;li>GPU: NVIDIA Quadro P4000(8G)&lt;/li>
-&lt;li>Tensorflow: 1.13.2&lt;/li>
-&lt;li>Keras: 2.1.5&lt;/li>
-&lt;li>CUDA: 10.0&lt;/li>
-&lt;li>cuDNN: 7.3&lt;/li>
-&lt;/ul>
-&lt;p>具体报错信息如下：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">2021-03-22 20:39:27.884555: E tensorflow/stream_executor/cuda/cuda_dnn.cc:334] Could not create cudnn handle: CUDNN_STATUS_ALLOC_FAILED
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">2021-03-22 20:39:27.888005: E tensorflow/stream_executor/cuda/cuda_dnn.cc:334] Could not create cudnn handle: CUDNN_STATUS_ALLOC_FAILED
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Traceback (most recent call last):
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> File &amp;#34;C:\ProgramData\Anaconda3\envs\ly\lib\site-packages\tensorflow\python\client\session.py&amp;#34;, line 1334, in _do_call
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> return fn(*args)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> File &amp;#34;C:\ProgramData\Anaconda3\envs\ly\lib\site-packages\tensorflow\python\client\session.py&amp;#34;, line 1319, in _run_fn
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> options, feed_dict, fetch_list, target_list, run_metadata)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> File &amp;#34;C:\ProgramData\Anaconda3\envs\ly\lib\site-packages\tensorflow\python\client\session.py&amp;#34;, line 1407, in _call_tf_sessionrun
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> run_metadata)
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">tensorflow.python.framework.errors_impl.UnknownError: Failed to get convolution algorithm. This is probably because cuDNN failed to initialize, so try looking to see if a warning log message was printed above.
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> [[{{node conv2d_1/convolution}}]]
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> [[{{node concat_9}}]]
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h2 id="quick-fix">Quick Fix
-&lt;/h2>&lt;p>此处参考stackoverflow上的&lt;a class="link" href="https://stackoverflow.com/questions/59116872/could-not-create-cudnn-handle-cudnn-status-alloc-failed-on-a-project-that-sho" target="_blank" rel="noopener"
->一个方案&lt;/a>。&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">os&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">os&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">environ&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;CUDA_VISIBLE_DEVICES&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;-1&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>直接禁用GPU，自然也就不会牵扯到cuDNN。&lt;/p>
-&lt;p>Problem solved, amazing!&lt;/p>
-&lt;p>个鬼。&lt;/p>
-&lt;p>禁用GPU也就意味着禁用了GPU加速，&lt;del>意味着可怜的CPU要burn itself&lt;/del>，这在对于效率有要求的生产环境是不行的🙅‍♂️。&lt;/p>
-&lt;h2 id="观察">观察
-&lt;/h2>&lt;p>在建立模型后显存直接爆炸，如下图：&lt;/p>
-&lt;p>&lt;img src="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825.png"
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cuda on Kuludu的博客</title><link>https://blog.kuludu.net/tags/cuda/</link><description>Recent content in Cuda on Kuludu的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Kuludu</copyright><lastBuildDate>Mon, 22 Mar 2021 21:42:00 +0800</lastBuildDate><atom:link href="https://blog.kuludu.net/tags/cuda/index.xml" rel="self" type="application/rss+xml"/><item><title>“解决”CUDNN_STATUS_ALLOC_FAILED</title><link>https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/</link><pubDate>Mon, 22 Mar 2021 21:42:00 +0800</pubDate><guid>https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/</guid><description>&lt;p&gt;最近正在做一个&lt;del&gt;炼丹&lt;/del&gt;深度学习的项目，不可避免地使用到了GPU加速。其中，在使用cuDNN的时候遇到了CUDNN_STATUS_ALLOC_FAILED的问题，记录一下。&lt;/p&gt;
+&lt;p&gt;首先给出我的系统硬件以及软件环境：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;OS: Windows Server 2019 Standard&lt;/li&gt;
+&lt;li&gt;CPU: Intel Xeon W-2123 3.6GHz&lt;/li&gt;
+&lt;li&gt;Memory: 64G ECC&lt;/li&gt;
+&lt;li&gt;GPU: NVIDIA Quadro P4000(8G)&lt;/li&gt;
+&lt;li&gt;Tensorflow: 1.13.2&lt;/li&gt;
+&lt;li&gt;Keras: 2.1.5&lt;/li&gt;
+&lt;li&gt;CUDA: 10.0&lt;/li&gt;
+&lt;li&gt;cuDNN: 7.3&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;具体报错信息如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;2021-03-22 20:39:27.884555: E tensorflow/stream_executor/cuda/cuda_dnn.cc:334] Could not create cudnn handle: CUDNN_STATUS_ALLOC_FAILED
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;2021-03-22 20:39:27.888005: E tensorflow/stream_executor/cuda/cuda_dnn.cc:334] Could not create cudnn handle: CUDNN_STATUS_ALLOC_FAILED
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Traceback (most recent call last):
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; File &amp;#34;C:\ProgramData\Anaconda3\envs\ly\lib\site-packages\tensorflow\python\client\session.py&amp;#34;, line 1334, in _do_call
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; return fn(*args)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; File &amp;#34;C:\ProgramData\Anaconda3\envs\ly\lib\site-packages\tensorflow\python\client\session.py&amp;#34;, line 1319, in _run_fn
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; options, feed_dict, fetch_list, target_list, run_metadata)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; File &amp;#34;C:\ProgramData\Anaconda3\envs\ly\lib\site-packages\tensorflow\python\client\session.py&amp;#34;, line 1407, in _call_tf_sessionrun
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; run_metadata)
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;tensorflow.python.framework.errors_impl.UnknownError: Failed to get convolution algorithm. This is probably because cuDNN failed to initialize, so try looking to see if a warning log message was printed above.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; [[{{node conv2d_1/convolution}}]]
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; [[{{node concat_9}}]]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="quick-fix"&gt;Quick Fix
+&lt;/h2&gt;&lt;p&gt;此处参考stackoverflow上的&lt;a class="link" href="https://stackoverflow.com/questions/59116872/could-not-create-cudnn-handle-cudnn-status-alloc-failed-on-a-project-that-sho" target="_blank" rel="noopener"
+&gt;一个方案&lt;/a&gt;。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;environ&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;CUDA_VISIBLE_DEVICES&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;-1&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;直接禁用GPU，自然也就不会牵扯到cuDNN。&lt;/p&gt;
+&lt;p&gt;Problem solved, amazing!&lt;/p&gt;
+&lt;p&gt;个鬼。&lt;/p&gt;
+&lt;p&gt;禁用GPU也就意味着禁用了GPU加速，&lt;del&gt;意味着可怜的CPU要burn itself&lt;/del&gt;，这在对于效率有要求的生产环境是不行的🙅‍♂️。&lt;/p&gt;
+&lt;h2 id="观察"&gt;观察
+&lt;/h2&gt;&lt;p&gt;在建立模型后显存直接爆炸，如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825.png"
 width="389"
 height="90"
 srcset="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825_hu_71ea199cc7b62134.png 480w, https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825_hu_525853d91d2e5337.png 1024w"
@@ -69,26 +69,26 @@ alt="AF436168-5387-4556-979B-721BE57A7A39.png"
 class="gallery-image"
 data-flex-grow="432"
 data-flex-basis="1037px"
->&lt;/p>
-&lt;p>查阅资料，初步猜测是显存不足导致的，所以想到了限制一下显存的消耗：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;span class="lnt">5
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">tensorflow&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nn">tf&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">keras.backend.tensorflow_backend&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">set_session&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">config&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">tf&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">ConfigProto&lt;/span>&lt;span class="p">()&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">config&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">gpu_options&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">allow_growth&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">True&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">set_session&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">tf&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Session&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">config&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">config&lt;/span>&lt;span class="p">))&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>限制后显存明显降低了。&lt;/p>
-&lt;p>&lt;img src="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544.png"
+&gt;&lt;/p&gt;
+&lt;p&gt;查阅资料，初步猜测是显存不足导致的，所以想到了限制一下显存的消耗：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;tensorflow&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;tf&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;keras.backend.tensorflow_backend&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;set_session&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ConfigProto&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gpu_options&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;allow_growth&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;True&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;set_session&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Session&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;限制后显存明显降低了。&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544.png"
 width="407"
 height="84"
 srcset="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544_hu_dbef2b96cb1145d8.png 480w, https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544_hu_5985e633df9bf574.png 1024w"
@@ -97,20 +97,20 @@ alt="AF436168-5387-4556-979B-721BE57A7A39.png"
 class="gallery-image"
 data-flex-grow="484"
 data-flex-basis="1162px"
->&lt;/p>
-&lt;p>但是崩溃的问题依旧😓。&lt;/p>
-&lt;p>又想到了一个问题，因为服务器是多个项目组共用的，&lt;strong>是不是有可能为其它组正在使用导致cuDNN无法创建句柄呢？&lt;/strong>&lt;/p>
-&lt;p>有可能，但是我也不能去关别人的程序呀&lt;del>boss不得打死我&lt;/del>😅。&lt;/p>
-&lt;p>疑问留在这里，等服务器空了就来补充。（&lt;del>当然可能我也压根不会填坑&lt;/del>，不如留给读者当一个思路）&lt;/p>
-&lt;hr>
-&lt;h2 id="reference">Reference
-&lt;/h2>&lt;ul>
-&lt;li>
-&lt;p>&lt;a class="link" href="https://github.com/tensorflow/tensorflow/issues/39989" target="_blank" rel="noopener"
->https://github.com/tensorflow/tensorflow/issues/39989&lt;/a>&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;a class="link" href="https://blog.csdn.net/qq_40635998/article/details/87297634" target="_blank" rel="noopener"
->https://blog.csdn.net/qq_40635998/article/details/87297634&lt;/a>&lt;/p>
-&lt;/li>
-&lt;/ul></description></item></channel></rss>
+&gt;&lt;/p&gt;
+&lt;p&gt;但是崩溃的问题依旧😓。&lt;/p&gt;
+&lt;p&gt;又想到了一个问题，因为服务器是多个项目组共用的，&lt;strong&gt;是不是有可能为其它组正在使用导致cuDNN无法创建句柄呢？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;有可能，但是我也不能去关别人的程序呀&lt;del&gt;boss不得打死我&lt;/del&gt;😅。&lt;/p&gt;
+&lt;p&gt;疑问留在这里，等服务器空了就来补充。（&lt;del&gt;当然可能我也压根不会填坑&lt;/del&gt;，不如留给读者当一个思路）&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="reference"&gt;Reference
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class="link" href="https://github.com/tensorflow/tensorflow/issues/39989" target="_blank" rel="noopener"
+&gt;https://github.com/tensorflow/tensorflow/issues/39989&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a class="link" href="https://blog.csdn.net/qq_40635998/article/details/87297634" target="_blank" rel="noopener"
+&gt;https://blog.csdn.net/qq_40635998/article/details/87297634&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

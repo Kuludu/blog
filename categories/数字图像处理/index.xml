@@ -1,210 +1,210 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>数字图像处理 on Kuludu的博客</title><link>https://blog.kuludu.net/categories/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</link><description>Recent content in 数字图像处理 on Kuludu的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Kuludu</copyright><lastBuildDate>Tue, 20 Apr 2021 17:57:00 +0800</lastBuildDate><atom:link href="https://blog.kuludu.net/categories/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/index.xml" rel="self" type="application/rss+xml"/><item><title>HOG</title><link>https://blog.kuludu.net/article/hog/</link><pubDate>Tue, 20 Apr 2021 17:57:00 +0800</pubDate><guid>https://blog.kuludu.net/article/hog/</guid><description>&lt;p>OG（Histogram of Oriented Gridients）即方向梯度直方图，是一种图像特征提取的方法。其最早由法国研究员Dalal等人在CVPR-2005上提出，通过图像局部梯度方向的分布描述图像中的物体边缘。&lt;/p>
-&lt;p>算法主要分为以下几个步骤：&lt;/p>
-&lt;ul>
-&lt;li>预处理&lt;/li>
-&lt;li>计算梯度&lt;/li>
-&lt;li>计算梯度方向直方图&lt;/li>
-&lt;li>重叠直方图归一化&lt;/li>
-&lt;li>获取HOG特征向量&lt;/li>
-&lt;/ul>
-&lt;h2 id="预处理">预处理
-&lt;/h2>&lt;p>在这一步中，可以对图像进行裁剪与缩放以及调整图像亮度，以便后续对图像处理。&lt;/p>
-&lt;p>例如：&lt;/p>
-&lt;ul>
-&lt;li>幂次变换&lt;/li>
-&lt;li>对数变换&lt;/li>
-&lt;/ul>
-&lt;h2 id="计算梯度">计算梯度
-&lt;/h2>&lt;p>通过Sobel算子计算水平与竖直梯度，并计算合梯度的幅值与方向：&lt;/p>
-&lt;p>$$
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>数字图像处理 on Kuludu的博客</title><link>https://blog.kuludu.net/categories/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</link><description>Recent content in 数字图像处理 on Kuludu的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Kuludu</copyright><lastBuildDate>Tue, 20 Apr 2021 17:57:00 +0800</lastBuildDate><atom:link href="https://blog.kuludu.net/categories/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/index.xml" rel="self" type="application/rss+xml"/><item><title>HOG</title><link>https://blog.kuludu.net/article/hog/</link><pubDate>Tue, 20 Apr 2021 17:57:00 +0800</pubDate><guid>https://blog.kuludu.net/article/hog/</guid><description>&lt;p&gt;OG（Histogram of Oriented Gridients）即方向梯度直方图，是一种图像特征提取的方法。其最早由法国研究员Dalal等人在CVPR-2005上提出，通过图像局部梯度方向的分布描述图像中的物体边缘。&lt;/p&gt;
+&lt;p&gt;算法主要分为以下几个步骤：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;预处理&lt;/li&gt;
+&lt;li&gt;计算梯度&lt;/li&gt;
+&lt;li&gt;计算梯度方向直方图&lt;/li&gt;
+&lt;li&gt;重叠直方图归一化&lt;/li&gt;
+&lt;li&gt;获取HOG特征向量&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="预处理"&gt;预处理
+&lt;/h2&gt;&lt;p&gt;在这一步中，可以对图像进行裁剪与缩放以及调整图像亮度，以便后续对图像处理。&lt;/p&gt;
+&lt;p&gt;例如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;幂次变换&lt;/li&gt;
+&lt;li&gt;对数变换&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="计算梯度"&gt;计算梯度
+&lt;/h2&gt;&lt;p&gt;通过Sobel算子计算水平与竖直梯度，并计算合梯度的幅值与方向：&lt;/p&gt;
+&lt;p&gt;$$
 g=\sqrt{g^2_{x}+g^2_{y}}
-$$&lt;/p>
-&lt;p>$$
+$$&lt;/p&gt;
+&lt;p&gt;$$
 \theta=\arctan\frac{g_y}{g_x}
-$$&lt;/p>
-&lt;p>因为梯度方向取绝对值，所以$\theta\in[0, \pi]$，方向相反的两个梯度会被认为是同一个。&lt;/p>
-&lt;h2 id="计算梯度方向直方图">计算梯度方向直方图
-&lt;/h2>&lt;p>将图像划分为$n\times m$的cell，对每个cell计算方向梯度强度直方图。在这一步中，我们需要对梯度方向进行离散化，例如可以将数据分为9个深度为20的箱，从而形成一个长度为9向量。&lt;/p>
-&lt;h2 id="重叠直方图归一化">重叠直方图归一化
-&lt;/h2>&lt;p>将$x\times x$的cell划分为一个block，采用滑动窗口的策略，对block内每一个cell拼接而成的向量进行归一化操作。&lt;/p>
-&lt;h2 id="获取hog特征向量">获取HOG特征向量
-&lt;/h2>&lt;p>在上一步中，对于每一个block，我们都得到了一个长度为$bin_{depth}\times x^2$的向量，共计$(n-1)\times(m-1)$个。将这些向量拼接起来，就得到了我们需要求的HOG特征向量&lt;/p>
-&lt;hr>
-&lt;p>参考：&lt;/p>
-&lt;ul>
-&lt;li>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/85829145" target="_blank" rel="noopener"
->https://zhuanlan.zhihu.com/p/85829145&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;span class="lnt">16
-&lt;/span>&lt;span class="lnt">17
-&lt;/span>&lt;span class="lnt">18
-&lt;/span>&lt;span class="lnt">19
-&lt;/span>&lt;span class="lnt">20
-&lt;/span>&lt;span class="lnt">21
-&lt;/span>&lt;span class="lnt">22
-&lt;/span>&lt;span class="lnt">23
-&lt;/span>&lt;span class="lnt">24
-&lt;/span>&lt;span class="lnt">25
-&lt;/span>&lt;span class="lnt">26
-&lt;/span>&lt;span class="lnt">27
-&lt;/span>&lt;span class="lnt">28
-&lt;/span>&lt;span class="lnt">29
-&lt;/span>&lt;span class="lnt">30
-&lt;/span>&lt;span class="lnt">31
-&lt;/span>&lt;span class="lnt">32
-&lt;/span>&lt;span class="lnt">33
-&lt;/span>&lt;span class="lnt">34
-&lt;/span>&lt;span class="lnt">35
-&lt;/span>&lt;span class="lnt">36
-&lt;/span>&lt;span class="lnt">37
-&lt;/span>&lt;span class="lnt">38
-&lt;/span>&lt;span class="lnt">39
-&lt;/span>&lt;span class="lnt">40
-&lt;/span>&lt;span class="lnt">41
-&lt;/span>&lt;span class="lnt">42
-&lt;/span>&lt;span class="lnt">43
-&lt;/span>&lt;span class="lnt">44
-&lt;/span>&lt;span class="lnt">45
-&lt;/span>&lt;span class="lnt">46
-&lt;/span>&lt;span class="lnt">47
-&lt;/span>&lt;span class="lnt">48
-&lt;/span>&lt;span class="lnt">49
-&lt;/span>&lt;span class="lnt">50
-&lt;/span>&lt;span class="lnt">51
-&lt;/span>&lt;span class="lnt">52
-&lt;/span>&lt;span class="lnt">53
-&lt;/span>&lt;span class="lnt">54
-&lt;/span>&lt;span class="lnt">55
-&lt;/span>&lt;span class="lnt">56
-&lt;/span>&lt;span class="lnt">57
-&lt;/span>&lt;span class="lnt">58
-&lt;/span>&lt;span class="lnt">59
-&lt;/span>&lt;span class="lnt">60
-&lt;/span>&lt;span class="lnt">61
-&lt;/span>&lt;span class="lnt">62
-&lt;/span>&lt;span class="lnt">63
-&lt;/span>&lt;span class="lnt">64
-&lt;/span>&lt;span class="lnt">65
-&lt;/span>&lt;span class="lnt">66
-&lt;/span>&lt;span class="lnt">67
-&lt;/span>&lt;span class="lnt">68
-&lt;/span>&lt;span class="lnt">69
-&lt;/span>&lt;span class="lnt">70
-&lt;/span>&lt;span class="lnt">71
-&lt;/span>&lt;span class="lnt">72
-&lt;/span>&lt;span class="lnt">73
-&lt;/span>&lt;span class="lnt">74
-&lt;/span>&lt;span class="lnt">75
-&lt;/span>&lt;span class="lnt">76
-&lt;/span>&lt;span class="lnt">77
-&lt;/span>&lt;span class="lnt">78
-&lt;/span>&lt;span class="lnt">79
-&lt;/span>&lt;span class="lnt">80
-&lt;/span>&lt;span class="lnt">81
-&lt;/span>&lt;span class="lnt">82
-&lt;/span>&lt;span class="lnt">83
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">cv2&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">os&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">numpy&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nn">np&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">skimage&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">io&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">matplotlib.pyplot&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="nn">plt&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">skimage.feature&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">hog&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">sklearn.svm&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">SVC&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">from&lt;/span> &lt;span class="nn">sklearn.metrics&lt;/span> &lt;span class="kn">import&lt;/span> &lt;span class="n">precision_score&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">recall_score&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">TRAIN_COUNT&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">500&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">TEST_COUNT&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">100&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">get_features&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">object_detect&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">count&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">test&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">False&lt;/span>&lt;span class="p">):&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">test&lt;/span>&lt;span class="p">:&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">img_path&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;data/test_set/&lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">object_detect&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">s/&lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">object_detect&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">.%d.jpg&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">start&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">4001&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">else&lt;/span>&lt;span class="p">:&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">img_path&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;data/training_set/&lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">object_detect&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">s/&lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">object_detect&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">.%d.jpg&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">start&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="n">object_detect&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="s2">&amp;#34;cat&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">labels&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">array&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="mi">0&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="n">_&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="nb">range&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">count&lt;/span>&lt;span class="p">)])&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reshape&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">else&lt;/span>&lt;span class="p">:&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">labels&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">array&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="mi">1&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="n">_&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="nb">range&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">count&lt;/span>&lt;span class="p">)])&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reshape&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">features&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">list&lt;/span>&lt;span class="p">()&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="ow">in&lt;/span> &lt;span class="nb">range&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">start&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">start&lt;/span>&lt;span class="o">+&lt;/span>&lt;span class="n">count&lt;/span>&lt;span class="p">):&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">img_path&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 读取图片&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">gray&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">cv2&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">imread&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">img_path&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">cv2&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">IMREAD_GRAYSCALE&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 尺寸缩放&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">gray&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">cv2&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">resize&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">gray&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="mi">128&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">128&lt;/span>&lt;span class="p">))&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 中值滤波&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">gray&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">cv2&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">medianBlur&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">gray&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">3&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># HOG特征提取&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">hog_image&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">hog&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">gray&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">orientations&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">9&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">pixels_per_cell&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">8&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">8&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">cells_per_block&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">8&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">8&lt;/span>&lt;span class="p">))&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">features&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">append&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">hog_image&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">flatten&lt;/span>&lt;span class="p">())&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">features&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">array&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">features&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">features&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">labels&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">get_predict_img&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">img_path&lt;/span>&lt;span class="p">):&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">gray&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">cv2&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">imread&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">img_path&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">cv2&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">IMREAD_GRAYSCALE&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 尺寸缩放&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">gray&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">cv2&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">resize&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">gray&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="mi">128&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">128&lt;/span>&lt;span class="p">))&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1"># 中值滤波&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">gray&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">cv2&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">medianBlur&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">gray&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">3&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">normalised_blocks&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">hog_image&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">hog&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">gray&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">orientations&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="mi">9&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">pixels_per_cell&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">(&lt;/span> &lt;span class="mi">8&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">8&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">cells_per_block&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">8&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">8&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">visualise&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">True&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">hog_image&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">reshape&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">cat&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">cat_labels&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">get_features&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">object_detect&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;cat&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">count&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">TRAIN_COUNT&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dog&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">dog_labels&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">get_features&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">object_detect&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;dog&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">count&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">TRAIN_COUNT&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">img&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">vstack&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="n">cat&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">dog&lt;/span>&lt;span class="p">])&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">labels&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">vstack&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="n">cat_labels&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">dog_labels&lt;/span>&lt;span class="p">])&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">hstack&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="n">img&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">labels&lt;/span>&lt;span class="p">])&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">clf&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">SVC&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">probability&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">True&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">data&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">res&lt;/span>&lt;span class="p">[:,&lt;/span> &lt;span class="p">:&lt;/span>&lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">labels&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">res&lt;/span>&lt;span class="p">[:,&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">clf&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">fit&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">data&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">labels&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># ----------- 预测单张图片 ---------------------------------&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># test_img = get_predict_img(&amp;#34;training_set/cats/cat.38.jpg&amp;#34;)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># pred = clf.predict(test_img)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># print(pred)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># ----------- 预测单张图片 ---------------------------------&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">test_cat&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">test_cat_labels&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">get_features&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">object_detect&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;cat&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">count&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">TEST_COUNT&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">test&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">True&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">test_dog&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">test_dog_labels&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">get_features&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">object_detect&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;dog&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">count&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="n">TEST_COUNT&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">test&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="kc">True&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">test_img&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">vstack&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="n">test_cat&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">test_dog&lt;/span>&lt;span class="p">])&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">test_labels&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">np&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">vstack&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="n">test_cat_labels&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">test_dog_labels&lt;/span>&lt;span class="p">])&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">pred&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">clf&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">predict&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">test_img&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">precision&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">precision_score&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">pred&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">test_labels&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">recall&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">recall_score&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">pred&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">test_labels&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;实际类别:&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">test_labels&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">flatten&lt;/span>&lt;span class="p">())&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;预测类别:&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">pred&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">flatten&lt;/span>&lt;span class="p">())&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;精准率:&lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">precision&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">, 召回率:&lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">recall&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div></description></item></channel></rss>
+$$&lt;/p&gt;
+&lt;p&gt;因为梯度方向取绝对值，所以$\theta\in[0, \pi]$，方向相反的两个梯度会被认为是同一个。&lt;/p&gt;
+&lt;h2 id="计算梯度方向直方图"&gt;计算梯度方向直方图
+&lt;/h2&gt;&lt;p&gt;将图像划分为$n\times m$的cell，对每个cell计算方向梯度强度直方图。在这一步中，我们需要对梯度方向进行离散化，例如可以将数据分为9个深度为20的箱，从而形成一个长度为9向量。&lt;/p&gt;
+&lt;h2 id="重叠直方图归一化"&gt;重叠直方图归一化
+&lt;/h2&gt;&lt;p&gt;将$x\times x$的cell划分为一个block，采用滑动窗口的策略，对block内每一个cell拼接而成的向量进行归一化操作。&lt;/p&gt;
+&lt;h2 id="获取hog特征向量"&gt;获取HOG特征向量
+&lt;/h2&gt;&lt;p&gt;在上一步中，对于每一个block，我们都得到了一个长度为$bin_{depth}\times x^2$的向量，共计$(n-1)\times(m-1)$个。将这些向量拼接起来，就得到了我们需要求的HOG特征向量&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;参考：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://zhuanlan.zhihu.com/p/85829145" target="_blank" rel="noopener"
+&gt;https://zhuanlan.zhihu.com/p/85829145&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;span class="lnt"&gt;21
+&lt;/span&gt;&lt;span class="lnt"&gt;22
+&lt;/span&gt;&lt;span class="lnt"&gt;23
+&lt;/span&gt;&lt;span class="lnt"&gt;24
+&lt;/span&gt;&lt;span class="lnt"&gt;25
+&lt;/span&gt;&lt;span class="lnt"&gt;26
+&lt;/span&gt;&lt;span class="lnt"&gt;27
+&lt;/span&gt;&lt;span class="lnt"&gt;28
+&lt;/span&gt;&lt;span class="lnt"&gt;29
+&lt;/span&gt;&lt;span class="lnt"&gt;30
+&lt;/span&gt;&lt;span class="lnt"&gt;31
+&lt;/span&gt;&lt;span class="lnt"&gt;32
+&lt;/span&gt;&lt;span class="lnt"&gt;33
+&lt;/span&gt;&lt;span class="lnt"&gt;34
+&lt;/span&gt;&lt;span class="lnt"&gt;35
+&lt;/span&gt;&lt;span class="lnt"&gt;36
+&lt;/span&gt;&lt;span class="lnt"&gt;37
+&lt;/span&gt;&lt;span class="lnt"&gt;38
+&lt;/span&gt;&lt;span class="lnt"&gt;39
+&lt;/span&gt;&lt;span class="lnt"&gt;40
+&lt;/span&gt;&lt;span class="lnt"&gt;41
+&lt;/span&gt;&lt;span class="lnt"&gt;42
+&lt;/span&gt;&lt;span class="lnt"&gt;43
+&lt;/span&gt;&lt;span class="lnt"&gt;44
+&lt;/span&gt;&lt;span class="lnt"&gt;45
+&lt;/span&gt;&lt;span class="lnt"&gt;46
+&lt;/span&gt;&lt;span class="lnt"&gt;47
+&lt;/span&gt;&lt;span class="lnt"&gt;48
+&lt;/span&gt;&lt;span class="lnt"&gt;49
+&lt;/span&gt;&lt;span class="lnt"&gt;50
+&lt;/span&gt;&lt;span class="lnt"&gt;51
+&lt;/span&gt;&lt;span class="lnt"&gt;52
+&lt;/span&gt;&lt;span class="lnt"&gt;53
+&lt;/span&gt;&lt;span class="lnt"&gt;54
+&lt;/span&gt;&lt;span class="lnt"&gt;55
+&lt;/span&gt;&lt;span class="lnt"&gt;56
+&lt;/span&gt;&lt;span class="lnt"&gt;57
+&lt;/span&gt;&lt;span class="lnt"&gt;58
+&lt;/span&gt;&lt;span class="lnt"&gt;59
+&lt;/span&gt;&lt;span class="lnt"&gt;60
+&lt;/span&gt;&lt;span class="lnt"&gt;61
+&lt;/span&gt;&lt;span class="lnt"&gt;62
+&lt;/span&gt;&lt;span class="lnt"&gt;63
+&lt;/span&gt;&lt;span class="lnt"&gt;64
+&lt;/span&gt;&lt;span class="lnt"&gt;65
+&lt;/span&gt;&lt;span class="lnt"&gt;66
+&lt;/span&gt;&lt;span class="lnt"&gt;67
+&lt;/span&gt;&lt;span class="lnt"&gt;68
+&lt;/span&gt;&lt;span class="lnt"&gt;69
+&lt;/span&gt;&lt;span class="lnt"&gt;70
+&lt;/span&gt;&lt;span class="lnt"&gt;71
+&lt;/span&gt;&lt;span class="lnt"&gt;72
+&lt;/span&gt;&lt;span class="lnt"&gt;73
+&lt;/span&gt;&lt;span class="lnt"&gt;74
+&lt;/span&gt;&lt;span class="lnt"&gt;75
+&lt;/span&gt;&lt;span class="lnt"&gt;76
+&lt;/span&gt;&lt;span class="lnt"&gt;77
+&lt;/span&gt;&lt;span class="lnt"&gt;78
+&lt;/span&gt;&lt;span class="lnt"&gt;79
+&lt;/span&gt;&lt;span class="lnt"&gt;80
+&lt;/span&gt;&lt;span class="lnt"&gt;81
+&lt;/span&gt;&lt;span class="lnt"&gt;82
+&lt;/span&gt;&lt;span class="lnt"&gt;83
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;cv2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;skimage&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;io&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;skimage.feature&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;hog&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.svm&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;SVC&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.metrics&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;precision_score&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;recall_score&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;TRAIN_COUNT&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;500&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;TEST_COUNT&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_features&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object_detect&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;False&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;img_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;data/test_set/&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;object_detect&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;s/&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;object_detect&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;.%d.jpg&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;4001&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;img_path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;data/training_set/&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;object_detect&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;s/&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;object_detect&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;.%d.jpg&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;object_detect&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;cat&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;labels&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;labels&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;)])&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;features&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img_path&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;# 读取图片&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;gray&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cv2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;imread&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img_path&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cv2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;IMREAD_GRAYSCALE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;# 尺寸缩放&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;gray&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cv2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;resize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gray&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;128&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;128&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;# 中值滤波&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;gray&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cv2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;medianBlur&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gray&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;# HOG特征提取&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;hog_image&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;hog&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gray&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;orientations&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pixels_per_cell&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;cells_per_block&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;features&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hog_image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flatten&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;features&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;features&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;features&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;labels&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_predict_img&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img_path&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;gray&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cv2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;imread&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img_path&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cv2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;IMREAD_GRAYSCALE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;# 尺寸缩放&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;gray&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cv2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;resize&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gray&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;128&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;128&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="c1"&gt;# 中值滤波&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;gray&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cv2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;medianBlur&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gray&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;normalised_blocks&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;hog_image&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;hog&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gray&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;orientations&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pixels_per_cell&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;cells_per_block&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;visualise&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;hog_image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;cat&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cat_labels&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_features&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object_detect&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;cat&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;TRAIN_COUNT&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;dog&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dog_labels&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_features&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object_detect&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;dog&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;TRAIN_COUNT&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;img&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vstack&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;cat&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dog&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;labels&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vstack&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;cat_labels&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dog_labels&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;res&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hstack&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;labels&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;clf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;SVC&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;probability&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="p"&gt;[:,&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;labels&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="p"&gt;[:,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;clf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;labels&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# ----------- 预测单张图片 ---------------------------------&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# test_img = get_predict_img(&amp;#34;training_set/cats/cat.38.jpg&amp;#34;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# pred = clf.predict(test_img)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# print(pred)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# ----------- 预测单张图片 ---------------------------------&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;test_cat&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test_cat_labels&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_features&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object_detect&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;cat&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;TEST_COUNT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;test_dog&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test_dog_labels&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_features&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;object_detect&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;dog&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;TEST_COUNT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;test_img&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vstack&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;test_cat&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test_dog&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;test_labels&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vstack&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;test_cat_labels&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;test_dog_labels&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;pred&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;clf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;predict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;test_img&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;precision&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;precision_score&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pred&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;test_labels&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;recall&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;recall_score&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pred&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;test_labels&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;实际类别:&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;test_labels&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flatten&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;预测类别:&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;pred&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flatten&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sa"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;精准率:&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;precision&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;, 召回率:&lt;/span&gt;&lt;span class="si"&gt;{&lt;/span&gt;&lt;span class="n"&gt;recall&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description></item></channel></rss>

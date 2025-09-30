@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Macos on Kuludu的博客</title><link>https://blog.kuludu.net/tags/macos/</link><description>Recent content in Macos on Kuludu的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Kuludu</copyright><lastBuildDate>Mon, 16 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.kuludu.net/tags/macos/index.xml" rel="self" type="application/rss+xml"/><item><title>macOS版MS Office实现自动正规形式图标编号</title><link>https://blog.kuludu.net/article/macos-ms-office-auto-number/</link><pubDate>Mon, 16 Dec 2024 00:00:00 +0000</pubDate><guid>https://blog.kuludu.net/article/macos-ms-office-auto-number/</guid><description>&lt;p>最近在进行学位论文的撰写工作的过程中遇到了这样一系列的问题：&lt;/p>
-&lt;p>按照学校论文格式要求，章节标题应当使用中文汉字，而小节标题应当使用阿拉伯数字。即如以下形式：&lt;/p>
-&lt;blockquote>
-&lt;p>第一章 绪论&lt;br>
-1.1 研究背景及意义&lt;br>
-1.2 国内外研究进展&lt;/p>&lt;/blockquote>
-&lt;p>但是这样的编号要求会导致章节与小节编码符号不统一，最后显示为&lt;code>一.1研究背景及意义&lt;/code>。不过解决这个问题的方法很简单，只需要在多级列表里选择&lt;strong>正规形式编号&lt;/strong>即可。&lt;/p>
-&lt;p>但是这样操作还会引起另一个问题，那就是图表标题的按章自动编号也变成了&lt;code>图 一.1&lt;/code>或&lt;code>表 一.1&lt;/code>。&lt;/p>
-&lt;p>参考资料[1]的做法，我们可以将章节编号的域代码修改为&lt;code>{ QUOTE &amp;quot;一九一一年一月{ STYLEREF 1 \s }日&amp;quot; \@&amp;quot;D&amp;quot; }&lt;/code>实现阿拉伯数字的自动编号。但是，这一点在macOS下的MS Office里不能直接实现，原因是域代码中的&lt;code>{}&lt;/code>符号是不能直接打出来的，必须使用快捷键生成。这就很尴尬了，因为macOS的快捷键和Windows的压根对不上。&lt;/p>
-&lt;p>当然这里是存在快捷键的，具体可以参考资料[2]。不过本文想提供一种不用快捷键的实现方法，包括Windows其实也可以这么做。&lt;/p>
-&lt;h2 id="解决步骤">解决步骤
-&lt;/h2>&lt;ol>
-&lt;li>和[1]中标准步骤一样，先对图表进行插入题注的操作，然后切换章节部分的域代码。&lt;/li>
-&lt;li>在&lt;strong>插入&amp;gt;域&lt;/strong>选项里随便添加一个域代码，比如&lt;code>AUTONUM&lt;/code>（位置参考图1，Windows版在文档部件里面）。&lt;/li>
-&lt;li>对插入的域代码再次进行切换域代码的操作，这样就生成了一个&lt;code>{}&lt;/code>。&lt;/li>
-&lt;li>然后按照 [1]中的步骤对应修改域代码即可。&lt;/li>
-&lt;/ol>
-&lt;p>&lt;img src="https://blog.kuludu.net/article/macos-ms-office-auto-number/1.png"
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Macos on Kuludu的博客</title><link>https://blog.kuludu.net/tags/macos/</link><description>Recent content in Macos on Kuludu的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Kuludu</copyright><lastBuildDate>Mon, 16 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.kuludu.net/tags/macos/index.xml" rel="self" type="application/rss+xml"/><item><title>macOS版MS Office实现自动正规形式图标编号</title><link>https://blog.kuludu.net/article/macos-ms-office-auto-number/</link><pubDate>Mon, 16 Dec 2024 00:00:00 +0000</pubDate><guid>https://blog.kuludu.net/article/macos-ms-office-auto-number/</guid><description>&lt;p&gt;最近在进行学位论文的撰写工作的过程中遇到了这样一系列的问题：&lt;/p&gt;
+&lt;p&gt;按照学校论文格式要求，章节标题应当使用中文汉字，而小节标题应当使用阿拉伯数字。即如以下形式：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;第一章 绪论&lt;br&gt;
+1.1 研究背景及意义&lt;br&gt;
+1.2 国内外研究进展&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;但是这样的编号要求会导致章节与小节编码符号不统一，最后显示为&lt;code&gt;一.1研究背景及意义&lt;/code&gt;。不过解决这个问题的方法很简单，只需要在多级列表里选择&lt;strong&gt;正规形式编号&lt;/strong&gt;即可。&lt;/p&gt;
+&lt;p&gt;但是这样操作还会引起另一个问题，那就是图表标题的按章自动编号也变成了&lt;code&gt;图 一.1&lt;/code&gt;或&lt;code&gt;表 一.1&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;参考资料[1]的做法，我们可以将章节编号的域代码修改为&lt;code&gt;{ QUOTE &amp;quot;一九一一年一月{ STYLEREF 1 \s }日&amp;quot; \@&amp;quot;D&amp;quot; }&lt;/code&gt;实现阿拉伯数字的自动编号。但是，这一点在macOS下的MS Office里不能直接实现，原因是域代码中的&lt;code&gt;{}&lt;/code&gt;符号是不能直接打出来的，必须使用快捷键生成。这就很尴尬了，因为macOS的快捷键和Windows的压根对不上。&lt;/p&gt;
+&lt;p&gt;当然这里是存在快捷键的，具体可以参考资料[2]。不过本文想提供一种不用快捷键的实现方法，包括Windows其实也可以这么做。&lt;/p&gt;
+&lt;h2 id="解决步骤"&gt;解决步骤
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;和[1]中标准步骤一样，先对图表进行插入题注的操作，然后切换章节部分的域代码。&lt;/li&gt;
+&lt;li&gt;在&lt;strong&gt;插入&amp;gt;域&lt;/strong&gt;选项里随便添加一个域代码，比如&lt;code&gt;AUTONUM&lt;/code&gt;（位置参考图1，Windows版在文档部件里面）。&lt;/li&gt;
+&lt;li&gt;对插入的域代码再次进行切换域代码的操作，这样就生成了一个&lt;code&gt;{}&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;然后按照 [1]中的步骤对应修改域代码即可。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src="https://blog.kuludu.net/article/macos-ms-office-auto-number/1.png"
 width="306"
 height="158"
 srcset="https://blog.kuludu.net/article/macos-ms-office-auto-number/1_hu_8a91dfe79d8d894c.png 480w, https://blog.kuludu.net/article/macos-ms-office-auto-number/1_hu_a8ee05be19dbe936.png 1024w"
@@ -24,14 +24,14 @@ alt="图1"
 class="gallery-image"
 data-flex-grow="193"
 data-flex-basis="464px"
->&lt;/p>
-&lt;p>当然我们不可能每次插入图表都这样操作一次，同样我们不使用快捷键也可以添加文档基块。&lt;/p>
-&lt;ol>
-&lt;li>光标选择图或表的编号。&lt;/li>
-&lt;li>在&lt;strong>自动图文集&amp;gt;新建&lt;/strong>添加（位置参考图2，Windows版同样在文档部件里）。&lt;/li>
-&lt;li>随便取一个名字，比如&lt;code>图&lt;/code>，然后在想插入的位置输入对应图文集的名字就可以快捷插入编号了。&lt;/li>
-&lt;/ol>
-&lt;p>&lt;img src="https://blog.kuludu.net/article/macos-ms-office-auto-number/2.png"
+&gt;&lt;/p&gt;
+&lt;p&gt;当然我们不可能每次插入图表都这样操作一次，同样我们不使用快捷键也可以添加文档基块。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;光标选择图或表的编号。&lt;/li&gt;
+&lt;li&gt;在&lt;strong&gt;自动图文集&amp;gt;新建&lt;/strong&gt;添加（位置参考图2，Windows版同样在文档部件里）。&lt;/li&gt;
+&lt;li&gt;随便取一个名字，比如&lt;code&gt;图&lt;/code&gt;，然后在想插入的位置输入对应图文集的名字就可以快捷插入编号了。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src="https://blog.kuludu.net/article/macos-ms-office-auto-number/2.png"
 width="652"
 height="162"
 srcset="https://blog.kuludu.net/article/macos-ms-office-auto-number/2_hu_f4ac51fbef2ebd9e.png 480w, https://blog.kuludu.net/article/macos-ms-office-auto-number/2_hu_d5f416d35e956d04.png 1024w"
@@ -40,221 +40,221 @@ alt="图2"
 class="gallery-image"
 data-flex-grow="402"
 data-flex-basis="965px"
->&lt;/p>
-&lt;p>macOS的MS Office真的是个半成品&amp;hellip;&lt;/p>
-&lt;hr>
-&lt;p>Reference&lt;/p>
-&lt;ol>
-&lt;li>&lt;a class="link" href="https://yxchangingself.xyz/posts/2028856356/" target="_blank" rel="noopener"
->https://yxchangingself.xyz/posts/2028856356/&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="https://support.microsoft.com/zh-cn/office/word-%E4%B8%AD%E7%9A%84%E9%94%AE%E7%9B%98%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F-95ef89dd-7142-4b50-afb2-f762f663ceb2#PickTab=macOS" target="_blank" rel="noopener"
->https://support.microsoft.com/zh-cn/office/word-%E4%B8%AD%E7%9A%84%E9%94%AE%E7%9B%98%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F-95ef89dd-7142-4b50-afb2-f762f663ceb2#PickTab=macOS&lt;/a>&lt;/li>
-&lt;/ol></description></item><item><title>MacOS下卸载System Extensions</title><link>https://blog.kuludu.net/article/macos%E4%B8%8B%E5%8D%B8%E8%BD%BDsystem-extensions/</link><pubDate>Sat, 29 May 2021 15:29:00 +0800</pubDate><guid>https://blog.kuludu.net/article/macos%E4%B8%8B%E5%8D%B8%E8%BD%BDsystem-extensions/</guid><description>&lt;p>System Extensions是macOS的一套系统拓展机制，从macOS Catalina开始出现，具体可以参考Apple Developer的&lt;a class="link" href="https://developer.apple.com/system-extensions/" target="_blank" rel="noopener"
->这篇介绍&lt;/a>。&lt;/p>
-&lt;p>一般情况下，用户并不需要手动维护系统拓展。在拓展安装与应用卸载的过程中系统会自动检查并执行相关操作。&lt;/p>
-&lt;p>然而，既然有了本文就说明有那么一个问题。&lt;/p>
-&lt;p>&lt;strong>What if an application fail to uninstall its own system extension?&lt;/strong>&lt;/p>
-&lt;p>这个问题发生在我正想卸载我的安全软件Avast Security上。&lt;/p>
-&lt;p>在执行卸载操作的时候，程序提示&lt;code>fail to uninstall&lt;/code>。&lt;/p>
-&lt;p>首先列出我的软件信息：macOS Big Sur 11.3.1、Avast Security（发文前最新版本）。&lt;/p>
-&lt;p>系统洁癖症如我，自然不指望厂商修复了，还是手动卸载吧。&lt;/p>
-&lt;p>搜索相关资料，得知macOS可以通过&lt;code>systemextensionsctl&lt;/code>这个命令管理系统拓展。&lt;/p>
-&lt;p>于是系统提示如下：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">At this time, this tool cannot be used if System Integrity Protection is enabled.
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">This limitation will be removed in the near future.
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Please remember to re-enable System Integrity Protection!
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>没错，就是不能卸载！&lt;/p>
-&lt;p>原因就是系统集成保护（SIP）的锅。有了这个机制甚至root用户也不能修改与系统及系统拓展相关的文件（也就是说root用户也没法手动关闭系统拓展）。&lt;/p>
-&lt;p>坑啊！&lt;/p>
-&lt;p>解决方案其实也很明了，使用&lt;code>command + R&lt;/code>进入System Recovery模式，通过&lt;code>csrutil&lt;/code>命令关闭这令人又爱又恨的SIP，再正常启动卸载系统拓展就行（执行过程中有种裸奔的感觉😓）。&lt;/p>
-&lt;p>&lt;strong>卸载完成后别忘了用同样的方法开启SIP！&lt;/strong>&lt;/p>
-&lt;p>&lt;strong>卸载完成后别忘了用同样的方法开启SIP！&lt;/strong>&lt;/p>
-&lt;p>&lt;strong>卸载完成后别忘了用同样的方法开启SIP！&lt;/strong>&lt;/p>
-&lt;p>重要的事情说三遍，毕竟SIP还是一个非常优秀的系统保护机制的。&lt;/p>
-&lt;hr>
-&lt;p>（希望Apple有关解除限制的承诺能尽快兑现。&lt;/p></description></item><item><title>在macOS下使用GPG对Git commit签名</title><link>https://blog.kuludu.net/article/%E5%9C%A8macos%E4%B8%8B%E4%BD%BF%E7%94%A8gpg%E5%AF%B9git-commit%E7%AD%BE%E5%90%8D/</link><pubDate>Sun, 27 Dec 2020 23:41:00 +0800</pubDate><guid>https://blog.kuludu.net/article/%E5%9C%A8macos%E4%B8%8B%E4%BD%BF%E7%94%A8gpg%E5%AF%B9git-commit%E7%AD%BE%E5%90%8D/</guid><description>&lt;p>在macOS 11.1下测试通过。&lt;/p>
-&lt;ul>
-&lt;li>gpg (GnuPG) 2.2.25&lt;/li>
-&lt;li>libgcrypt 1.8.7&lt;/li>
-&lt;li>pinentry-mac (pinentry) 0.9.4&lt;/li>
-&lt;/ul>
-&lt;h2 id="安装所需软件">安装所需软件
-&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">brew install gpg2 gnupg pinentry-mac
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h2 id="创建钥匙对">创建钥匙对
-&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">gpg --full-generate-key
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>这里建议使用&lt;code>--full-generate-key&lt;/code>选项自定义全部选项，按照提示输入即可，加密方法选&lt;code>(1) RSA and RSA (default)&lt;/code>，密钥长度可选择最长&lt;code>4096&lt;/code>。&lt;/p>
-&lt;p>其中邮箱地址需要与Github中验证通过的邮箱保持一致。&lt;/p>
-&lt;h2 id="设置终端环境变量">设置终端环境变量
-&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">GPG_TTY&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>tty&lt;span class="k">)&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>在这一步，设置GPG终端类型环境变量，目的是让GPG程序知道使用什么作为终端，并使其生效：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">source&lt;/span> ~/.zshrc &lt;span class="c1"># 如果使用的是bash，更改为.bashrc&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h2 id="配置gpg代理">配置GPG代理
-&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">vim ~/.gnupg/gpg-agent.conf
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>将以下内容追加进入配置文件&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">pinentry-program /usr/local/bin/pinentry-mac
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>这样，就可以使用pinentry管理GPG密钥了。&lt;/p>
-&lt;h2 id="载入gpg代理配置">载入GPG代理配置
-&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">gpgconf --kill gpg-agent
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>通过杀死&lt;code>gpg-agent&lt;/code>，确保配置文件被加载。&lt;/p>
-&lt;h2 id="测试一下">测试一下
-&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">echo&lt;/span> &lt;span class="s2">&amp;#34;test&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> gpg --clearsign
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>运行以上命令，对字符串&lt;code>test&lt;/code>进行签名以测试gpg是否配置成功。&lt;/p>
-&lt;p>如果配置成功，应该会出现pinentry的窗口，选择&lt;code>Save in keychain&lt;/code>可以将密码保存至钥匙链。&lt;/p>
-&lt;p>正确输入密码后，可以看到信息和签名。&lt;/p>
-&lt;h2 id="获取密钥id">获取密钥ID
-&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">gpg -K --keyid-format SHORT
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>执行成功应该会出现这样的内容：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">-------------------------------------
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sec rsa4096/&amp;lt;Key ID Short&amp;gt; 2020-12-27 [SC] [expires: 2024-12-26]
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &amp;lt;Key ID&amp;gt;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">uid [ultimate] example &amp;lt;example@example.com&amp;gt;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>使用&lt;code>Key ID Short&lt;/code>或&lt;code>Key ID&lt;/code>均可。&lt;/p>
-&lt;h2 id="在git中设置密钥">在Git中设置密钥
-&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">git config --global user.signingkey &amp;lt;Key ID&amp;gt;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>通过以上命令可以在全局设置中配置密钥ID。&lt;/p>
-&lt;h2 id="开启强制签名">开启强制签名
-&lt;/h2>&lt;p>通过以上步骤就可以实现GPG签名commit了，只需要添加&lt;code>-S&lt;/code>选项即可，如下：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">git commit -S -m &lt;span class="s2">&amp;#34;这是一条签名过的commit&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>但是为了方便，我们可以通过全局设置来强制开启GPG&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">git config --global commit.gpgsign &lt;span class="nb">true&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git config --global tag.forceSignAnnotated &lt;span class="nb">true&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>其中第一个参数是默认开启签名，第二个参数是强制开启签名。&lt;/p>
-&lt;hr>
-&lt;h2 id="后记">后记
-&lt;/h2>&lt;p>在最初的配置过程完成后，我对我的一个仓库进行commit操作出现错误，如下：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">error: gpg failed to sign the data
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">fatal: failed to write commit object
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>通过加入&lt;code>GIT_TRACE=1&lt;/code> 参数观察Git的执行过程，我发现其卡死在了这个命令的执行上：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">gpg --status-fd&lt;span class="o">=&lt;/span>&lt;span class="m">2&lt;/span> -bsau &amp;lt;Key ID&amp;gt;
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>具体是什么原因我并未做深究。&lt;/p>
-&lt;hr>
-&lt;h2 id="参考">参考
-&lt;/h2>&lt;ul>
-&lt;li>&lt;a class="link" href="https://help.github.com/articles/signing-commits-using-gpg/" target="_blank" rel="noopener"
->https://help.github.com/articles/signing-commits-using-gpg/&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="https://gist.github.com/troyfontaine/18c9146295168ee9ca2b30c00bd1b41e" target="_blank" rel="noopener"
->https://gist.github.com/troyfontaine/18c9146295168ee9ca2b30c00bd1b41e&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/signing-commits" target="_blank" rel="noopener"
->https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/signing-commits&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="https://merikan.com/2019/05/how-to-sign-git-commits/" target="_blank" rel="noopener"
->https://merikan.com/2019/05/how-to-sign-git-commits/&lt;/a>&lt;/li>
-&lt;/ul></description></item></channel></rss>
+&gt;&lt;/p&gt;
+&lt;p&gt;macOS的MS Office真的是个半成品&amp;hellip;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Reference&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a class="link" href="https://yxchangingself.xyz/posts/2028856356/" target="_blank" rel="noopener"
+&gt;https://yxchangingself.xyz/posts/2028856356/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://support.microsoft.com/zh-cn/office/word-%E4%B8%AD%E7%9A%84%E9%94%AE%E7%9B%98%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F-95ef89dd-7142-4b50-afb2-f762f663ceb2#PickTab=macOS" target="_blank" rel="noopener"
+&gt;https://support.microsoft.com/zh-cn/office/word-%E4%B8%AD%E7%9A%84%E9%94%AE%E7%9B%98%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F-95ef89dd-7142-4b50-afb2-f762f663ceb2#PickTab=macOS&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</description></item><item><title>MacOS下卸载System Extensions</title><link>https://blog.kuludu.net/article/macos%E4%B8%8B%E5%8D%B8%E8%BD%BDsystem-extensions/</link><pubDate>Sat, 29 May 2021 15:29:00 +0800</pubDate><guid>https://blog.kuludu.net/article/macos%E4%B8%8B%E5%8D%B8%E8%BD%BDsystem-extensions/</guid><description>&lt;p&gt;System Extensions是macOS的一套系统拓展机制，从macOS Catalina开始出现，具体可以参考Apple Developer的&lt;a class="link" href="https://developer.apple.com/system-extensions/" target="_blank" rel="noopener"
+&gt;这篇介绍&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;一般情况下，用户并不需要手动维护系统拓展。在拓展安装与应用卸载的过程中系统会自动检查并执行相关操作。&lt;/p&gt;
+&lt;p&gt;然而，既然有了本文就说明有那么一个问题。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;What if an application fail to uninstall its own system extension?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;这个问题发生在我正想卸载我的安全软件Avast Security上。&lt;/p&gt;
+&lt;p&gt;在执行卸载操作的时候，程序提示&lt;code&gt;fail to uninstall&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;首先列出我的软件信息：macOS Big Sur 11.3.1、Avast Security（发文前最新版本）。&lt;/p&gt;
+&lt;p&gt;系统洁癖症如我，自然不指望厂商修复了，还是手动卸载吧。&lt;/p&gt;
+&lt;p&gt;搜索相关资料，得知macOS可以通过&lt;code&gt;systemextensionsctl&lt;/code&gt;这个命令管理系统拓展。&lt;/p&gt;
+&lt;p&gt;于是系统提示如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;At this time, this tool cannot be used if System Integrity Protection is enabled.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;This limitation will be removed in the near future.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Please remember to re-enable System Integrity Protection!
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;没错，就是不能卸载！&lt;/p&gt;
+&lt;p&gt;原因就是系统集成保护（SIP）的锅。有了这个机制甚至root用户也不能修改与系统及系统拓展相关的文件（也就是说root用户也没法手动关闭系统拓展）。&lt;/p&gt;
+&lt;p&gt;坑啊！&lt;/p&gt;
+&lt;p&gt;解决方案其实也很明了，使用&lt;code&gt;command + R&lt;/code&gt;进入System Recovery模式，通过&lt;code&gt;csrutil&lt;/code&gt;命令关闭这令人又爱又恨的SIP，再正常启动卸载系统拓展就行（执行过程中有种裸奔的感觉😓）。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;卸载完成后别忘了用同样的方法开启SIP！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;卸载完成后别忘了用同样的方法开启SIP！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;卸载完成后别忘了用同样的方法开启SIP！&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;重要的事情说三遍，毕竟SIP还是一个非常优秀的系统保护机制的。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;（希望Apple有关解除限制的承诺能尽快兑现。&lt;/p&gt;</description></item><item><title>在macOS下使用GPG对Git commit签名</title><link>https://blog.kuludu.net/article/%E5%9C%A8macos%E4%B8%8B%E4%BD%BF%E7%94%A8gpg%E5%AF%B9git-commit%E7%AD%BE%E5%90%8D/</link><pubDate>Sun, 27 Dec 2020 23:41:00 +0800</pubDate><guid>https://blog.kuludu.net/article/%E5%9C%A8macos%E4%B8%8B%E4%BD%BF%E7%94%A8gpg%E5%AF%B9git-commit%E7%AD%BE%E5%90%8D/</guid><description>&lt;p&gt;在macOS 11.1下测试通过。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;gpg (GnuPG) 2.2.25&lt;/li&gt;
+&lt;li&gt;libgcrypt 1.8.7&lt;/li&gt;
+&lt;li&gt;pinentry-mac (pinentry) 0.9.4&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="安装所需软件"&gt;安装所需软件
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;brew install gpg2 gnupg pinentry-mac
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="创建钥匙对"&gt;创建钥匙对
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;gpg --full-generate-key
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这里建议使用&lt;code&gt;--full-generate-key&lt;/code&gt;选项自定义全部选项，按照提示输入即可，加密方法选&lt;code&gt;(1) RSA and RSA (default)&lt;/code&gt;，密钥长度可选择最长&lt;code&gt;4096&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;其中邮箱地址需要与Github中验证通过的邮箱保持一致。&lt;/p&gt;
+&lt;h2 id="设置终端环境变量"&gt;设置终端环境变量
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;export&lt;/span&gt; &lt;span class="nv"&gt;GPG_TTY&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;tty&lt;span class="k"&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;在这一步，设置GPG终端类型环境变量，目的是让GPG程序知道使用什么作为终端，并使其生效：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;source&lt;/span&gt; ~/.zshrc &lt;span class="c1"&gt;# 如果使用的是bash，更改为.bashrc&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="配置gpg代理"&gt;配置GPG代理
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;vim ~/.gnupg/gpg-agent.conf
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;将以下内容追加进入配置文件&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;pinentry-program /usr/local/bin/pinentry-mac
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这样，就可以使用pinentry管理GPG密钥了。&lt;/p&gt;
+&lt;h2 id="载入gpg代理配置"&gt;载入GPG代理配置
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;gpgconf --kill gpg-agent
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;通过杀死&lt;code&gt;gpg-agent&lt;/code&gt;，确保配置文件被加载。&lt;/p&gt;
+&lt;h2 id="测试一下"&gt;测试一下
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;test&amp;#34;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; gpg --clearsign
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;运行以上命令，对字符串&lt;code&gt;test&lt;/code&gt;进行签名以测试gpg是否配置成功。&lt;/p&gt;
+&lt;p&gt;如果配置成功，应该会出现pinentry的窗口，选择&lt;code&gt;Save in keychain&lt;/code&gt;可以将密码保存至钥匙链。&lt;/p&gt;
+&lt;p&gt;正确输入密码后，可以看到信息和签名。&lt;/p&gt;
+&lt;h2 id="获取密钥id"&gt;获取密钥ID
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;gpg -K --keyid-format SHORT
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;执行成功应该会出现这样的内容：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sec rsa4096/&amp;lt;Key ID Short&amp;gt; 2020-12-27 [SC] [expires: 2024-12-26]
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &amp;lt;Key ID&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;uid [ultimate] example &amp;lt;example@example.com&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;使用&lt;code&gt;Key ID Short&lt;/code&gt;或&lt;code&gt;Key ID&lt;/code&gt;均可。&lt;/p&gt;
+&lt;h2 id="在git中设置密钥"&gt;在Git中设置密钥
+&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git config --global user.signingkey &amp;lt;Key ID&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;通过以上命令可以在全局设置中配置密钥ID。&lt;/p&gt;
+&lt;h2 id="开启强制签名"&gt;开启强制签名
+&lt;/h2&gt;&lt;p&gt;通过以上步骤就可以实现GPG签名commit了，只需要添加&lt;code&gt;-S&lt;/code&gt;选项即可，如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git commit -S -m &lt;span class="s2"&gt;&amp;#34;这是一条签名过的commit&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;但是为了方便，我们可以通过全局设置来强制开启GPG&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git config --global commit.gpgsign &lt;span class="nb"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git config --global tag.forceSignAnnotated &lt;span class="nb"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;其中第一个参数是默认开启签名，第二个参数是强制开启签名。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="后记"&gt;后记
+&lt;/h2&gt;&lt;p&gt;在最初的配置过程完成后，我对我的一个仓库进行commit操作出现错误，如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;error: gpg failed to sign the data
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;fatal: failed to write commit object
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;通过加入&lt;code&gt;GIT_TRACE=1&lt;/code&gt; 参数观察Git的执行过程，我发现其卡死在了这个命令的执行上：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;gpg --status-fd&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt; -bsau &amp;lt;Key ID&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;具体是什么原因我并未做深究。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="参考"&gt;参考
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://help.github.com/articles/signing-commits-using-gpg/" target="_blank" rel="noopener"
+&gt;https://help.github.com/articles/signing-commits-using-gpg/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://gist.github.com/troyfontaine/18c9146295168ee9ca2b30c00bd1b41e" target="_blank" rel="noopener"
+&gt;https://gist.github.com/troyfontaine/18c9146295168ee9ca2b30c00bd1b41e&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/signing-commits" target="_blank" rel="noopener"
+&gt;https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/signing-commits&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://merikan.com/2019/05/how-to-sign-git-commits/" target="_blank" rel="noopener"
+&gt;https://merikan.com/2019/05/how-to-sign-git-commits/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

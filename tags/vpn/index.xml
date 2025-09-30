@@ -1,132 +1,132 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VPN on Kuludu的博客</title><link>https://blog.kuludu.net/tags/vpn/</link><description>Recent content in VPN on Kuludu的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Kuludu</copyright><lastBuildDate>Thu, 08 May 2025 15:50:00 +0800</lastBuildDate><atom:link href="https://blog.kuludu.net/tags/vpn/index.xml" rel="self" type="application/rss+xml"/><item><title>EasyConnect净化-以江南大学为例</title><link>https://blog.kuludu.net/article/easyconnect-purify-jnu-as-example/</link><pubDate>Thu, 08 May 2025 15:50:00 +0800</pubDate><guid>https://blog.kuludu.net/article/easyconnect-purify-jnu-as-example/</guid><description>&lt;p>深信服作为全国各大高校主流的VPN提供商，却魔改VPN协议，甚至会向系统加入自签名的CA证书（具体的危害可以搜素之）。本文介绍一种将深信服VPN客户端EasyConnect放进容器里的方法，实现应用与宿主机隔离，仅向外部暴露代理接口，实现净化的同时允许按需连接（以江南大学作为案例）。&lt;/p>
-&lt;p>本文默认docker已经完成安装。&lt;/p>
-&lt;h2 id="部署docker-easyconnect容器">部署docker-easyconnect容器
-&lt;/h2>&lt;p>这一步主要需要参考&lt;a class="link" href="https://github.com/docker-easyconnect/docker-easyconnect?tab=readme-ov-file" target="_blank" rel="noopener"
->docker-easyconnect&lt;/a>项目的说明文档。需要注意的是目前大部分高校所使用的EasyConnect版本应该是具有图形界面的版本，所以需要选择第二个版本。同时可以考虑去掉官方文档中的：&lt;/p>
-&lt;ul>
-&lt;li>ti：用于启动一个交互式终端，意义不大。&lt;/li>
-&lt;li>rm：在容器停止后删除容器，可以考虑保留容器下次直接重新启动。&lt;/li>
-&lt;/ul>
-&lt;p>另外端口可以按照实际情况进行修改，比如&lt;code>8888&lt;/code>端口一般会和jupyter冲突。如果你和我一样使用的是macOS系统，可以使用&lt;code>Screen Sharing.app&lt;/code>连接VNC而不需要下载新的软件。&lt;/p>
-&lt;h2 id="增加clash规则">增加Clash规则
-&lt;/h2>&lt;p>按照官方文档中的步骤，此时系统已经在1080端口启动了一个socks5代理，在8888端口启动了一个http代理。我们现在需要做的就是修改系统代理，让流量走我们刚刚部署好的净化容器。&lt;/p>
-&lt;p>这里我们使用Clash作为我们的代理软件。具体可以添加以下规则：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl"># 放通VPN及内网认证
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">- DOMAIN,vpn.jiangnan.edu.cn,DIRECT
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">- DOMAIN,net.jiangnan.edu.cn,DIRECT
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">- IP-CIDR,202.195.159.160/32,DIRECT
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># 江南大学网站群
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">- DOMAIN-SUFFIX,jiangnan.edu.cn,VPN
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># 江南大学内网IP段
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">- IP-CIDR,172.16.0.0/12,VPN
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"># 江南大学外网IP段
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">- IP-CIDR,202.192.0.0/12,VPN
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>除了&lt;code>vpn.jiangnan.edu.cn&lt;/code>和&lt;code>net.jiangnan.edu.cn&lt;/code>这两个基础性域名需要直连以外，还需要放通&lt;code>202.195.159.160&lt;/code>这个IP，这是在短信认证阶段抓包发现的，似乎是用作EasyConnect登陆验证的。&lt;/p>
-&lt;p>包含端口设置和代理设置的配置文件可以参考：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;span class="lnt">16
-&lt;/span>&lt;span class="lnt">17
-&lt;/span>&lt;span class="lnt">18
-&lt;/span>&lt;span class="lnt">19
-&lt;/span>&lt;span class="lnt">20
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">mixed-port: 7890
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">allow-lan: false
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">mode: Rule
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">log-level: info
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">external-controller: 127.0.0.1:9090
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">proxies:
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> - {name: VPN-socks5, server: localhost, port: 1080, type: socks5}
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">proxy-groups:
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> - name: VPN
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> type: select
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> proxies:
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> - VPN-socks5
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> - DIRECT
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">rules:
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> - DOMAIN,vpn.jiangnan.edu.cn,DIRECT
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> - DOMAIN,net.jiangnan.edu.cn,DIRECT
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> - IP-CIDR,202.195.159.160/32,DIRECT
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> - DOMAIN-SUFFIX,jiangnan.edu.cn,VPN
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> - IP-CIDR,172.16.0.0/12,VPN
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> - IP-CIDR,202.192.0.0/12,VPN
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>如果你不需要直连内网IP，也可以不用加入内网和外网IP段。&lt;/p>
-&lt;p>Note：若你需要为你的学校配置规则，可以参考以下思路：&lt;/p>
-&lt;ul>
-&lt;li>替换学校网站群域名，尤其注意不能被代理的域名（比如VPN登陆和内网登陆系统等，可以观察Clash日志）。&lt;/li>
-&lt;li>获取学校内网网段，这个信息一般是不公开的，可以在不冲突的情况下设置大一些，替换内网段。&lt;/li>
-&lt;li>通过IP获取学校外网ASN，可以使用&lt;a class="link" href="https://tools.ipip.net/as.php" target="_blank" rel="noopener"
->https://tools.ipip.net/as.php&lt;/a>，替换外网段。&lt;/li>
-&lt;/ul>
-&lt;p>详细的配置文件说明这里不再赘述，可以参考&lt;a class="link" href="https://clash.wiki/configuration/rules.html" target="_blank" rel="noopener"
->Clash Wiki&lt;/a>的说明。&lt;/p>
-&lt;h2 id="为ssh添加proxycommand">为SSH添加ProxyCommand
-&lt;/h2>&lt;p>到目前为止常规的代理配置基本上就结束了。但是对于计算机专业而言，可能还有通过SSH连接内网服务器的需求。由于SSH默认是不支持socks5或http代理的，我们还需要进一步配置。&lt;/p>
-&lt;p>配置的方法其实也很简单，在&lt;code>ProxyCommand&lt;/code>中使用&lt;code>netcat&lt;/code>设置SSH的代理即可，可以参考以下配置（~/.ssh/config）：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">Host host-1
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> HostName 172.xx.xx.xx
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> User xxxx
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> ProxyCommand nc -x 127.0.0.1:7890 -X 5 %h %p
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>如果不想写配置文件也可以在SSH连接时加上，比如：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-zsh" data-lang="zsh">&lt;span class="line">&lt;span class="cl">ssh -o &lt;span class="s2">&amp;#34;ProxyCommand=nc -x 127.0.0.1:7891 -X 5 %h %p&amp;#34;&lt;/span> xxxx@172.xx.xx.xx
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>值得注意的是，netcat在不同操作系统上的实现并不相同，这里的实验环境是macOS，如果是Windows WSL或者其他Linux发行版，可能需要修改对应的nc命令参数。&lt;/p>
-&lt;hr>
-&lt;h2 id="reference">Reference
-&lt;/h2>&lt;ul>
-&lt;li>&lt;a class="link" href="https://github.com/docker-easyconnect/docker-easyconnect?tab=readme-ov-file" target="_blank" rel="noopener"
->docker-easyconnect&lt;/a>&lt;/li>
-&lt;li>&lt;a class="link" href="https://clash.wiki/configuration/rules.html" target="_blank" rel="noopener"
->Clash Wiki&lt;/a>&lt;/li>
-&lt;/ul></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>VPN on Kuludu的博客</title><link>https://blog.kuludu.net/tags/vpn/</link><description>Recent content in VPN on Kuludu的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Kuludu</copyright><lastBuildDate>Thu, 08 May 2025 15:50:00 +0800</lastBuildDate><atom:link href="https://blog.kuludu.net/tags/vpn/index.xml" rel="self" type="application/rss+xml"/><item><title>EasyConnect净化-以江南大学为例</title><link>https://blog.kuludu.net/article/easyconnect-purify-jnu-as-example/</link><pubDate>Thu, 08 May 2025 15:50:00 +0800</pubDate><guid>https://blog.kuludu.net/article/easyconnect-purify-jnu-as-example/</guid><description>&lt;p&gt;深信服作为全国各大高校主流的VPN提供商，却魔改VPN协议，甚至会向系统加入自签名的CA证书（具体的危害可以搜素之）。本文介绍一种将深信服VPN客户端EasyConnect放进容器里的方法，实现应用与宿主机隔离，仅向外部暴露代理接口，实现净化的同时允许按需连接（以江南大学作为案例）。&lt;/p&gt;
+&lt;p&gt;本文默认docker已经完成安装。&lt;/p&gt;
+&lt;h2 id="部署docker-easyconnect容器"&gt;部署docker-easyconnect容器
+&lt;/h2&gt;&lt;p&gt;这一步主要需要参考&lt;a class="link" href="https://github.com/docker-easyconnect/docker-easyconnect?tab=readme-ov-file" target="_blank" rel="noopener"
+&gt;docker-easyconnect&lt;/a&gt;项目的说明文档。需要注意的是目前大部分高校所使用的EasyConnect版本应该是具有图形界面的版本，所以需要选择第二个版本。同时可以考虑去掉官方文档中的：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ti：用于启动一个交互式终端，意义不大。&lt;/li&gt;
+&lt;li&gt;rm：在容器停止后删除容器，可以考虑保留容器下次直接重新启动。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;另外端口可以按照实际情况进行修改，比如&lt;code&gt;8888&lt;/code&gt;端口一般会和jupyter冲突。如果你和我一样使用的是macOS系统，可以使用&lt;code&gt;Screen Sharing.app&lt;/code&gt;连接VNC而不需要下载新的软件。&lt;/p&gt;
+&lt;h2 id="增加clash规则"&gt;增加Clash规则
+&lt;/h2&gt;&lt;p&gt;按照官方文档中的步骤，此时系统已经在1080端口启动了一个socks5代理，在8888端口启动了一个http代理。我们现在需要做的就是修改系统代理，让流量走我们刚刚部署好的净化容器。&lt;/p&gt;
+&lt;p&gt;这里我们使用Clash作为我们的代理软件。具体可以添加以下规则：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;# 放通VPN及内网认证
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;- DOMAIN,vpn.jiangnan.edu.cn,DIRECT
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;- DOMAIN,net.jiangnan.edu.cn,DIRECT
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;- IP-CIDR,202.195.159.160/32,DIRECT
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;# 江南大学网站群
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;- DOMAIN-SUFFIX,jiangnan.edu.cn,VPN
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;# 江南大学内网IP段
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;- IP-CIDR,172.16.0.0/12,VPN
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;# 江南大学外网IP段
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;- IP-CIDR,202.192.0.0/12,VPN
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;除了&lt;code&gt;vpn.jiangnan.edu.cn&lt;/code&gt;和&lt;code&gt;net.jiangnan.edu.cn&lt;/code&gt;这两个基础性域名需要直连以外，还需要放通&lt;code&gt;202.195.159.160&lt;/code&gt;这个IP，这是在短信认证阶段抓包发现的，似乎是用作EasyConnect登陆验证的。&lt;/p&gt;
+&lt;p&gt;包含端口设置和代理设置的配置文件可以参考：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;span class="lnt"&gt;12
+&lt;/span&gt;&lt;span class="lnt"&gt;13
+&lt;/span&gt;&lt;span class="lnt"&gt;14
+&lt;/span&gt;&lt;span class="lnt"&gt;15
+&lt;/span&gt;&lt;span class="lnt"&gt;16
+&lt;/span&gt;&lt;span class="lnt"&gt;17
+&lt;/span&gt;&lt;span class="lnt"&gt;18
+&lt;/span&gt;&lt;span class="lnt"&gt;19
+&lt;/span&gt;&lt;span class="lnt"&gt;20
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;mixed-port: 7890
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;allow-lan: false
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;mode: Rule
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;log-level: info
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;external-controller: 127.0.0.1:9090
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;proxies:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; - {name: VPN-socks5, server: localhost, port: 1080, type: socks5}
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;proxy-groups:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; - name: VPN
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; type: select
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; proxies:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; - VPN-socks5
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; - DIRECT
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;rules:
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; - DOMAIN,vpn.jiangnan.edu.cn,DIRECT
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; - DOMAIN,net.jiangnan.edu.cn,DIRECT
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; - IP-CIDR,202.195.159.160/32,DIRECT
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; - DOMAIN-SUFFIX,jiangnan.edu.cn,VPN
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; - IP-CIDR,172.16.0.0/12,VPN
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; - IP-CIDR,202.192.0.0/12,VPN
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果你不需要直连内网IP，也可以不用加入内网和外网IP段。&lt;/p&gt;
+&lt;p&gt;Note：若你需要为你的学校配置规则，可以参考以下思路：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;替换学校网站群域名，尤其注意不能被代理的域名（比如VPN登陆和内网登陆系统等，可以观察Clash日志）。&lt;/li&gt;
+&lt;li&gt;获取学校内网网段，这个信息一般是不公开的，可以在不冲突的情况下设置大一些，替换内网段。&lt;/li&gt;
+&lt;li&gt;通过IP获取学校外网ASN，可以使用&lt;a class="link" href="https://tools.ipip.net/as.php" target="_blank" rel="noopener"
+&gt;https://tools.ipip.net/as.php&lt;/a&gt;，替换外网段。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;详细的配置文件说明这里不再赘述，可以参考&lt;a class="link" href="https://clash.wiki/configuration/rules.html" target="_blank" rel="noopener"
+&gt;Clash Wiki&lt;/a&gt;的说明。&lt;/p&gt;
+&lt;h2 id="为ssh添加proxycommand"&gt;为SSH添加ProxyCommand
+&lt;/h2&gt;&lt;p&gt;到目前为止常规的代理配置基本上就结束了。但是对于计算机专业而言，可能还有通过SSH连接内网服务器的需求。由于SSH默认是不支持socks5或http代理的，我们还需要进一步配置。&lt;/p&gt;
+&lt;p&gt;配置的方法其实也很简单，在&lt;code&gt;ProxyCommand&lt;/code&gt;中使用&lt;code&gt;netcat&lt;/code&gt;设置SSH的代理即可，可以参考以下配置（~/.ssh/config）：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Host host-1
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; HostName 172.xx.xx.xx
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; User xxxx
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ProxyCommand nc -x 127.0.0.1:7890 -X 5 %h %p
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;如果不想写配置文件也可以在SSH连接时加上，比如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-zsh" data-lang="zsh"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ssh -o &lt;span class="s2"&gt;&amp;#34;ProxyCommand=nc -x 127.0.0.1:7891 -X 5 %h %p&amp;#34;&lt;/span&gt; xxxx@172.xx.xx.xx
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;值得注意的是，netcat在不同操作系统上的实现并不相同，这里的实验环境是macOS，如果是Windows WSL或者其他Linux发行版，可能需要修改对应的nc命令参数。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="reference"&gt;Reference
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://github.com/docker-easyconnect/docker-easyconnect?tab=readme-ov-file" target="_blank" rel="noopener"
+&gt;docker-easyconnect&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="https://clash.wiki/configuration/rules.html" target="_blank" rel="noopener"
+&gt;Clash Wiki&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>
