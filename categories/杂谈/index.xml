@@ -134,7 +134,8 @@
 &lt;blockquote&gt;
 &lt;p&gt;第一章 绪论&lt;br&gt;
 1.1 研究背景及意义&lt;br&gt;
-1.2 国内外研究进展&lt;/p&gt;&lt;/blockquote&gt;
+1.2 国内外研究进展&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;但是这样的编号要求会导致章节与小节编码符号不统一，最后显示为&lt;code&gt;一.1研究背景及意义&lt;/code&gt;。不过解决这个问题的方法很简单，只需要在多级列表里选择&lt;strong&gt;正规形式编号&lt;/strong&gt;即可。&lt;/p&gt;
 &lt;p&gt;但是这样操作还会引起另一个问题，那就是图表标题的按章自动编号也变成了&lt;code&gt;图 一.1&lt;/code&gt;或&lt;code&gt;表 一.1&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;参考资料[1]的做法，我们可以将章节编号的域代码修改为&lt;code&gt;{ QUOTE &amp;quot;一九一一年一月{ STYLEREF 1 \s }日&amp;quot; \@&amp;quot;D&amp;quot; }&lt;/code&gt;实现阿拉伯数字的自动编号。但是，这一点在macOS下的MS Office里不能直接实现，原因是域代码中的&lt;code&gt;{}&lt;/code&gt;符号是不能直接打出来的，必须使用快捷键生成。这就很尴尬了，因为macOS的快捷键和Windows的压根对不上。&lt;/p&gt;
