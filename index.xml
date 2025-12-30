@@ -150,7 +150,7 @@
 &lt;p&gt;&lt;img src="https://blog.kuludu.net/article/macos-ms-office-auto-number/1.png"
 width="306"
 height="158"
-srcset="https://blog.kuludu.net/article/macos-ms-office-auto-number/1_hu_8a91dfe79d8d894c.png 480w, https://blog.kuludu.net/article/macos-ms-office-auto-number/1_hu_a8ee05be19dbe936.png 1024w"
+srcset="https://blog.kuludu.net/article/macos-ms-office-auto-number/1_hu_1be6ba3c5bb8bbb3.png 480w, https://blog.kuludu.net/article/macos-ms-office-auto-number/1_hu_da0f98ac9137d4a1.png 1024w"
 loading="lazy"
 alt="图1"
 class="gallery-image"
@@ -166,7 +166,7 @@ data-flex-basis="464px"
 &lt;p&gt;&lt;img src="https://blog.kuludu.net/article/macos-ms-office-auto-number/2.png"
 width="652"
 height="162"
-srcset="https://blog.kuludu.net/article/macos-ms-office-auto-number/2_hu_f4ac51fbef2ebd9e.png 480w, https://blog.kuludu.net/article/macos-ms-office-auto-number/2_hu_d5f416d35e956d04.png 1024w"
+srcset="https://blog.kuludu.net/article/macos-ms-office-auto-number/2_hu_9481923789dcc43d.png 480w, https://blog.kuludu.net/article/macos-ms-office-auto-number/2_hu_535a2e65e1e64e05.png 1024w"
 loading="lazy"
 alt="图2"
 class="gallery-image"
@@ -414,7 +414,7 @@ data-flex-basis="965px"
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;chrono&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;high_resolution_clock&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;now&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;// Assign tasks to thread pool.
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ok_1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;ok_2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;stop&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;chrono&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;high_resolution_clock&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;now&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;auto&lt;/span&gt; &lt;span class="n"&gt;duration&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;chrono&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;duration_cast&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;chrono&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;microseconds&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stop&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
@@ -743,7 +743,7 @@ data-flex-basis="965px"
 &lt;p&gt;&lt;img src="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832.png"
 width="1086"
 height="1294"
-srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832_hu_392649173bacb366.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832_hu_f56f8c5335d930a7.png 1024w"
+srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832_hu_eca1e945f88b1eae.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832_hu_5bb942c1545f563d.png 1024w"
 loading="lazy"
 alt="Modify ref"
 class="gallery-image"
@@ -760,7 +760,7 @@ data-flex-basis="201px"
 &lt;p&gt;&lt;img src="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325.png"
 width="1624"
 height="1310"
-srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325_hu_9562685998dbcbed.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325_hu_a3c9973172794ccd.png 1024w"
+srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325_hu_487a6bddf0714c5f.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325_hu_f0661563dbe39c5a.png 1024w"
 loading="lazy"
 alt="Endnote Import"
 class="gallery-image"
@@ -775,7 +775,7 @@ data-flex-basis="297px"
 &lt;p&gt;&lt;img src="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272.png"
 width="1824"
 height="1300"
-srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272_hu_58f8ff5445f394ed.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272_hu_3e4d702eb1829e88.png 1024w"
+srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272_hu_2de2b4e5c5547e39.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272_hu_1e864edba341f877.png 1024w"
 loading="lazy"
 alt="Bibliography Export"
 class="gallery-image"
@@ -889,7 +889,7 @@ data-flex-basis="336px"
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;bits/stdc++.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;&lt;/span&gt;&lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="k"&gt;namespace&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="k"&gt;namespace&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
@@ -977,7 +977,7 @@ data-flex-basis="336px"
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-cpp" data-lang="cpp"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;bits/stdc++.h&amp;gt;&lt;/span&gt;&lt;span class="cp"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="cp"&gt;&lt;/span&gt;&lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="k"&gt;namespace&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="k"&gt;namespace&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
@@ -1296,7 +1296,7 @@ $$&lt;/p&gt;
 &lt;p&gt;&lt;img src="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825.png"
 width="389"
 height="90"
-srcset="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825_hu_71ea199cc7b62134.png 480w, https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825_hu_525853d91d2e5337.png 1024w"
+srcset="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825_hu_732902b7d88f0fd4.png 480w, https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825_hu_b3ab3c5fb3860724.png 1024w"
 loading="lazy"
 alt="AF436168-5387-4556-979B-721BE57A7A39.png"
 class="gallery-image"
@@ -1324,7 +1324,7 @@ data-flex-basis="1037px"
 &lt;p&gt;&lt;img src="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544.png"
 width="407"
 height="84"
-srcset="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544_hu_dbef2b96cb1145d8.png 480w, https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544_hu_5985e633df9bf574.png 1024w"
+srcset="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544_hu_63d4aa953462e186.png 480w, https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544_hu_dbd68c878e997d75.png 1024w"
 loading="lazy"
 alt="AF436168-5387-4556-979B-721BE57A7A39.png"
 class="gallery-image"
