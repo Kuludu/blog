@@ -83,7 +83,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;top_node&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;top_node&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;throw&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;runtime_error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;Stack is empty.&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
@@ -97,7 +97,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;throw&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;runtime_error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;Stack is empty.&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
@@ -160,7 +160,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;top_node&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;top_node&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;throw&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;runtime_error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;Stack is empty.&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
@@ -240,50 +240,50 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;本文所提到的线程池、有锁栈和无锁栈的完整代码实现均可在本人的开源项目&lt;a class="link" href="https://github.com/Kuludu/MyDSA/" target="_blank" rel="noopener"
-&gt;MyDSA&lt;/a&gt;中找到（如果对你有用，也麻烦点一个小星星呀！）。&lt;/p&gt;
+ &gt;MyDSA&lt;/a&gt;中找到（如果对你有用，也麻烦点一个小星星呀！）。&lt;/p&gt;
 &lt;h3 id="实验结果"&gt;实验结果
 &lt;/h3&gt;&lt;p&gt;实验结果如下表（单位为microsecond）。&lt;/p&gt;
 &lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;方法&lt;/th&gt;
-&lt;th&gt;有锁栈&lt;/th&gt;
-&lt;th&gt;无锁栈&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;#1&lt;/td&gt;
-&lt;td&gt;1,003,863&lt;/td&gt;
-&lt;td&gt;399,217&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;#2&lt;/td&gt;
-&lt;td&gt;884,579&lt;/td&gt;
-&lt;td&gt;186,314&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;#3&lt;/td&gt;
-&lt;td&gt;1,013,956&lt;/td&gt;
-&lt;td&gt;427,235&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Avg&lt;/td&gt;
-&lt;td&gt;967,466&lt;/td&gt;
-&lt;td&gt;337,588&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;方法&lt;/th&gt;
+ &lt;th&gt;有锁栈&lt;/th&gt;
+ &lt;th&gt;无锁栈&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;#1&lt;/td&gt;
+ &lt;td&gt;1,003,863&lt;/td&gt;
+ &lt;td&gt;399,217&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;#2&lt;/td&gt;
+ &lt;td&gt;884,579&lt;/td&gt;
+ &lt;td&gt;186,314&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;#3&lt;/td&gt;
+ &lt;td&gt;1,013,956&lt;/td&gt;
+ &lt;td&gt;427,235&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Avg&lt;/td&gt;
+ &lt;td&gt;967,466&lt;/td&gt;
+ &lt;td&gt;337,588&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;从实验结果的平均值来看，有锁栈相较于无锁栈快了2.86倍。当然这只是从入栈效率上来进行比较的，如果加上随机出栈与取值操作可能会有差异。&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id="reference"&gt;Reference
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a class="link" href="https://tech.meituan.com/2024/07/19/multi-threading-and-multi-thread-synchronization.html" target="_blank" rel="noopener"
-&gt;基本功 | 一文讲清多线程和多线程同步&lt;/a&gt;&lt;/li&gt;
+ &gt;基本功 | 一文讲清多线程和多线程同步&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://blog.csdn.net/davidhopper/article/details/131430830" target="_blank" rel="noopener"
-&gt;C++无锁编程——无锁栈(lock-free stack)&lt;/a&gt;&lt;/li&gt;
+ &gt;C++无锁编程——无锁栈(lock-free stack)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://www.cnblogs.com/ljmiao/p/18145946" target="_blank" rel="noopener"
-&gt;C++六种内存序详解&lt;/a&gt;&lt;/li&gt;
+ &gt;C++六种内存序详解&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description></item><item><title>lower_bound()的一个未预期的执行行为</title><link>https://blog.kuludu.net/article/lower_bound%E7%9A%84%E4%B8%80%E4%B8%AA%E6%9C%AA%E9%A2%84%E6%9C%9F%E7%9A%84%E6%89%A7%E8%A1%8C%E8%A1%8C%E4%B8%BA/</link><pubDate>Tue, 15 Jun 2021 15:36:00 +0800</pubDate><guid>https://blog.kuludu.net/article/lower_bound%E7%9A%84%E4%B8%80%E4%B8%AA%E6%9C%AA%E9%A2%84%E6%9C%9F%E7%9A%84%E6%89%A7%E8%A1%8C%E8%A1%8C%E4%B8%BA/</guid><description>&lt;p&gt;前一阵，后辈问了我一个问题：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -319,10 +319,12 @@
 &lt;p&gt;确实，从直观思考上来说，返回结果确实有些诡异。一时间我也不太理解。&lt;/p&gt;
 &lt;p&gt;我的第一反应是比较 &lt;code&gt;p&lt;/code&gt;与 &lt;code&gt;a.end()&lt;/code&gt;的位置关系，发现 &lt;code&gt;p=a.end()&lt;/code&gt;。也就是说，&lt;strong&gt;函数并没有在容器中找到比a大的元素&lt;/strong&gt;，这并不符合预期的执行结果。&lt;/p&gt;
 &lt;p&gt;遇事不决翻文档，于是我找到了&lt;a class="link" href="https://zh.cppreference.com/w/cpp/algorithm/upper_bound" target="_blank" rel="noopener"
-&gt;这篇文章&lt;/a&gt;。其中详细介绍了 &lt;code&gt;upper_bound&lt;/code&gt;函数的原型与定义，其中介绍中的这句话解决了这个问题：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;范围 &lt;code&gt;[first, last)&lt;/code&gt; 必须已相对于表达式 !(value &amp;lt; element) 或 !comp(value, element) 划分，即所有令此表达式为 true 的元素必须前趋所有令此表达式为 false 的元素。完全排序的范围满足此判别标准。&lt;/p&gt;
-&lt;/blockquote&gt;
+ &gt;这篇文章&lt;/a&gt;。其中详细介绍了 &lt;code&gt;upper_bound&lt;/code&gt;函数的原型与定义，其中介绍中的这句话解决了这个问题：&lt;/p&gt;
+
+ &lt;blockquote&gt;
+ &lt;p&gt;范围 &lt;code&gt;[first, last)&lt;/code&gt; 必须已相对于表达式 !(value &amp;lt; element) 或 !comp(value, element) 划分，即所有令此表达式为 true 的元素必须前趋所有令此表达式为 false 的元素。完全排序的范围满足此判别标准。&lt;/p&gt;
+
+ &lt;/blockquote&gt;
 &lt;p&gt;除了常提到的序列有序前提以外，&lt;code&gt;lower_bound&lt;/code&gt;对重载的比较关系也有一定的要求，这也就导致了上例中 &lt;code&gt;lower_bound&lt;/code&gt;函数不符合预期的执行。&lt;/p&gt;
 &lt;p&gt;参考其给出了函数可能的实现：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
@@ -355,9 +357,9 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;ForwardIt&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;iterator_traits&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;ForwardIt&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;difference_type&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;step&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;distance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;last&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;step&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;advance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;it&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;step&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;comp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;it&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;

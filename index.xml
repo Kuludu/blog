@@ -2,7 +2,7 @@
 &lt;p&gt;本文默认docker已经完成安装。&lt;/p&gt;
 &lt;h2 id="部署docker-easyconnect容器"&gt;部署docker-easyconnect容器
 &lt;/h2&gt;&lt;p&gt;这一步主要需要参考&lt;a class="link" href="https://github.com/docker-easyconnect/docker-easyconnect?tab=readme-ov-file" target="_blank" rel="noopener"
-&gt;docker-easyconnect&lt;/a&gt;项目的说明文档。需要注意的是目前大部分高校所使用的EasyConnect版本应该是具有图形界面的版本，所以需要选择第二个版本。同时可以考虑去掉官方文档中的：&lt;/p&gt;
+ &gt;docker-easyconnect&lt;/a&gt;项目的说明文档。需要注意的是目前大部分高校所使用的EasyConnect版本应该是具有图形界面的版本，所以需要选择第二个版本。同时可以考虑去掉官方文档中的：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;ti：用于启动一个交互式终端，意义不大。&lt;/li&gt;
 &lt;li&gt;rm：在容器停止后删除容器，可以考虑保留容器下次直接重新启动。&lt;/li&gt;
@@ -69,7 +69,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;log-level: info
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;external-controller: 127.0.0.1:9090
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;proxies:
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; - {name: VPN-socks5, server: localhost, port: 1080, type: socks5}
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; - {name: VPN-socks5, server: localhost, port: 1080, type: socks5} 
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;proxy-groups:
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; - name: VPN
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; type: select
@@ -91,10 +91,10 @@
 &lt;li&gt;替换学校网站群域名，尤其注意不能被代理的域名（比如VPN登陆和内网登陆系统等，可以观察Clash日志）。&lt;/li&gt;
 &lt;li&gt;获取学校内网网段，这个信息一般是不公开的，可以在不冲突的情况下设置大一些，替换内网段。&lt;/li&gt;
 &lt;li&gt;通过IP获取学校外网ASN，可以使用&lt;a class="link" href="https://tools.ipip.net/as.php" target="_blank" rel="noopener"
-&gt;https://tools.ipip.net/as.php&lt;/a&gt;，替换外网段。&lt;/li&gt;
+ &gt;https://tools.ipip.net/as.php&lt;/a&gt;，替换外网段。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;详细的配置文件说明这里不再赘述，可以参考&lt;a class="link" href="https://clash.wiki/configuration/rules.html" target="_blank" rel="noopener"
-&gt;Clash Wiki&lt;/a&gt;的说明。&lt;/p&gt;
+ &gt;Clash Wiki&lt;/a&gt;的说明。&lt;/p&gt;
 &lt;h2 id="为ssh添加proxycommand"&gt;为SSH添加ProxyCommand
 &lt;/h2&gt;&lt;p&gt;到目前为止常规的代理配置基本上就结束了。但是对于计算机专业而言，可能还有通过SSH连接内网服务器的需求。由于SSH默认是不支持socks5或http代理的，我们还需要进一步配置。&lt;/p&gt;
 &lt;p&gt;配置的方法其实也很简单，在&lt;code&gt;ProxyCommand&lt;/code&gt;中使用&lt;code&gt;netcat&lt;/code&gt;设置SSH的代理即可，可以参考以下配置（~/.ssh/config）：&lt;/p&gt;
@@ -126,16 +126,18 @@
 &lt;h2 id="reference"&gt;Reference
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a class="link" href="https://github.com/docker-easyconnect/docker-easyconnect?tab=readme-ov-file" target="_blank" rel="noopener"
-&gt;docker-easyconnect&lt;/a&gt;&lt;/li&gt;
+ &gt;docker-easyconnect&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://clash.wiki/configuration/rules.html" target="_blank" rel="noopener"
-&gt;Clash Wiki&lt;/a&gt;&lt;/li&gt;
+ &gt;Clash Wiki&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description></item><item><title>macOS版MS Office实现自动正规形式图标编号</title><link>https://blog.kuludu.net/article/macos-ms-office-auto-number/</link><pubDate>Mon, 16 Dec 2024 00:00:00 +0000</pubDate><guid>https://blog.kuludu.net/article/macos-ms-office-auto-number/</guid><description>&lt;p&gt;最近在进行学位论文的撰写工作的过程中遇到了这样一系列的问题：&lt;/p&gt;
 &lt;p&gt;按照学校论文格式要求，章节标题应当使用中文汉字，而小节标题应当使用阿拉伯数字。即如以下形式：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;第一章 绪论&lt;br&gt;
+
+ &lt;blockquote&gt;
+ &lt;p&gt;第一章 绪论&lt;br&gt;
 1.1 研究背景及意义&lt;br&gt;
 1.2 国内外研究进展&lt;/p&gt;
-&lt;/blockquote&gt;
+
+ &lt;/blockquote&gt;
 &lt;p&gt;但是这样的编号要求会导致章节与小节编码符号不统一，最后显示为&lt;code&gt;一.1研究背景及意义&lt;/code&gt;。不过解决这个问题的方法很简单，只需要在多级列表里选择&lt;strong&gt;正规形式编号&lt;/strong&gt;即可。&lt;/p&gt;
 &lt;p&gt;但是这样操作还会引起另一个问题，那就是图表标题的按章自动编号也变成了&lt;code&gt;图 一.1&lt;/code&gt;或&lt;code&gt;表 一.1&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;参考资料[1]的做法，我们可以将章节编号的域代码修改为&lt;code&gt;{ QUOTE &amp;quot;一九一一年一月{ STYLEREF 1 \s }日&amp;quot; \@&amp;quot;D&amp;quot; }&lt;/code&gt;实现阿拉伯数字的自动编号。但是，这一点在macOS下的MS Office里不能直接实现，原因是域代码中的&lt;code&gt;{}&lt;/code&gt;符号是不能直接打出来的，必须使用快捷键生成。这就很尴尬了，因为macOS的快捷键和Windows的压根对不上。&lt;/p&gt;
@@ -147,40 +149,22 @@
 &lt;li&gt;对插入的域代码再次进行切换域代码的操作，这样就生成了一个&lt;code&gt;{}&lt;/code&gt;。&lt;/li&gt;
 &lt;li&gt;然后按照 [1]中的步骤对应修改域代码即可。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src="https://blog.kuludu.net/article/macos-ms-office-auto-number/1.png"
-width="306"
-height="158"
-srcset="https://blog.kuludu.net/article/macos-ms-office-auto-number/1_hu_1be6ba3c5bb8bbb3.png 480w, https://blog.kuludu.net/article/macos-ms-office-auto-number/1_hu_da0f98ac9137d4a1.png 1024w"
-loading="lazy"
-alt="图1"
-class="gallery-image"
-data-flex-grow="193"
-data-flex-basis="464px"
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="图1" class="gallery-image" data-flex-basis="464px" data-flex-grow="193" height="158" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://blog.kuludu.net/article/macos-ms-office-auto-number/1.png" width="306"&gt;&lt;/p&gt;
 &lt;p&gt;当然我们不可能每次插入图表都这样操作一次，同样我们不使用快捷键也可以添加文档基块。&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;光标选择图或表的编号。&lt;/li&gt;
 &lt;li&gt;在&lt;strong&gt;自动图文集&amp;gt;新建&lt;/strong&gt;添加（位置参考图2，Windows版同样在文档部件里）。&lt;/li&gt;
 &lt;li&gt;随便取一个名字，比如&lt;code&gt;图&lt;/code&gt;，然后在想插入的位置输入对应图文集的名字就可以快捷插入编号了。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src="https://blog.kuludu.net/article/macos-ms-office-auto-number/2.png"
-width="652"
-height="162"
-srcset="https://blog.kuludu.net/article/macos-ms-office-auto-number/2_hu_9481923789dcc43d.png 480w, https://blog.kuludu.net/article/macos-ms-office-auto-number/2_hu_535a2e65e1e64e05.png 1024w"
-loading="lazy"
-alt="图2"
-class="gallery-image"
-data-flex-grow="402"
-data-flex-basis="965px"
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="图2" class="gallery-image" data-flex-basis="965px" data-flex-grow="402" height="162" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://blog.kuludu.net/article/macos-ms-office-auto-number/2.png" width="652"&gt;&lt;/p&gt;
 &lt;p&gt;macOS的MS Office真的是个半成品&amp;hellip;&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;Reference&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a class="link" href="https://yxchangingself.xyz/posts/2028856356/" target="_blank" rel="noopener"
-&gt;https://yxchangingself.xyz/posts/2028856356/&lt;/a&gt;&lt;/li&gt;
+ &gt;https://yxchangingself.xyz/posts/2028856356/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://support.microsoft.com/zh-cn/office/word-%E4%B8%AD%E7%9A%84%E9%94%AE%E7%9B%98%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F-95ef89dd-7142-4b50-afb2-f762f663ceb2#PickTab=macOS" target="_blank" rel="noopener"
-&gt;https://support.microsoft.com/zh-cn/office/word-%E4%B8%AD%E7%9A%84%E9%94%AE%E7%9B%98%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F-95ef89dd-7142-4b50-afb2-f762f663ceb2#PickTab=macOS&lt;/a&gt;&lt;/li&gt;
+ &gt;https://support.microsoft.com/zh-cn/office/word-%E4%B8%AD%E7%9A%84%E9%94%AE%E7%9B%98%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F-95ef89dd-7142-4b50-afb2-f762f663ceb2#PickTab=macOS&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;</description></item><item><title>有锁栈与无锁栈，实现与性能对比</title><link>https://blog.kuludu.net/article/lock-required-stack-vs-lock-free-stack/</link><pubDate>Fri, 25 Oct 2024 09:35:00 +0800</pubDate><guid>https://blog.kuludu.net/article/lock-required-stack-vs-lock-free-stack/</guid><description>&lt;p&gt;多线程同步是现代程序设计中一个重要问题，想要深入理解这一问题，就不得不深入到处理器与操作系统的具体实现中。但是我水平有限┑(￣Д ￣)┍，本文不过于详细地去探讨这一问题，而是以有锁栈与无锁栈作为切入点，主要对代码实现与实验性能上对两者进行一个比较。&lt;/p&gt;
 &lt;h2 id="有锁栈与无锁栈"&gt;有锁栈与无锁栈
 &lt;/h2&gt;&lt;p&gt;有锁栈的实现方式其实比较简单，在线程进入临界区的时候加锁即可，在完成对栈的操作解除对锁的占有。但是加锁解锁的过程对资源的消耗比较大，当线程没有Acquire到锁的时候会发生状态的切换，这在需要高性能计算的场景下或许并不合适。&lt;/p&gt;
@@ -266,7 +250,7 @@ data-flex-basis="965px"
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;top_node&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;top_node&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;throw&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;runtime_error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;Stack is empty.&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
@@ -280,7 +264,7 @@ data-flex-basis="965px"
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;throw&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;runtime_error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;Stack is empty.&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
@@ -343,7 +327,7 @@ data-flex-basis="965px"
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;top_node&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;top_node&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;throw&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;runtime_error&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;Stack is empty.&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
@@ -423,254 +407,57 @@ data-flex-basis="965px"
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;本文所提到的线程池、有锁栈和无锁栈的完整代码实现均可在本人的开源项目&lt;a class="link" href="https://github.com/Kuludu/MyDSA/" target="_blank" rel="noopener"
-&gt;MyDSA&lt;/a&gt;中找到（如果对你有用，也麻烦点一个小星星呀！）。&lt;/p&gt;
+ &gt;MyDSA&lt;/a&gt;中找到（如果对你有用，也麻烦点一个小星星呀！）。&lt;/p&gt;
 &lt;h3 id="实验结果"&gt;实验结果
 &lt;/h3&gt;&lt;p&gt;实验结果如下表（单位为microsecond）。&lt;/p&gt;
 &lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;方法&lt;/th&gt;
-&lt;th&gt;有锁栈&lt;/th&gt;
-&lt;th&gt;无锁栈&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;#1&lt;/td&gt;
-&lt;td&gt;1,003,863&lt;/td&gt;
-&lt;td&gt;399,217&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;#2&lt;/td&gt;
-&lt;td&gt;884,579&lt;/td&gt;
-&lt;td&gt;186,314&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;#3&lt;/td&gt;
-&lt;td&gt;1,013,956&lt;/td&gt;
-&lt;td&gt;427,235&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;Avg&lt;/td&gt;
-&lt;td&gt;967,466&lt;/td&gt;
-&lt;td&gt;337,588&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
+ &lt;thead&gt;
+ &lt;tr&gt;
+ &lt;th&gt;方法&lt;/th&gt;
+ &lt;th&gt;有锁栈&lt;/th&gt;
+ &lt;th&gt;无锁栈&lt;/th&gt;
+ &lt;/tr&gt;
+ &lt;/thead&gt;
+ &lt;tbody&gt;
+ &lt;tr&gt;
+ &lt;td&gt;#1&lt;/td&gt;
+ &lt;td&gt;1,003,863&lt;/td&gt;
+ &lt;td&gt;399,217&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;#2&lt;/td&gt;
+ &lt;td&gt;884,579&lt;/td&gt;
+ &lt;td&gt;186,314&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;#3&lt;/td&gt;
+ &lt;td&gt;1,013,956&lt;/td&gt;
+ &lt;td&gt;427,235&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;tr&gt;
+ &lt;td&gt;Avg&lt;/td&gt;
+ &lt;td&gt;967,466&lt;/td&gt;
+ &lt;td&gt;337,588&lt;/td&gt;
+ &lt;/tr&gt;
+ &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;从实验结果的平均值来看，有锁栈相较于无锁栈快了2.86倍。当然这只是从入栈效率上来进行比较的，如果加上随机出栈与取值操作可能会有差异。&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id="reference"&gt;Reference
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a class="link" href="https://tech.meituan.com/2024/07/19/multi-threading-and-multi-thread-synchronization.html" target="_blank" rel="noopener"
-&gt;基本功 | 一文讲清多线程和多线程同步&lt;/a&gt;&lt;/li&gt;
+ &gt;基本功 | 一文讲清多线程和多线程同步&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://blog.csdn.net/davidhopper/article/details/131430830" target="_blank" rel="noopener"
-&gt;C++无锁编程——无锁栈(lock-free stack)&lt;/a&gt;&lt;/li&gt;
+ &gt;C++无锁编程——无锁栈(lock-free stack)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://www.cnblogs.com/ljmiao/p/18145946" target="_blank" rel="noopener"
-&gt;C++六种内存序详解&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</description></item><item><title>友情链接</title><link>https://blog.kuludu.net/page/link/</link><pubDate>Fri, 21 Jun 2024 00:00:00 +0000</pubDate><guid>https://blog.kuludu.net/page/link/</guid><description>&lt;ul&gt;
-&lt;li&gt;&lt;a class="link" href="https://iovxw.net/" target="_blank" rel="noopener"
-&gt;iovxw&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="link" href="https://blog.bangbang93.com/" target="_blank" rel="noopener"
-&gt;bangbang93&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="link" href="https://qaq.gd/" target="_blank" rel="noopener"
-&gt;brainbush&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="link" href="https://coder-liuu.github.io" target="_blank" rel="noopener"
-&gt;刘小洋&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;p&gt;注：一些失效的博客取消了链接，如果有恢复麻烦联系我。&lt;/p&gt;</description></item><item><title>博客日志</title><link>https://blog.kuludu.net/page/log/</link><pubDate>Sun, 16 Jun 2024 00:00:00 +0000</pubDate><guid>https://blog.kuludu.net/page/log/</guid><description>&lt;p&gt;博客建立
--2014.8.19&lt;/p&gt;
-&lt;p&gt;迁移到日本机房
--2015.3.21&lt;/p&gt;
-&lt;p&gt;老主页删除，由博客替代主页功能
--2015.4.18&lt;/p&gt;
-&lt;p&gt;全站迁移到AWS美国机房
--2015.8.16&lt;/p&gt;
-&lt;p&gt;更新主题，优化加载
--2015.8.17&lt;/p&gt;
-&lt;p&gt;启用七牛云加速，大大提高了加载速度
--2015.8.20&lt;/p&gt;
-&lt;p&gt;服务器故障
--2015.9.2&lt;/p&gt;
-&lt;p&gt;已经恢复，全站迁移到日本AWS机房
--2015.9.4&lt;/p&gt;
-&lt;p&gt;删除了Jetpack插件，提高了访问速度。
--2015.9.20&lt;/p&gt;
-&lt;p&gt;升级至PHP7
--2016.6.11&lt;/p&gt;
-&lt;p&gt;服务器迁移到新加坡DigitalOcean机房
--2016.6.24&lt;/p&gt;
-&lt;p&gt;网站线路出现问题，恢复时间不明
--2016.7.5&lt;/p&gt;
-&lt;p&gt;网站线路恢复
--2016.7.6&lt;/p&gt;
-&lt;p&gt;迁移到广州腾讯云机房，同时进行网站备案，临时闭站
--2016.7.13&lt;/p&gt;
-&lt;p&gt;网站备案完成，更换了模板，优化了访问体验
--2016.7.19&lt;/p&gt;
-&lt;p&gt;更换SSL证书为Let&amp;rsquo;s encrypt
--2016.9.4&lt;/p&gt;
-&lt;p&gt;移除了七牛云静态资源加速
--2016.11.22&lt;/p&gt;
-&lt;p&gt;更新博客域名到blog.kuludu.net，删除了多说评论
--2017.2.7&lt;/p&gt;
-&lt;p&gt;更新了头像
--2017.2.12&lt;/p&gt;
-&lt;p&gt;启用七牛云空间进行备份
--2017.4.3&lt;/p&gt;
-&lt;p&gt;切换DNS为DNSPod
--2017.10.1&lt;/p&gt;
-&lt;p&gt;启用了腾讯云CDN
--2017.10.3&lt;/p&gt;
-&lt;p&gt;启用HTTP/2.0
--2017.10.12&lt;/p&gt;
-&lt;p&gt;更换主题为Kratos-pjax
--2018.6.13&lt;/p&gt;
-&lt;p&gt;升级了服务器主机
--2018.8.23&lt;/p&gt;
-&lt;p&gt;更换博客程序为Typecho,更换主题为handsome
--2018.11.1&lt;/p&gt;
-&lt;p&gt;启用Google Analytics分析，添加阿里云广告
--2018.11.30&lt;/p&gt;
-&lt;p&gt;为节省服务器开销，迁移了服务器，同时进行了系统优化
--2019.7.26&lt;/p&gt;
-&lt;p&gt;启用OCSP装订
--2020.5.20&lt;/p&gt;
-&lt;p&gt;迁移源站，启用HSTS
--2020.11.16&lt;/p&gt;
-&lt;p&gt;开启IPv6支持
--2021.3.20&lt;/p&gt;
-&lt;p&gt;升级博客程序到Typecho 1.2正式版
--2022.4.2&lt;/p&gt;
-&lt;p&gt;源站迁移
--2023.12.20&lt;/p&gt;
-&lt;p&gt;更换为hugo生成的静态博客
--2024.6.17&lt;/p&gt;</description></item><item><title>关于我</title><link>https://blog.kuludu.net/page/about/</link><pubDate>Sun, 16 Jun 2024 00:00:00 +0000</pubDate><guid>https://blog.kuludu.net/page/about/</guid><description>&lt;h2 id="个人简介"&gt;个人简介
-&lt;/h2&gt;&lt;p&gt;我是范雨祥(Yuxiang Fan)，一个混子，惯用Kuludu这一ID上网冲浪，目前在某不知名视频网站打工，一个非常佛系的ENTP🙏。&lt;/p&gt;
-&lt;p&gt;我喜欢：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;摄影（一顿乱拍，全靠后期修）&lt;/li&gt;
-&lt;li&gt;旅行（一顿乱逛，不打卡主义）&lt;/li&gt;
-&lt;li&gt;音乐（一顿乱听，完全依赖日推）&lt;/li&gt;
-&lt;li&gt;coding（这个是真的菜）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;可以通过邮箱(&lt;a class="link" href="mailto:opensource@kuludu.net" &gt;opensource@kuludu.net&lt;/a&gt;)联系我，但是我可能很久才看一下Orz（真的会有人想要联系我吗？）。&lt;/p&gt;
-&lt;h2 id="pgp-public-key"&gt;PGP Public Key
-&lt;/h2&gt;&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
-&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
-&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
-&lt;/span&gt;&lt;span class="lnt"&gt; 2
-&lt;/span&gt;&lt;span class="lnt"&gt; 3
-&lt;/span&gt;&lt;span class="lnt"&gt; 4
-&lt;/span&gt;&lt;span class="lnt"&gt; 5
-&lt;/span&gt;&lt;span class="lnt"&gt; 6
-&lt;/span&gt;&lt;span class="lnt"&gt; 7
-&lt;/span&gt;&lt;span class="lnt"&gt; 8
-&lt;/span&gt;&lt;span class="lnt"&gt; 9
-&lt;/span&gt;&lt;span class="lnt"&gt;10
-&lt;/span&gt;&lt;span class="lnt"&gt;11
-&lt;/span&gt;&lt;span class="lnt"&gt;12
-&lt;/span&gt;&lt;span class="lnt"&gt;13
-&lt;/span&gt;&lt;span class="lnt"&gt;14
-&lt;/span&gt;&lt;span class="lnt"&gt;15
-&lt;/span&gt;&lt;span class="lnt"&gt;16
-&lt;/span&gt;&lt;span class="lnt"&gt;17
-&lt;/span&gt;&lt;span class="lnt"&gt;18
-&lt;/span&gt;&lt;span class="lnt"&gt;19
-&lt;/span&gt;&lt;span class="lnt"&gt;20
-&lt;/span&gt;&lt;span class="lnt"&gt;21
-&lt;/span&gt;&lt;span class="lnt"&gt;22
-&lt;/span&gt;&lt;span class="lnt"&gt;23
-&lt;/span&gt;&lt;span class="lnt"&gt;24
-&lt;/span&gt;&lt;span class="lnt"&gt;25
-&lt;/span&gt;&lt;span class="lnt"&gt;26
-&lt;/span&gt;&lt;span class="lnt"&gt;27
-&lt;/span&gt;&lt;span class="lnt"&gt;28
-&lt;/span&gt;&lt;span class="lnt"&gt;29
-&lt;/span&gt;&lt;span class="lnt"&gt;30
-&lt;/span&gt;&lt;span class="lnt"&gt;31
-&lt;/span&gt;&lt;span class="lnt"&gt;32
-&lt;/span&gt;&lt;span class="lnt"&gt;33
-&lt;/span&gt;&lt;span class="lnt"&gt;34
-&lt;/span&gt;&lt;span class="lnt"&gt;35
-&lt;/span&gt;&lt;span class="lnt"&gt;36
-&lt;/span&gt;&lt;span class="lnt"&gt;37
-&lt;/span&gt;&lt;span class="lnt"&gt;38
-&lt;/span&gt;&lt;span class="lnt"&gt;39
-&lt;/span&gt;&lt;span class="lnt"&gt;40
-&lt;/span&gt;&lt;span class="lnt"&gt;41
-&lt;/span&gt;&lt;span class="lnt"&gt;42
-&lt;/span&gt;&lt;span class="lnt"&gt;43
-&lt;/span&gt;&lt;span class="lnt"&gt;44
-&lt;/span&gt;&lt;span class="lnt"&gt;45
-&lt;/span&gt;&lt;span class="lnt"&gt;46
-&lt;/span&gt;&lt;span class="lnt"&gt;47
-&lt;/span&gt;&lt;span class="lnt"&gt;48
-&lt;/span&gt;&lt;span class="lnt"&gt;49
-&lt;/span&gt;&lt;span class="lnt"&gt;50
-&lt;/span&gt;&lt;span class="lnt"&gt;51
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
-&lt;td class="lntd"&gt;
-&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----BEGIN PGP PUBLIC KEY BLOCK-----
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;mQINBGP8U+kBEAC4MuH1hr/qwP/BMx3LauvnmyKEikoN2ptEaXxlfNlGbrSKbLpZ
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Hk5O3HA2+yroh3myoerBH71JwqJj1n+gjUCEI5KCFbDZcQ9NsAdplb2wAKTazOfb
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;9EtfgtS8QXAcwgtkbflyaAakUXWQMO13eQ5jQcnTIcGNTy8GqFNg4Ug4KFwdVpeb
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;6P84AWLKeAn/tGzGOOLdwRw4kzP3BwIJ+33dACnPqrSSaELiB3gen0gVC38kY5NN
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;SMEugpRZa+lDykH7bRtQXJw1U3Ha9mg3A/m9hhmEWnoABPruOs4XqBnoQ6bLZS5G
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;n+6oh2DWd5+oeO4aFSZnXt7DHvURSdjF7G7RZetbz0lNLTfomR8PGZw1DUxH0Nc3
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;r/cSMTKBPE2Chu6FyzmkLqdxRri3o+5qvBSaHCAay8Q0IaYhfCKgYaB2EC+HgR6q
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;uS/g4BIvwaVJe3X6cGCe918t6qwa0+f5Gh9XaJk7uvJpWwfdPAx7j+461Ah/q+dK
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;fvZfdrslK9sWnBXo5M2CN9naxaaKXSZvtPNURP9u9vi4isv1mmyhyYewrZybHY+E
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;uIzP4WkIlMSODqlTnYGrTiIXnJ4k8kphudt7d2LcAxY9Oy5MGqTYqkHn1xR+ym3F
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;jArZt2GUzNUeb9QNV9DOLsT7DTMrcuztt+zv0Sfolzsy318UzQ3IOVR6iQARAQAB
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;tB5LdWx1ZHUgPG9wZW5zb3VyY2VAa3VsdWR1Lm5ldD6JAlEEEwEIADsWIQQAotmv
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;H7vwZr2kfGoztEyRMx6wlAUCY/xT6QIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIe
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;BwIXgAAKCRAztEyRMx6wlAh2D/4rHWI3XHbTWgyPqMK6xu8ij/SRdCjOhLIoJUFj
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;h+8bSqcbrqJP+oo3/Dt1ojpwj+vamY3tNCwZPITsn6aa5z2fhSFs8uIym+M3Jb5E
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;RCSZ5IlJF5CEXANPbDKMJOTxupqzP05PrR2UbJzqwoSwThSg9ovxcpY4lNnGtZCa
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;rH48UrckiOmu4ir1S6aSInLKmPIqycvFmG4w3c03ND1SNy2JZura6a5fE+Gyq9Ms
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;7kRg7mSfO0vVt35Th34kldLXDaHLosE72P46h8UttD1K2c2WS84h3IIzz3K2gLQe
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;266oaKs1pnDj644VCyjB+Hh6i+PbQpHZW3mB43TP3SwZu+PvZrfYJffdxYVJIcEs
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;0/8KF1uFOD3QLqA+ummvjuZp5dNCz2FpzdLsYJk9H1h6g26yVc8uB7rV0WKhreq0
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;KMJaaioZbgFG6rXlv7EZwOX5uiHOwRlVbXPmRF3GGF3FZRObZoT/oLV7i5i0m9G3
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;qt6RZyAZ5CJaG3AtKavRhr+RXhJ92rTV3Am8n+hna6Y1jqu3lOkMQewQTCnkAdBT
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;4wwZ3oz/ds49IEb7dURXzMpzH2tulYSxacjUsMJJqR6Y7dr6VoLs9Y4NEenkIAcy
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/8PGg+XUoEImQ3sOkXK/GDFu34GFiShwqgCpoq/3IscDjBSCoyQL4khURzkMoHqy
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;NnPKu7kCDQRj/FPpARAAuq++kaLWqCrL8569QtWdzymPPI+OWFt6WSolnxMxpAat
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;BKBR14Y0krKE1WMZxhTnp7PEl6kDyS+xbc8q8OGBPKtBQdRi29RUFDp4MGekkEib
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;5y2jidRYi3rS5dxk4fPwoNvklJ4sHwegr3RvNwra9XYZG4AKi3xZ5LipbelaqNDB
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;plgo+2AWqLxFBmHt/EMhOxSrsYHL1FBNgTjWWN8kua4HPXAJTFAwqxdHQljLTeUY
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;BkJtMPrkHy9s36ofxyhdhGnd0ELy74hVo3M4AHY2AjnIxnriTw1IiR/mhacC0eGZ
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;fI/yGgtdI8oLhk4MTWM395c0K88pVSKlGzBABVIer4VokWiseLzvnCQ3eZoctFHj
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/JCrNA5/RjP1XM20JBm9RTkmAWOtRE8fBrwoevMlwkTiZ6Au8AAUsiEncbeytsEq
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;evq95XhFeXQNQGYydG2V5nalqPR0NKDb7pYJGWBAnDVuN5KuNJGWEjJ/MdL2VLh7
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;C8fPSo0aXbmxfGOQvl/hfnrceJvvpOYtzLXacQ6R+vQi4+zs3o/Ue9XXo/r18BO5
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;VO66zUwhroPF16JiT0bUaSatLMzS4WM8Wt7b3DVdJy7yqveyUAslYVK8UeAcnhW0
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;nNIJzacc6Cn7jp/VYipFZomeZQe1Qp0C1DY+3rot7WBAv3byoPaBLSVJ+zN2utUA
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;EQEAAYkCNgQYAQgAIBYhBACi2a8fu/BmvaR8ajO0TJEzHrCUBQJj/FPpAhsMAAoJ
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;EDO0TJEzHrCU88QQAKoB7X08gfsYJYV49VcISi/o8YgNdi9yb7zaa75kdtJ/fuvq
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;KPR7WGskaLFknpOdVr/rKmc73LVXYgC39cJe0cZbyXeSUNxi+mrPnGEhqedooyPG
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;/U9rasPWu8GXcjVAJ78T1hxVcBa1JyMs0knVF6+BrM7xjisL0+Lly9txE/J1oH1Y
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;r4E61/SXRODOFRNj85UgjNt9tdhUalW42gqL9Tv7k2Lftaq6jyyLouWqyn3bjmZH
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;V4lPPRpIZcp9pQ+AEhRA0VYsfua411rp7oT1VKipCaYpOMSJX5p4KOoqn1GxosiZ
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;BTfiRZJCd8Z3k0A6COOJDdkF0qurmsD3k611QhTtiEoQErJZonOdxMVL68cRe3yL
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;M2yAQl30MJ9ADp+7iB/B2ZpiaJblhcxxoj4n9i60bwmyxgrNCunAWcXwOPLsdSOd
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;x+5tLgiZnZbsXYpUOc3w23c59fjEDvpGN88A5kKkWhYWBtQB5mXaxA+3NKDaIKn4
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Cgq28M/6oii0QI5c+I7WUM7ZdTKPCFwfqZ3nbQH9ZYoKoVFxe9CWF3MolYlQ39ab
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;JpoL//OqtUA8JKgq3Z6csKHkITEBEO8HHWYqTVW9E0QpW3TN6lqRnL1mEOhM23hf
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;dqF4D1Do1Cy1YNuF8GGMqQlVXUGbWLGndX1PmzVNwe70fX/9cOqMfkKLTW5A
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;=qfeH
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;-----END PGP PUBLIC KEY BLOCK-----
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;</description></item><item><title>文章归档</title><link>https://blog.kuludu.net/page/archives/</link><pubDate>Sun, 16 Jun 2024 00:00:00 +0000</pubDate><guid>https://blog.kuludu.net/page/archives/</guid><description/></item><item><title>你好！新博客</title><link>https://blog.kuludu.net/article/hello-new-blog/</link><pubDate>Sat, 15 Jun 2024 19:45:00 +0800</pubDate><guid>https://blog.kuludu.net/article/hello-new-blog/</guid><description>&lt;p&gt;突然换了一个新的博客发布方式。&lt;/p&gt;
+ &gt;C++六种内存序详解&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>你好！新博客</title><link>https://blog.kuludu.net/article/hello-new-blog/</link><pubDate>Sat, 15 Jun 2024 19:45:00 +0800</pubDate><guid>https://blog.kuludu.net/article/hello-new-blog/</guid><description>&lt;p&gt;突然换了一个新的博客发布方式。&lt;/p&gt;
 &lt;p&gt;其实主要原因还是原来的博客服务器现在已经运行太多的服务从而不堪重负，apache时不时被OOM Kill导致博客也时不时跟着崩溃。&lt;/p&gt;
 &lt;p&gt;加之原博客个人感觉更像一个笔记本，其记录的草稿一般的内容一直是我想改进的（虽然我的写作能力仍然不行）。&lt;/p&gt;
 &lt;p&gt;所以，不如做一个fresh start，从一个新博客重新开始。&lt;/p&gt;
 &lt;p&gt;新的博客是一个静态博客，采用hugo作为生成器。然而目前我对这个新玩意还很不熟悉，估计也需要很长一段时间才能适应吧～&lt;/p&gt;
 &lt;p&gt;当然，原来的博客上仍然有不少有价值的文章，我会在后续的review过程中迁移过来，同时也希望能够改进文章质量，老博客已经迁移到了&lt;a class="link" href="https://old-blog.kuludu.net/" target="_blank" rel="noopener"
-&gt;https://old-blog.kuludu.net/&lt;/a&gt;。&lt;/p&gt;
+ &gt;https://old-blog.kuludu.net/&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;Anyway, that is a new start.&lt;/p&gt;</description></item><item><title>多网口环境下配置Ubuntu网络路由</title><link>https://blog.kuludu.net/article/%E5%A4%9A%E7%BD%91%E5%8F%A3%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AEubuntu%E7%BD%91%E7%BB%9C%E8%B7%AF%E7%94%B1/</link><pubDate>Mon, 20 May 2024 00:00:00 +0000</pubDate><guid>https://blog.kuludu.net/article/%E5%A4%9A%E7%BD%91%E5%8F%A3%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%85%8D%E7%BD%AEubuntu%E7%BD%91%E7%BB%9C%E8%B7%AF%E7%94%B1/</guid><description>&lt;p&gt;目前我们的实验室有两条线路：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;172.C.D.0/24: 校园网（不可连接互联网，但可以接入VPN）&lt;/li&gt;
@@ -717,7 +504,7 @@ data-flex-basis="965px"
 &lt;li&gt;Typecho（也就是本博客）&lt;/li&gt;
 &lt;li&gt;kodbox网盘&lt;/li&gt;
 &lt;li&gt;HackJNDoor&lt;a class="link" href="https://github.com/Kuludu/HackJNDoor" target="_blank" rel="noopener"
-&gt;（https://github.com/Kuludu/HackJNDoor）&lt;/a&gt;&lt;/li&gt;
+ &gt;（https://github.com/Kuludu/HackJNDoor）&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;frp（几乎不使用）&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;然而，源站是我三年前在腾讯云的某个活动购买的LightHouse主机（三年期），只有6M的出口带宽实在是满足不了平时网盘的日常使用（这个情况随着数据的增加愈发显著🤷），再加之主机即将过期，所以就有了迁移的念头。&lt;/p&gt;
@@ -740,16 +527,7 @@ data-flex-basis="965px"
 &lt;h2 id="在设置中修改reference-types引用类型"&gt;在设置中修改Reference Types（引用类型）
 &lt;/h2&gt;&lt;p&gt;首先，我们需要在&lt;code&gt;Settings &amp;gt; Reference Types&lt;/code&gt;中修改默认的引用类型。在这里的修改是针对某一文章类型来的，这里根据需要可以修改两个常用类型&lt;code&gt;Journal Article（期刊文章）&lt;/code&gt;和&lt;code&gt;Conference Proceedings（会议出版物）&lt;/code&gt;（下同）。&lt;/p&gt;
 &lt;p&gt;以&lt;code&gt;Journal Article（期刊文章）&lt;/code&gt;为例，可以看到，&lt;code&gt;Publisher&lt;/code&gt;字段其实是受支持的，不过在EndNote20中被默认隐藏了。将留空的&lt;code&gt;Publisher&lt;/code&gt;字段重新填充上去即可启用该字段。&lt;/p&gt;
-&lt;p&gt;&lt;img src="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832.png"
-width="1086"
-height="1294"
-srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832_hu_eca1e945f88b1eae.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832_hu_5bb942c1545f563d.png 1024w"
-loading="lazy"
-alt="Modify ref"
-class="gallery-image"
-data-flex-grow="83"
-data-flex-basis="201px"
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Modify ref" class="gallery-image" data-flex-basis="201px" data-flex-grow="83" height="1294" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832.png" srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832_hu_19a0a7474921a6fd.png 800w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/3279012832.png 1086w" width="1086"&gt;&lt;/p&gt;
 &lt;p&gt;如果有其它自定义字段，可以使用&lt;code&gt;Custom 1 ~ 8&lt;/code&gt;八个栏位，将需要的字段名称填入即可。&lt;/p&gt;
 &lt;p&gt;至此，我们可以在文献选项卡中看到新的字段了。&lt;/p&gt;
 &lt;h2 id="修改默认的import-filters导入过滤器"&gt;修改默认的Import Filters（导入过滤器）
@@ -757,31 +535,13 @@ data-flex-basis="201px"
 &lt;p&gt;在&lt;code&gt;Tools &amp;gt; Import Filters&lt;/code&gt;中选择&lt;code&gt;Open Filter Manager&lt;/code&gt;，可以看到一个名为&lt;code&gt;EndNote Import&lt;/code&gt;过滤器，这便是需要修改的对象了。&lt;/p&gt;
 &lt;p&gt;在这里可以直接点击&lt;code&gt;Edit&lt;/code&gt;进行修改，不过还是更推荐将默认设置复制一份后再进行操作。在macOS下Filters的路径为EndNote20安装路径下的&lt;code&gt;Filters&lt;/code&gt;文件夹，Windows的路径逻辑应该也相同。&lt;/p&gt;
 &lt;p&gt;将&lt;code&gt;%I&lt;/code&gt;标签对应的{IGNORE}的标记修改为&lt;code&gt;Publisher&lt;/code&gt;即可，其它标签的含义可以搜索参考RIS文件的格式说明，自定义字段亦是如此。&lt;/p&gt;
-&lt;p&gt;&lt;img src="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325.png"
-width="1624"
-height="1310"
-srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325_hu_487a6bddf0714c5f.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325_hu_f0661563dbe39c5a.png 1024w"
-loading="lazy"
-alt="Endnote Import"
-class="gallery-image"
-data-flex-grow="123"
-data-flex-basis="297px"
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Endnote Import" class="gallery-image" data-flex-basis="297px" data-flex-grow="123" height="1310" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325.png" srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325_hu_fe5690639e3a14ab.png 800w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325_hu_d4552f20de2fbbde.png 1600w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/244797325.png 1624w" width="1624"&gt;&lt;/p&gt;
 &lt;p&gt;在导入文献的时候记得要选择新修改的过滤器。对于非RIS格式的引用，则需要修改对应的Import Filter。&lt;/p&gt;
 &lt;h2 id="修改默认的output-styles导出格式"&gt;修改默认的Output Styles（导出格式）
 &lt;/h2&gt;&lt;p&gt;由于在我的论文写作中几乎只使用LaTeX作为排版工具，在这里我着重介绍一下Bibliography的导出。&lt;/p&gt;
 &lt;p&gt;在&lt;code&gt;Tools &amp;gt; Output Styles&lt;/code&gt;中选择&lt;code&gt;Open Style Manager&lt;/code&gt;，修改&lt;code&gt;BibTex Export&lt;/code&gt;即可，同样地也推荐备份一遍默认设置。&lt;/p&gt;
 &lt;p&gt;选择&lt;code&gt;Bibliography&lt;/code&gt;选项卡，将需要的字段以同样的格式添加进去即可，注意修改对应的文章类型。&lt;/p&gt;
-&lt;p&gt;&lt;img src="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272.png"
-width="1824"
-height="1300"
-srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272_hu_2de2b4e5c5547e39.png 480w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272_hu_1e864edba341f877.png 1024w"
-loading="lazy"
-alt="Bibliography Export"
-class="gallery-image"
-data-flex-grow="140"
-data-flex-basis="336px"
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Bibliography Export" class="gallery-image" data-flex-basis="336px" data-flex-grow="140" height="1300" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272.png" srcset="https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272_hu_bcf10b435ddbdea0.png 800w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272_hu_9fefb09f99a595e7.png 1600w, https://blog.kuludu.net/article/%E5%85%B3%E4%BA%8E%E6%96%87%E7%8C%AE%E5%AF%BC%E5%85%A5endnote20%E5%AD%97%E6%AE%B5%E9%BB%98%E8%AE%A4%E4%B8%8D%E6%94%AF%E6%8C%81%E7%9A%84%E9%97%AE%E9%A2%98/pics/428477272.png 1824w" width="1824"&gt;&lt;/p&gt;
 &lt;p&gt;同样地，若是需要修改纯文本的导出格式，可以修改&lt;code&gt;Citations&lt;/code&gt;选项卡下的内容，读者可以搜索相关资料。&lt;/p&gt;
 &lt;p&gt;至此，EndNote20已经可以完美地收录和导出所需的字段了。&lt;/p&gt;</description></item><item><title>记在Ubuntu 22.04 LTS上部署PyTorch深度学习环境</title><link>https://blog.kuludu.net/article/%E8%AE%B0%E5%9C%A8ubuntu-22-04-lts%E4%B8%8A%E9%83%A8%E7%BD%B2pytorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83/</link><pubDate>Mon, 20 Feb 2023 12:48:10 +0800</pubDate><guid>https://blog.kuludu.net/article/%E8%AE%B0%E5%9C%A8ubuntu-22-04-lts%E4%B8%8A%E9%83%A8%E7%BD%B2pytorch%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%8E%AF%E5%A2%83/</guid><description>&lt;p&gt;最近的工作需要使用深度学习技术，也就免不了使用GPU，然而目前我实验室的机器上使用的是Windows 11的操作系统，用来进行实验确不符合我一个常年不用Windows系统的人的习惯😓，于是我买来一块移动硬盘并在这之上部署了基于Ubuntu 22.04 LTS的PyTorch的深度学习环境。起初我以为会一切顺利，可万万没想到重装一时爽，配环境火葬场&amp;hellip;本文谨记录在这中踩的坑。&lt;/p&gt;
 &lt;h2 id="关于移动硬盘外挂操作系统"&gt;关于移动硬盘外挂操作系统
@@ -906,10 +666,12 @@ data-flex-basis="336px"
 &lt;p&gt;确实，从直观思考上来说，返回结果确实有些诡异。一时间我也不太理解。&lt;/p&gt;
 &lt;p&gt;我的第一反应是比较 &lt;code&gt;p&lt;/code&gt;与 &lt;code&gt;a.end()&lt;/code&gt;的位置关系，发现 &lt;code&gt;p=a.end()&lt;/code&gt;。也就是说，&lt;strong&gt;函数并没有在容器中找到比a大的元素&lt;/strong&gt;，这并不符合预期的执行结果。&lt;/p&gt;
 &lt;p&gt;遇事不决翻文档，于是我找到了&lt;a class="link" href="https://zh.cppreference.com/w/cpp/algorithm/upper_bound" target="_blank" rel="noopener"
-&gt;这篇文章&lt;/a&gt;。其中详细介绍了 &lt;code&gt;upper_bound&lt;/code&gt;函数的原型与定义，其中介绍中的这句话解决了这个问题：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;范围 &lt;code&gt;[first, last)&lt;/code&gt; 必须已相对于表达式 !(value &amp;lt; element) 或 !comp(value, element) 划分，即所有令此表达式为 true 的元素必须前趋所有令此表达式为 false 的元素。完全排序的范围满足此判别标准。&lt;/p&gt;
-&lt;/blockquote&gt;
+ &gt;这篇文章&lt;/a&gt;。其中详细介绍了 &lt;code&gt;upper_bound&lt;/code&gt;函数的原型与定义，其中介绍中的这句话解决了这个问题：&lt;/p&gt;
+
+ &lt;blockquote&gt;
+ &lt;p&gt;范围 &lt;code&gt;[first, last)&lt;/code&gt; 必须已相对于表达式 !(value &amp;lt; element) 或 !comp(value, element) 划分，即所有令此表达式为 true 的元素必须前趋所有令此表达式为 false 的元素。完全排序的范围满足此判别标准。&lt;/p&gt;
+
+ &lt;/blockquote&gt;
 &lt;p&gt;除了常提到的序列有序前提以外，&lt;code&gt;lower_bound&lt;/code&gt;对重载的比较关系也有一定的要求，这也就导致了上例中 &lt;code&gt;lower_bound&lt;/code&gt;函数不符合预期的执行。&lt;/p&gt;
 &lt;p&gt;参考其给出了函数可能的实现：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
@@ -942,9 +704,9 @@ data-flex-basis="336px"
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;ForwardIt&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;iterator_traits&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;ForwardIt&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;::&lt;/span&gt;&lt;span class="n"&gt;difference_type&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;step&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;distance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;last&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;step&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="n"&gt;advance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;it&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;step&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;comp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;it&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
@@ -991,7 +753,7 @@ data-flex-basis="336px"
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;或者使用 &lt;code&gt;reverse&lt;/code&gt;函数先对序列进行反转，当然，这样会造成性能损失。&lt;/p&gt;</description></item><item><title>MacOS下卸载System Extensions</title><link>https://blog.kuludu.net/article/macos%E4%B8%8B%E5%8D%B8%E8%BD%BDsystem-extensions/</link><pubDate>Sat, 29 May 2021 15:29:00 +0800</pubDate><guid>https://blog.kuludu.net/article/macos%E4%B8%8B%E5%8D%B8%E8%BD%BDsystem-extensions/</guid><description>&lt;p&gt;System Extensions是macOS的一套系统拓展机制，从macOS Catalina开始出现，具体可以参考Apple Developer的&lt;a class="link" href="https://developer.apple.com/system-extensions/" target="_blank" rel="noopener"
-&gt;这篇介绍&lt;/a&gt;。&lt;/p&gt;
+ &gt;这篇介绍&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;一般情况下，用户并不需要手动维护系统拓展。在拓展安装与应用卸载的过程中系统会自动检查并执行相关操作。&lt;/p&gt;
 &lt;p&gt;然而，既然有了本文就说明有那么一个问题。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;What if an application fail to uninstall its own system extension?&lt;/strong&gt;&lt;/p&gt;
@@ -1057,7 +819,7 @@ $$&lt;/p&gt;
 &lt;p&gt;参考：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a class="link" href="https://zhuanlan.zhihu.com/p/85829145" target="_blank" rel="noopener"
-&gt;https://zhuanlan.zhihu.com/p/85829145&lt;/a&gt;&lt;/li&gt;
+ &gt;https://zhuanlan.zhihu.com/p/85829145&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -1276,7 +1038,7 @@ $$&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;h2 id="quick-fix"&gt;Quick Fix
 &lt;/h2&gt;&lt;p&gt;此处参考stackoverflow上的&lt;a class="link" href="https://stackoverflow.com/questions/59116872/could-not-create-cudnn-handle-cudnn-status-alloc-failed-on-a-project-that-sho" target="_blank" rel="noopener"
-&gt;一个方案&lt;/a&gt;。&lt;/p&gt;
+ &gt;一个方案&lt;/a&gt;。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -1293,16 +1055,7 @@ $$&lt;/p&gt;
 &lt;p&gt;禁用GPU也就意味着禁用了GPU加速，&lt;del&gt;意味着可怜的CPU要burn itself&lt;/del&gt;，这在对于效率有要求的生产环境是不行的🙅‍♂️。&lt;/p&gt;
 &lt;h2 id="观察"&gt;观察
 &lt;/h2&gt;&lt;p&gt;在建立模型后显存直接爆炸，如下图：&lt;/p&gt;
-&lt;p&gt;&lt;img src="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825.png"
-width="389"
-height="90"
-srcset="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825_hu_732902b7d88f0fd4.png 480w, https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825_hu_b3ab3c5fb3860724.png 1024w"
-loading="lazy"
-alt="AF436168-5387-4556-979B-721BE57A7A39.png"
-class="gallery-image"
-data-flex-grow="432"
-data-flex-basis="1037px"
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="AF436168-5387-4556-979B-721BE57A7A39.png" class="gallery-image" data-flex-basis="1037px" data-flex-grow="432" height="90" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825.png" width="389"&gt;&lt;/p&gt;
 &lt;p&gt;查阅资料，初步猜测是显存不足导致的，所以想到了限制一下显存的消耗：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -1314,23 +1067,14 @@ data-flex-basis="1037px"
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;tensorflow&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;tf&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;keras.backend.tensorflow_backend&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;set_session&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ConfigProto&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gpu_options&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;allow_growth&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;True&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;set_session&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Session&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;keras.backend.tensorflow_backend&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;set_session&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ConfigProto&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gpu_options&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;allow_growth&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;True&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;set_session&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Session&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;限制后显存明显降低了。&lt;/p&gt;
-&lt;p&gt;&lt;img src="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544.png"
-width="407"
-height="84"
-srcset="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544_hu_63d4aa953462e186.png 480w, https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544_hu_dbd68c878e997d75.png 1024w"
-loading="lazy"
-alt="AF436168-5387-4556-979B-721BE57A7A39.png"
-class="gallery-image"
-data-flex-grow="484"
-data-flex-basis="1162px"
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="AF436168-5387-4556-979B-721BE57A7A39.png" class="gallery-image" data-flex-basis="1162px" data-flex-grow="484" height="84" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544.png" width="407"&gt;&lt;/p&gt;
 &lt;p&gt;但是崩溃的问题依旧😓。&lt;/p&gt;
 &lt;p&gt;又想到了一个问题，因为服务器是多个项目组共用的，&lt;strong&gt;是不是有可能为其它组正在使用导致cuDNN无法创建句柄呢？&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;有可能，但是我也不能去关别人的程序呀&lt;del&gt;boss不得打死我&lt;/del&gt;😅。&lt;/p&gt;
@@ -1340,11 +1084,11 @@ data-flex-basis="1162px"
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a class="link" href="https://github.com/tensorflow/tensorflow/issues/39989" target="_blank" rel="noopener"
-&gt;https://github.com/tensorflow/tensorflow/issues/39989&lt;/a&gt;&lt;/p&gt;
+ &gt;https://github.com/tensorflow/tensorflow/issues/39989&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a class="link" href="https://blog.csdn.net/qq_40635998/article/details/87297634" target="_blank" rel="noopener"
-&gt;https://blog.csdn.net/qq_40635998/article/details/87297634&lt;/a&gt;&lt;/p&gt;
+ &gt;https://blog.csdn.net/qq_40635998/article/details/87297634&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;</description></item><item><title>在macOS下使用GPG对Git commit签名</title><link>https://blog.kuludu.net/article/%E5%9C%A8macos%E4%B8%8B%E4%BD%BF%E7%94%A8gpg%E5%AF%B9git-commit%E7%AD%BE%E5%90%8D/</link><pubDate>Sun, 27 Dec 2020 23:41:00 +0800</pubDate><guid>https://blog.kuludu.net/article/%E5%9C%A8macos%E4%B8%8B%E4%BD%BF%E7%94%A8gpg%E5%AF%B9git-commit%E7%AD%BE%E5%90%8D/</guid><description>&lt;p&gt;在macOS 11.1下测试通过。&lt;/p&gt;
 &lt;ul&gt;
@@ -1497,7 +1241,7 @@ data-flex-basis="1162px"
 &lt;/span&gt;&lt;span class="lnt"&gt;2
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class="lntd"&gt;
-&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;error: gpg failed to sign the data
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;error: gpg failed to sign the data 
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;fatal: failed to write commit object
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
@@ -1515,113 +1259,11 @@ data-flex-basis="1162px"
 &lt;h2 id="参考"&gt;参考
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a class="link" href="https://help.github.com/articles/signing-commits-using-gpg/" target="_blank" rel="noopener"
-&gt;https://help.github.com/articles/signing-commits-using-gpg/&lt;/a&gt;&lt;/li&gt;
+ &gt;https://help.github.com/articles/signing-commits-using-gpg/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://gist.github.com/troyfontaine/18c9146295168ee9ca2b30c00bd1b41e" target="_blank" rel="noopener"
-&gt;https://gist.github.com/troyfontaine/18c9146295168ee9ca2b30c00bd1b41e&lt;/a&gt;&lt;/li&gt;
+ &gt;https://gist.github.com/troyfontaine/18c9146295168ee9ca2b30c00bd1b41e&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/signing-commits" target="_blank" rel="noopener"
-&gt;https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/signing-commits&lt;/a&gt;&lt;/li&gt;
+ &gt;https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/signing-commits&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://merikan.com/2019/05/how-to-sign-git-commits/" target="_blank" rel="noopener"
-&gt;https://merikan.com/2019/05/how-to-sign-git-commits/&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</description></item><item><title>旅行足迹</title><link>https://blog.kuludu.net/page/visited/</link><pubDate>Mon, 19 Oct 2020 09:35:00 +0800</pubDate><guid>https://blog.kuludu.net/page/visited/</guid><description>&lt;h2 id="国内"&gt;国内
-&lt;/h2&gt;&lt;h3 id="湖南"&gt;湖南
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;长沙&lt;/li&gt;
-&lt;li&gt;株洲&lt;/li&gt;
-&lt;li&gt;湘潭&lt;/li&gt;
-&lt;li&gt;岳阳&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="江西"&gt;江西
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;宜春&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="湖北"&gt;湖北
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;武汉&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="江苏"&gt;江苏
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;无锡&lt;/li&gt;
-&lt;li&gt;苏州&lt;/li&gt;
-&lt;li&gt;南京&lt;/li&gt;
-&lt;li&gt;镇江&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="浙江"&gt;浙江
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;杭州&lt;/li&gt;
-&lt;li&gt;湖州&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="云南"&gt;云南
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;昆明&lt;/li&gt;
-&lt;li&gt;丽江&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="广西"&gt;广西
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;南宁&lt;/li&gt;
-&lt;li&gt;北海&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="广东"&gt;广东
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;广州&lt;/li&gt;
-&lt;li&gt;深圳&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="海南"&gt;海南
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;海口&lt;/li&gt;
-&lt;li&gt;三亚&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="福建"&gt;福建
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;厦门&lt;/li&gt;
-&lt;li&gt;漳州&lt;/li&gt;
-&lt;li&gt;泉州&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="河北"&gt;河北
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;唐山&lt;/li&gt;
-&lt;li&gt;秦皇岛&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="山东"&gt;山东
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;青岛&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="黑龙江"&gt;黑龙江
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;哈尔滨&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="辽宁"&gt;辽宁
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;沈阳&lt;/li&gt;
-&lt;li&gt;大连&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="陕西"&gt;陕西
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;西安&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="安徽"&gt;安徽
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;芜湖&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="四川"&gt;四川
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;成都&lt;/li&gt;
-&lt;li&gt;阿坝藏族羌族自治州&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="上海"&gt;上海
-&lt;/h3&gt;&lt;h3 id="天津"&gt;天津
-&lt;/h3&gt;&lt;h3 id="北京"&gt;北京
-&lt;/h3&gt;&lt;h3 id="香港"&gt;香港
-&lt;/h3&gt;&lt;h2 id="海外"&gt;海外
-&lt;/h2&gt;&lt;h3 id="malaysia"&gt;Malaysia
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;Kuala Lumpur&lt;/li&gt;
-&lt;li&gt;Melaka&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id="singapore"&gt;Singapore
-&lt;/h3&gt;&lt;h3 id="japan"&gt;Japan
-&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;Tokyo&lt;/li&gt;
-&lt;li&gt;Osaka&lt;/li&gt;
-&lt;/ul&gt;
-&lt;hr&gt;
-&lt;p&gt;“去过”定义为至少停留超过一天，所有“路过”的城市未统计在内。&lt;/p&gt;</description></item><item><title>搜索</title><link>https://blog.kuludu.net/page/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://blog.kuludu.net/page/search/</guid><description/></item></channel></rss>
+ &gt;https://merikan.com/2019/05/how-to-sign-git-commits/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

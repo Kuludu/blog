@@ -43,7 +43,7 @@
 &lt;/div&gt;
 &lt;/div&gt;&lt;h2 id="quick-fix"&gt;Quick Fix
 &lt;/h2&gt;&lt;p&gt;此处参考stackoverflow上的&lt;a class="link" href="https://stackoverflow.com/questions/59116872/could-not-create-cudnn-handle-cudnn-status-alloc-failed-on-a-project-that-sho" target="_blank" rel="noopener"
-&gt;一个方案&lt;/a&gt;。&lt;/p&gt;
+ &gt;一个方案&lt;/a&gt;。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -60,16 +60,7 @@
 &lt;p&gt;禁用GPU也就意味着禁用了GPU加速，&lt;del&gt;意味着可怜的CPU要burn itself&lt;/del&gt;，这在对于效率有要求的生产环境是不行的🙅‍♂️。&lt;/p&gt;
 &lt;h2 id="观察"&gt;观察
 &lt;/h2&gt;&lt;p&gt;在建立模型后显存直接爆炸，如下图：&lt;/p&gt;
-&lt;p&gt;&lt;img src="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825.png"
-width="389"
-height="90"
-srcset="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825_hu_732902b7d88f0fd4.png 480w, https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825_hu_b3ab3c5fb3860724.png 1024w"
-loading="lazy"
-alt="AF436168-5387-4556-979B-721BE57A7A39.png"
-class="gallery-image"
-data-flex-grow="432"
-data-flex-basis="1037px"
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="AF436168-5387-4556-979B-721BE57A7A39.png" class="gallery-image" data-flex-basis="1037px" data-flex-grow="432" height="90" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/1744973825.png" width="389"&gt;&lt;/p&gt;
 &lt;p&gt;查阅资料，初步猜测是显存不足导致的，所以想到了限制一下显存的消耗：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
@@ -81,23 +72,14 @@ data-flex-basis="1037px"
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;tensorflow&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;tf&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;keras.backend.tensorflow_backend&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;set_session&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ConfigProto&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gpu_options&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;allow_growth&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;True&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;set_session&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Session&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;keras.backend.tensorflow_backend&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;set_session&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;config&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ConfigProto&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gpu_options&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;allow_growth&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;True&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;set_session&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tf&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Session&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; 
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;限制后显存明显降低了。&lt;/p&gt;
-&lt;p&gt;&lt;img src="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544.png"
-width="407"
-height="84"
-srcset="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544_hu_63d4aa953462e186.png 480w, https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544_hu_dbd68c878e997d75.png 1024w"
-loading="lazy"
-alt="AF436168-5387-4556-979B-721BE57A7A39.png"
-class="gallery-image"
-data-flex-grow="484"
-data-flex-basis="1162px"
-&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="AF436168-5387-4556-979B-721BE57A7A39.png" class="gallery-image" data-flex-basis="1162px" data-flex-grow="484" height="84" loading="lazy" sizes="(max-width: 767px) calc(100vw - 30px), (max-width: 1023px) 700px, (max-width: 1279px) 950px, 1232px" src="https://blog.kuludu.net/article/%E8%A7%A3%E5%86%B3-cudnn_status_alloc_failed/2334776544.png" width="407"&gt;&lt;/p&gt;
 &lt;p&gt;但是崩溃的问题依旧😓。&lt;/p&gt;
 &lt;p&gt;又想到了一个问题，因为服务器是多个项目组共用的，&lt;strong&gt;是不是有可能为其它组正在使用导致cuDNN无法创建句柄呢？&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;有可能，但是我也不能去关别人的程序呀&lt;del&gt;boss不得打死我&lt;/del&gt;😅。&lt;/p&gt;
@@ -107,10 +89,10 @@ data-flex-basis="1162px"
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a class="link" href="https://github.com/tensorflow/tensorflow/issues/39989" target="_blank" rel="noopener"
-&gt;https://github.com/tensorflow/tensorflow/issues/39989&lt;/a&gt;&lt;/p&gt;
+ &gt;https://github.com/tensorflow/tensorflow/issues/39989&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;a class="link" href="https://blog.csdn.net/qq_40635998/article/details/87297634" target="_blank" rel="noopener"
-&gt;https://blog.csdn.net/qq_40635998/article/details/87297634&lt;/a&gt;&lt;/p&gt;
+ &gt;https://blog.csdn.net/qq_40635998/article/details/87297634&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;</description></item></channel></rss>

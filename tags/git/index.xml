@@ -149,7 +149,7 @@
 &lt;/span&gt;&lt;span class="lnt"&gt;2
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class="lntd"&gt;
-&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;error: gpg failed to sign the data
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;error: gpg failed to sign the data 
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;fatal: failed to write commit object
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
@@ -167,11 +167,11 @@
 &lt;h2 id="参考"&gt;参考
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a class="link" href="https://help.github.com/articles/signing-commits-using-gpg/" target="_blank" rel="noopener"
-&gt;https://help.github.com/articles/signing-commits-using-gpg/&lt;/a&gt;&lt;/li&gt;
+ &gt;https://help.github.com/articles/signing-commits-using-gpg/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://gist.github.com/troyfontaine/18c9146295168ee9ca2b30c00bd1b41e" target="_blank" rel="noopener"
-&gt;https://gist.github.com/troyfontaine/18c9146295168ee9ca2b30c00bd1b41e&lt;/a&gt;&lt;/li&gt;
+ &gt;https://gist.github.com/troyfontaine/18c9146295168ee9ca2b30c00bd1b41e&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/signing-commits" target="_blank" rel="noopener"
-&gt;https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/signing-commits&lt;/a&gt;&lt;/li&gt;
+ &gt;https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/signing-commits&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://merikan.com/2019/05/how-to-sign-git-commits/" target="_blank" rel="noopener"
-&gt;https://merikan.com/2019/05/how-to-sign-git-commits/&lt;/a&gt;&lt;/li&gt;
+ &gt;https://merikan.com/2019/05/how-to-sign-git-commits/&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description></item></channel></rss>

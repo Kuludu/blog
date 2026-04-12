@@ -2,7 +2,7 @@
 &lt;p&gt;本文默认docker已经完成安装。&lt;/p&gt;
 &lt;h2 id="部署docker-easyconnect容器"&gt;部署docker-easyconnect容器
 &lt;/h2&gt;&lt;p&gt;这一步主要需要参考&lt;a class="link" href="https://github.com/docker-easyconnect/docker-easyconnect?tab=readme-ov-file" target="_blank" rel="noopener"
-&gt;docker-easyconnect&lt;/a&gt;项目的说明文档。需要注意的是目前大部分高校所使用的EasyConnect版本应该是具有图形界面的版本，所以需要选择第二个版本。同时可以考虑去掉官方文档中的：&lt;/p&gt;
+ &gt;docker-easyconnect&lt;/a&gt;项目的说明文档。需要注意的是目前大部分高校所使用的EasyConnect版本应该是具有图形界面的版本，所以需要选择第二个版本。同时可以考虑去掉官方文档中的：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;ti：用于启动一个交互式终端，意义不大。&lt;/li&gt;
 &lt;li&gt;rm：在容器停止后删除容器，可以考虑保留容器下次直接重新启动。&lt;/li&gt;
@@ -69,7 +69,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;log-level: info
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;external-controller: 127.0.0.1:9090
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;proxies:
-&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; - {name: VPN-socks5, server: localhost, port: 1080, type: socks5}
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; - {name: VPN-socks5, server: localhost, port: 1080, type: socks5} 
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;proxy-groups:
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; - name: VPN
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; type: select
@@ -91,10 +91,10 @@
 &lt;li&gt;替换学校网站群域名，尤其注意不能被代理的域名（比如VPN登陆和内网登陆系统等，可以观察Clash日志）。&lt;/li&gt;
 &lt;li&gt;获取学校内网网段，这个信息一般是不公开的，可以在不冲突的情况下设置大一些，替换内网段。&lt;/li&gt;
 &lt;li&gt;通过IP获取学校外网ASN，可以使用&lt;a class="link" href="https://tools.ipip.net/as.php" target="_blank" rel="noopener"
-&gt;https://tools.ipip.net/as.php&lt;/a&gt;，替换外网段。&lt;/li&gt;
+ &gt;https://tools.ipip.net/as.php&lt;/a&gt;，替换外网段。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;详细的配置文件说明这里不再赘述，可以参考&lt;a class="link" href="https://clash.wiki/configuration/rules.html" target="_blank" rel="noopener"
-&gt;Clash Wiki&lt;/a&gt;的说明。&lt;/p&gt;
+ &gt;Clash Wiki&lt;/a&gt;的说明。&lt;/p&gt;
 &lt;h2 id="为ssh添加proxycommand"&gt;为SSH添加ProxyCommand
 &lt;/h2&gt;&lt;p&gt;到目前为止常规的代理配置基本上就结束了。但是对于计算机专业而言，可能还有通过SSH连接内网服务器的需求。由于SSH默认是不支持socks5或http代理的，我们还需要进一步配置。&lt;/p&gt;
 &lt;p&gt;配置的方法其实也很简单，在&lt;code&gt;ProxyCommand&lt;/code&gt;中使用&lt;code&gt;netcat&lt;/code&gt;设置SSH的代理即可，可以参考以下配置（~/.ssh/config）：&lt;/p&gt;
@@ -126,7 +126,7 @@
 &lt;h2 id="reference"&gt;Reference
 &lt;/h2&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a class="link" href="https://github.com/docker-easyconnect/docker-easyconnect?tab=readme-ov-file" target="_blank" rel="noopener"
-&gt;docker-easyconnect&lt;/a&gt;&lt;/li&gt;
+ &gt;docker-easyconnect&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="link" href="https://clash.wiki/configuration/rules.html" target="_blank" rel="noopener"
-&gt;Clash Wiki&lt;/a&gt;&lt;/li&gt;
+ &gt;Clash Wiki&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description></item></channel></rss>
