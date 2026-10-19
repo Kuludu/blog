@@ -1,0 +1,78 @@
+Experiment date: 2026-10-17 (Asia/Shanghai)
+
+Hardware / OS (queried on the machine)
+  machdep.cpu.brand_string: Apple M4
+  hw.model: Mac16,12
+  hw.physicalcpu: 10
+  hw.logicalcpu: 10
+  hw.perflevel0.physicalcpu: 4
+  hw.perflevel1.physicalcpu: 6
+  hw.memsize: 17179869184 bytes
+  macOS: 27.0.1 (26A434)
+  Darwin: 27.0.0, arm64
+  std::thread::hardware_concurrency(): 10
+  std::atomic<Node*>::is_lock_free(): 1
+
+Compiler
+  Apple clang version 16.0.0 (clang-1600.0.26.6)
+  Target: arm64-apple-darwin27.0.0
+  Thread model: posix
+  InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+  Standard library: bundled libc++
+  Flags: -std=c++20 -O3 -DNDEBUG -Wall -Wextra -Wpedantic -pthread
+  No -march=native, sanitizers or LTO in performance builds.
+  Generated assembly inspected: push/pop CAS uses casl/casa on this compiler.
+
+Runtime conditions
+  Default std::thread scheduling; no affinity or QoS changes.
+  No frequency control or continuous temperature/power/background-load tracking.
+  A point-in-time pmset query reported AC Power and lowpowermode=0.
+  No power settings were changed for the benchmark.
+  Main and control batches ran sequentially; no sanitizer run overlapped them.
+  They were collected at different times, so control-vs-main differences do not
+  isolate the exact cost of instrumentation.
+
+Main data: results.csv
+  1000000 pairs = 2000000 successful stack operations per sample.
+  Threads: 1,2,4,8,16,32,64,128. Repetitions: 7. Seed: 20261017.
+  112 measured samples, all retained; no outlier filtering.
+  Retry counting enabled. Warmup: 10000 pairs per implementation/thread count.
+
+Control data: results-no-count.csv
+  Same workload, threads 8,16,32,64,128. Repetitions: 3. Seed: 20261017.
+  30 measured samples. -DSTACK_COUNT_RETRIES=0 (counter compiled out).
+  The zero failure fields in this file mean NOT COLLECTED, not zero failures.
+
+Checks
+  Every run checks sequential LIFO/empty behavior at startup.
+  Every measured and warmup sample checks all popped node identities and
+  uniqueness, no empty pop, and an empty final stack after joining workers.
+  Optimized build: warning-clean with -Wall -Wextra -Wpedantic.
+  Separate UBSan build: 20000 pairs, all 8 thread counts, 2 repetitions,
+  32 measured samples plus warmup and sequential checks; exit 0, no diagnostics.
+  ASan + UBSan build: compiled, but failed at startup with
+    AddressSanitizer: CHECK failed: sanitizer_malloc_mac.inc:189
+    "((!asan_init_is_running)) != (0)"
+  No AddressSanitizer test result is claimed.
+  ThreadSanitizer: compiled, but failed at startup with
+    ERROR: Interceptors are not working.
+    "interceptors not installed" && 0
+  Retrying with the runtime's suggested DYLD_INSERT_LIBRARIES had the same
+  startup failure. No ThreadSanitizer test result is claimed.
+
+Reproduction (from this directory)
+  clang++ -std=c++20 -O3 -DNDEBUG -Wall -Wextra -Wpedantic -pthread benchmark.cpp -o /tmp/stack-benchmark
+  /tmp/stack-benchmark --pairs 1000000 --repeats 7 --threads 1,2,4,8,16,32,64,128 > results.csv
+  python3 summarize.py results.csv
+
+  clang++ -std=c++20 -O3 -DNDEBUG -DSTACK_COUNT_RETRIES=0 -Wall -Wextra -Wpedantic -pthread benchmark.cpp -o /tmp/stack-benchmark-no-count
+  /tmp/stack-benchmark-no-count --pairs 1000000 --repeats 3 --threads 8,16,32,64,128 > results-no-count.csv
+  python3 summarize.py results-no-count.csv
+
+Separate UB check (never use this build's timing as performance data)
+  clang++ -std=c++20 -O1 -g -fsanitize=undefined -fno-sanitize-recover=all -fno-omit-frame-pointer -Wall -Wextra -Wpedantic -pthread benchmark.cpp -o /tmp/stack-benchmark-ubsan
+  /tmp/stack-benchmark-ubsan --pairs 20000 --repeats 2 --threads 1,2,4,8,16,32,64,128
+
+Single-thread follow-up
+  See single-thread-notes.txt for the independent experiments and raw CSVs.
+  No original performance CSV was changed by the follow-up.

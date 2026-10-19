@@ -1,0 +1,148 @@
+Single-thread follow-up, 2026-10-17 (Asia/Shanghai)
+
+Environment: same Apple M4 / macOS 27.0.1 / Apple clang 16 as environment.txt.
+The original results.csv and results-no-count.csv were not overwritten.
+The only original benchmark.cpp change is a conditional guard around main,
+allowing single-thread.cpp to reuse its classes and fresh-thread harness.
+
+Files / collection order
+1. single-thread-results.csv: 212 samples, without process-counter calls.
+   20 wake_only samples: original run<MutexStack>(0, 1), no stack operations.
+   48 fresh samples: original run<Stack>(pairs, 1), 1000000 / 8000000 pairs,
+      12 paired blocks per length, alternated implementation order.
+   144 persistent samples: one worker per QoS profile, both stacks / same buffers,
+      1000000 nodes, 1 or 8 passes, 6 ABBA/BAAB blocks per length,
+      12 samples per implementation/profile/length.
+2. single-thread-counters.csv: same 212-sample design with process counters
+   enabled for persistent samples. Separate collection, not paired with file 1.
+3. single-thread-atomics.csv: preliminary 4-variant diagnostic, 48 samples.
+   Mutex / original Treiber / all-relaxed CAS / relaxed atomic load-store.
+   Cyclic ordering over 4 positions, 12 blocks, 8 passes each.
+4. single-thread-ordering.csv: expanded 6-variant diagnostic, 72 samples.
+   Added release-on-push-only and acquire-on-pop-only controls.
+   Cyclic ordering over 6 positions, 12 shuffled blocks, 8 passes each.
+   Every variant appears in every position twice. Each sample: 16000000 ops.
+   This is the final diagnostic batch reported in index.md.
+All samples retained, including the preliminary diagnostic and outliers.
+
+Persistent measurement
+  Nodes and output array are initialized in the worker, before timing.
+  Both implementations warm up on that same worker, 2000000 pairs each.
+  No main-thread start gate or per-sample wakeup inside persistent timings.
+  Main thread waits in join. CPU time: CLOCK_THREAD_CPUTIME_ID.
+  Nodes may be reused here ONLY because no second stack reader exists.
+  After every sample: empty stack and every popped[i] == &nodes[i].
+  Random seed for shuffled blocks: 20261018 (arbitrary fixed seed).
+  QoS profiles: inherited (queried 21), user_initiated (25), background (9).
+  Setting QoS is a scheduling hint, not a CPU-affinity or frequency guarantee.
+  Atomic variants use one user_initiated worker for all six implementations.
+
+Counter collection
+  Uses proc_pid_rusage(getpid(), RUSAGE_INFO_V6, ...), without elevated access.
+  Reads before and after a timed sample, never inside the operation loop.
+  instructions / cycles are process-wide deltas; p_instructions / p_cycles
+  are the corresponding performance-core counters in XNU's accounting.
+  Counters include a small amount of clock/API/kernel work around the loop.
+  They are not a per-instruction latency measurement or a cache-event trace.
+  A counters_collected=0 row has uncollected zero counter fields.
+  Fresh harness CPU time is process-wide; persistent CPU time is worker-only.
+  These two CPU columns therefore do not have exactly the same scope.
+  Per-op metrics divide each sample's counters by 2 * pairs * passes.
+  P instruction fraction = p_instructions / instructions, not CPU-time fraction.
+
+Original single-thread samples (Mops/s; order preserved in results.csv)
+  round   first       mutex    treiber
+  1       treiber     116.63    155.03
+  2       mutex       228.18    120.84
+  3       treiber     244.19    378.95
+  4       mutex       244.55    111.92
+  5       treiber     248.06    335.83
+  6       mutex       245.65     87.93
+  7       treiber     240.89    321.33
+  Ratio of throughput medians (mutex / treiber): 1.575...
+  Median of per-round throughput ratios: 0.7523...
+  These statistics answer different questions. Neither isolates a causal
+  speed difference in the presence of order-sensitive short measurements.
+
+Observed controls
+  Empty-work start/finish median: 26.60 us, much smaller than ms-scale gaps.
+  Persistent inherited-QoS, 8 passes, no counters: mutex 245.16 Mops/s,
+    original CAS 144.00 Mops/s. Reusing a worker did not eliminate the gap.
+  The final 6-variant batch's per-sample CPU / wall ratios are near 1.
+  P instruction fractions have medians near 100% for all six variants.
+  This batch's difference is not explained by placing all CAS work on E cores.
+
+Final diagnostic medians (Mops/s; cycles/op; instructions/op)
+  Mutex:                     244.63; 16.62; 104.52
+  Original release/acquire:  142.05; 30.89;  10.03
+  Only push release:        244.78; 17.39;  10.02
+  Only pop acquire:         360.20; 12.07;  10.01
+  All-relaxed CAS:          843.54;  5.07;  10.00
+  Relaxed load-store:      2203.47;  1.92;   6.50
+  Each median is computed from per-sample values, not by dividing medians.
+  All observed CAS failure counts are zero in the follow-up files.
+  Only-push-release is particularly variable (122.38–629.39 Mops/s).
+  Do not subtract these medians as isolated instruction costs or assume that
+  acquire/release costs are additive or the same on other processors.
+
+Generated assembly checked using the same optimized compiler/flags:
+  Mutex: two std::mutex::lock and two std::mutex::unlock calls per push/pop pair.
+    Lock calls have not been removed by the compiler.
+  Original CAS: push CASL; pop LDAPR + CASA (success path).
+  Only-push-release: push CASL; pop LDR + CAS.
+  Only-pop-acquire: push CAS; pop LDAPR + CASA.
+  All-relaxed CAS: push CAS; pop LDR + CAS.
+  Load-store: no CAS instructions in the hot loop.
+  Neither the original nor diagnostic CAS loop uses x86 LOCK CMPXCHG or
+  an ARM load-exclusive/store-exclusive retry sequence with this compiler.
+
+Interpretation
+  Zero failed CAS calls do not mean zero synchronization cost.
+  The original loop repeatedly publishes a pointer, reads it, dereferences it,
+  and performs another ordered atomic update on the same head.
+  Weakening ordering while preserving CAS caused a large, repeatable improvement
+  in these single-thread controls. This localizes a substantial part of the
+  cost to the ordered atomic sequence, rather than failed retries alone.
+  The exact share due to instruction ordering, memory dependencies, buffering,
+  caches, interrupts and other microarchitectural effects was not isolated.
+  Aggregate instructions/cycles cannot establish a latency for an individual CAS.
+  QoS and P/E class accounting do not identify a particular CPU or fixed clock.
+
+IMPORTANT: The last four diagnostic variants are SINGLE-THREAD CONTROLS.
+  Their reduced ordering or separate load/store updates are not valid general
+  replacements for the concurrent stack. They are not proposed optimizations.
+
+Reproduce from this directory (macOS)
+  clang++ -std=c++20 -O3 -DNDEBUG -Wall -Wextra -Wpedantic -pthread single-thread.cpp -o /tmp/stack-single-thread
+  /tmp/stack-single-thread > single-thread-results.csv
+  python3 summarize-single-thread.py single-thread-results.csv
+
+  clang++ -std=c++20 -O3 -DNDEBUG -DSTACK_COLLECT_RUSAGE=1 -Wall -Wextra -Wpedantic -pthread single-thread.cpp -o /tmp/stack-single-thread-counters
+  /tmp/stack-single-thread-counters > single-thread-counters.csv
+  /tmp/stack-single-thread-counters --atomic-variants > single-thread-ordering.csv
+  python3 summarize-single-thread.py single-thread-ordering.csv
+
+The preliminary 4-variant file is retained as an exploratory record; the current
+--atomic-variants command reproduces the expanded 6-variant design.
+
+Inspect code generation
+  clang++ -std=c++20 -O3 -DNDEBUG -DSTACK_COLLECT_RUSAGE=1 -S single-thread.cpp -o /tmp/stack-single-thread.s
+
+Checks
+  Both optimized diagnostic builds compile without warnings.
+  Sequential LIFO checks and per-sample node checks passed in recorded runs.
+  Separate UBSan build passed the 6-variant design: 72 measured samples plus
+  warmups, exit 0, no diagnostics. Its timings are not performance evidence.
+  No ASan or TSan success is claimed; their startup failures remain documented
+  in environment.txt. No performance measurements use sanitizer builds.
+
+Sources for interpretation
+  Apple, libpthread mutex implementation:
+    https://github.com/apple-oss-distributions/libpthread/blob/main/src/pthread_mutex.c
+  Apple, Prioritize Work at the Task Level (QoS):
+    https://developer.apple.com/library/archive/documentation/Performance/Conceptual/power_efficiency_guidelines_osx/PrioritizeWorkAtTheTaskLevel.html
+  Apple XNU, mapping process resource counters:
+    https://github.com/apple-oss-distributions/xnu/blob/main/osfmk/kern/bsd_kern.c
+    https://github.com/apple-oss-distributions/xnu/blob/main/osfmk/kern/task.c
+  Apple XNU, isolating performance-core usage:
+    https://github.com/apple-oss-distributions/xnu/blob/main/osfmk/kern/recount.c
